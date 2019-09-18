@@ -1,0 +1,35 @@
+module.exports = {
+    BOLSA : {
+        TABLE_NAME : 'bolsa_rb',
+        ID : 'id',
+        NOME : 'nome',
+        PRECO_DESCONTO : 'preco_desconto',
+        PRECO_TOTAL : 'preco_total',
+        PRECO_PARCELAS : 'preco_parcelas',
+        PARCELAS : 'parcelas',
+        POSICAO : 'posicao',
+        LINK : 'link',
+        ATIVO : 'ativo',
+        DATA_ADICIONADO : 'data_adicionado',
+    },
+    FOTO_BOLSA : {
+        TABLE_NAME : 'foto_bolsa_rb',
+        ID : 'id',
+        ID_BOLSA : 'id_bolsa',
+        ID_IMAGEM : 'id_imagem',
+    },
+    IMAGEM : {
+        TABLE_NAME : 'imagem_rb',
+        ID : 'id',
+        CAMINHO : 'caminho',
+    },
+    MIDIA : {
+        TABLE_NAME : 'midia_rb',
+        ID : 'id',
+        LINK : 'link',
+        POSICAO : 'posicao',
+        ID_IMAGEM : 'id_imagem',
+        ATIVO : 'ativo',
+        DATA_ADICIONADO : 'data_adicionado',
+    },
+}

@@ -1,0 +1,31 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Api em NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src/index.js",
+    "start-test-prod": "npm run build && node ./test-production-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://the_bernardes@bitbucket.org/the_bernardes/rafa-api.git"
+  },
+  "author": "Douglas Pereira Bernardes",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/the_bernardes/rafa-api#readme",
+  "dependencies": {
+    "apollo-fetch": "^0.7.0",
+    "compression": "^1.7.4",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "express-minify": "^1.0.0",
+    "graphql": "^14.5.6",
+    "graphql-tools": "^4.0.5",
+    "knex": "^0.19.4",
+    "multer": "^1.4.2",
+    "mysql": "^2.17.1",
+    "nodemon": "^1.19.2"
+  }
+}
