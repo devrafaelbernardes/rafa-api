@@ -19,7 +19,7 @@ const storageLOCAL = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         var filetype = defineFiletype(file.mimetype);        
-        file.key = ("img" + Date.now() + file.mimetype + filetype) + '.' + filetype;
+        file.key = ("img" + Date.now()) + '.' + filetype;
         cb(null, file.key)
     }
 });

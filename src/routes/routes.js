@@ -3,6 +3,7 @@ const graphqlHTTP = require('express-graphql');
 const fs = require('fs');
 const schema = require('../api/schema');
 const resolvers = require('../api/resolvers');
+const { addMidia } = require('../api/functions');
 const { PATH_IMAGES } = require('../config/paths');
 const path = require('path');
 const multerConfig = require('../config/multer');
@@ -11,13 +12,13 @@ const routes = require('express').Router();
 
 routes.post('/api', graphqlHTTP({
     schema: schema,
-    rootValue: resolvers,
+    //rootValue: resolvers,
     graphiql: false
 }));
 
 routes.get('/api', graphqlHTTP({
     schema: schema,
-    rootValue: resolvers,
+    //rootValue: resolvers,
     graphiql: true
 }));
 
@@ -38,19 +39,28 @@ routes.get('/image/:name', function (req, res) {
     }
 });
 
-routes.post('/updateProfileImage', upload.single('image'), async(req, res, next) => {
+routes.post('/addMidia', upload.single('image'), async(req, res, next) => {
     //console.log(req.file, req.files, req.body);
     if (!req.file) {
         return res.status(404).json({ error: 'Not found' });
     }
     var response = false;
-    if(req.body.token && req.file.key){
-        //var { key, size, mimetype, location : url = "" } = req.file;
+    var midia = null;
+    
+    if(req.body.token && req.body.link && req.file.key){
+        var { token, link } = req.body;
+        var { key /*, size, mimetype, location : url = ""*/ } = req.file;
         try {
-            
+            await addMidia(token, link, key)
+                .then(r => {
+                    if(r){
+                        response = true;
+                        midia = r;
+                    }
+                });
         } catch (error) {}
     }
-    return res.json({ status : response });
+    return await res.json({ status : response, midia : midia });
 })
 
 module.exports = routes;

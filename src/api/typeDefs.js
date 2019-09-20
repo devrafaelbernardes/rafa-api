@@ -1,5 +1,11 @@
-const { BOLSA, IMAGEM, MIDIA } = require('./elementsSchema');
+const { BOLSA, IMAGEM, MIDIA, PESSOA, TOKEN_ACCESS } = require('./elementsSchema');
 module.exports = `
+    type Sistema {
+        bolsas: [Bolsa]
+        midias: [Midia]
+        qtd_bolsas : Int
+        qtd_midias : Int
+    }
     type Bolsa {
         ${BOLSA.NOME}: String
         ${BOLSA.LINK}: String
@@ -23,11 +29,32 @@ module.exports = `
     type Imagem {
         ${IMAGEM.CAMINHO}: String
     }
+    type Pessoa {
+        ${PESSOA.NOME}: String
+        ${PESSOA.SOBRENOME}: String
+        ${PESSOA.EMAIL}: String
+        ${PESSOA.ATIVO}: Boolean
+        ${PESSOA.DATA_ADICIONADO}: Int
+    }
+    type Token {
+        ${TOKEN_ACCESS.TOKEN}: String
+        ${TOKEN_ACCESS.ATIVO}: Boolean
+        ${TOKEN_ACCESS.DATA_ADICIONADO}: Int
+    }
+    type RespostaLogin {
+        token : Token
+        user : Pessoa
+    }
+    input Login {
+        email : String
+        senha : String
+    }
     type Query {
-        bolsas: [Bolsa]
-        midias: [Midia]
+        bolsas : [Bolsa]
+        midias : [Midia]
+        sistema : Sistema
     }
     type Mutation {
-        createBOLSA(name: String!): Bolsa
+        validaLogin(input : Login): RespostaLogin
     }
 `;
