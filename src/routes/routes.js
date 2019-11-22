@@ -2,12 +2,10 @@ const multer = require('multer');
 const graphqlHTTP = require('express-graphql');
 const fs = require('fs');
 const schema = require('../api/schema');
-const resolvers = require('../api/resolvers');
-const { addMidia } = require('../api/functions');
 const { PATH_IMAGES } = require('../config/paths');
 const path = require('path');
 const multerConfig = require('../config/multer');
-
+const MediaResolver = require('../api/classes/resolver/MediaResolver');
 const routes = require('express').Router();
 
 routes.post('/api', graphqlHTTP({
@@ -39,19 +37,20 @@ routes.get('/image/:name', function (req, res) {
     }
 });
 
-routes.post('/addMidia', upload.single('image'), async(req, res, next) => {
+routes.post('/media', upload.single('image'), async(req, res, next) => {
     //console.log(req.file, req.files, req.body);
     if (!req.file) {
         return res.status(404).json({ error: 'Not found' });
     }
-    var response = false;
-    var midia = null;
+    let response = false;
+    let midia = null;
+    const classMediaResolver = new MediaResolver();
     
     if(req.body.token && req.body.link && req.file.key){
-        var { token, link } = req.body;
-        var { key /*, size, mimetype, location : url = ""*/ } = req.file;
+        let { token, link } = req.body;
+        let { key /*, size, mimetype, location : url = ""*/ } = req.file;
         try {
-            await addMidia(token, link, key)
+            await classMediaResolver.addMedia(token, link, key)
                 .then(r => {
                     if(r){
                         response = true;
