@@ -1,7 +1,15 @@
 const MediaResolver = require('../../classes/resolver/MediaResolver');
 const BagResolver = require('../../classes/resolver/BagResolver');
+const UserResolver = require('../../classes/resolver/UserResolver');
 
 module.exports = {
+    user : (_, { token }) => {
+        try {
+            const classUserResolver = new UserResolver();
+            return classUserResolver.user(token);
+        } catch (error) {}
+        return null;
+    },
     bags : async() => {
         try {
             const classBagResolver = new BagResolver();

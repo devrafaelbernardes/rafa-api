@@ -43,7 +43,7 @@ routes.post('/media', upload.single('image'), async(req, res, next) => {
         return res.status(404).json({ error: 'Not found' });
     }
     let response = false;
-    let midia = null;
+    let media = null;
     const classMediaResolver = new MediaResolver();
     
     if(req.body.token && req.body.link && req.file.key){
@@ -54,12 +54,12 @@ routes.post('/media', upload.single('image'), async(req, res, next) => {
                 .then(r => {
                     if(r){
                         response = true;
-                        midia = r;
+                        media = r;
                     }
                 });
         } catch (error) {}
     }
-    return await res.json({ status : response, midia : midia });
+    return await res.json({ status : response, media : media });
 })
 
 module.exports = routes;

@@ -35,6 +35,7 @@ module.exports = `
         ${USER.EMAIL}: String
         ${USER.ACTIVE}: Boolean
         ${USER.CREATED_AT}: Int
+        fullName : String
     }
     type Token {
         ${TOKEN_ACCESS.TOKEN}: String
@@ -53,6 +54,7 @@ module.exports = `
         bags : [Bag]
         medias : [Media]
         system : System
+        user(token : String!) : User
     }
     type Mutation {
         loginValidate(input : Login): ResponseLogin

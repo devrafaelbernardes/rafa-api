@@ -23,6 +23,7 @@ class User extends Controller{
                 if(user){
                     return {
                         ...user,
+                        fullName : user[USER.NAME] + " " + user[USER.LASTNAME]
                     };
                 }
             } catch (error) {}
@@ -49,7 +50,6 @@ class User extends Controller{
     async login(login, password){
         if(login && password){
             const user = await this.getDb.from(USER.TABLE_NAME)
-                .select(USER.ID)
                 .where({ 
                     [USER.EMAIL] : login,
                     [USER.ACTIVE] : true,
