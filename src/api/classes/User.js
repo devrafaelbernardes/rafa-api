@@ -38,7 +38,7 @@ class User extends Controller{
     async findByToken(token){
         if(token){
             try {
-                let token_user = await this.classTokenUser.findByToken(token_user);
+                let token_user = await this.classTokenUser.findByToken(token);
                 if(token_user){
                     return this.findById(token_user[TOKEN_ACCESS.USER]);
                 }
@@ -57,6 +57,7 @@ class User extends Controller{
                 .first();
             if(user){
                 password = await encryptPassword(password, user[USER.SALT_PASSWORD]);
+                
                 if(password === user[USER.PASSWORD]){
                     return this.findById(user[USER.ID]);
                 }

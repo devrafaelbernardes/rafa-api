@@ -18,6 +18,8 @@ module.exports = `
         ${BAG.CREATED_AT}: Int
         price : Float
         images : [Image]
+        first_image : Image
+        second_image : Image
     }
     type Media {
         ${MEDIA.LINK}: String

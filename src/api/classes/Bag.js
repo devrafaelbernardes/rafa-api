@@ -25,6 +25,8 @@ class Bag extends Controller{
                         ...bag,
                         price : bag ? (bag[BAG.DISCOUNT_PRICE] && bag[BAG.DISCOUNT_PRICE] < bag[BAG.TOTAL_PRICE] ? bag[BAG.DISCOUNT_PRICE] : bag[BAG.TOTAL_PRICE]) : 0,
                         images : () => this.classBagImage.findByBagId(bag_id),
+                        first_image : () => this.classBagImage.findFirstImageByBagId(bag_id),
+                        second_image : () => this.classBagImage.findSecondImageByBagId(bag_id),
                     };
                 }
             } catch (error) {}

@@ -18,7 +18,8 @@ class UserResolver{
     async login(login, password){
         try {
             let user = await this.classUser.login(login, password);
-            if(user){
+            
+            if(user){                
                 let token_id = await this.classTokenAccess.add(user[USER.ID]);
                 if(token_id){
                     let token = await this.classTokenAccess.findById(token_id);

@@ -25,7 +25,7 @@ module.exports = {
         return await encryptSHA256(Date.now()+"");
     },
     encryptPassword : async(password, salt) => {
-        return encryptSHA512(password + salt);
+        return encryptSHA512(password + (salt ? salt : ""));
     },
     encryptToken : async(value) => {
         return encryptSHA256(value + new Date());

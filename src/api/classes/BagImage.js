@@ -35,22 +35,56 @@ class BagImage extends Controller{
 
     async findByBagId(bag_id){
         if(bag_id){
-            let images = await this.getDb.from(BAG_IMAGE.TABLE_NAME)
-                .select(BAG_IMAGE.IMAGE)
-                .where({ [BAG_IMAGE.BAG] : bag_id });
+            try {
+                let images = await this.getDb.from(BAG_IMAGE.TABLE_NAME)
+                    .select(BAG_IMAGE.IMAGE)
+                    .where({ [BAG_IMAGE.BAG] : bag_id });
 
-            if(images && images.length > 0){
-                let response = [];
-                for(let key in images){
-                    let image = await this.classImage.findById(images[key][BAG_IMAGE.IMAGE]);
-                    if(image){
-                        response.push(image);
+                if(images && images.length > 0){
+                    let response = [];
+                    for(let key in images){
+                        let image = await this.classImage.findById(images[key][BAG_IMAGE.IMAGE]);
+                        if(image){
+                            response.push(image);
+                        }
                     }
-                }
-                if(response.length > 0){
-                    return response;
-                }
-            }
+                    if(response.length > 0){
+                        return response;
+                    }
+                }    
+            } catch (error) {}
+        }
+        return null;
+    }
+
+    async findFirstImageByBagId(bag_id){
+        if(bag_id){
+            try {
+                let image = await this.getDb.from(BAG_IMAGE.TABLE_NAME)
+                    .select(BAG_IMAGE.IMAGE)
+                    .where({ [BAG_IMAGE.BAG] : bag_id })
+                    .first();
+
+                if(image){
+                    return this.classImage.findById(image[BAG_IMAGE.IMAGE]);
+                }    
+            } catch (error) {}
+        }
+        return null;
+    }
+
+    async findSecondImageByBagId(bag_id){
+        if(bag_id){
+            try {
+                let images = await this.getDb.from(BAG_IMAGE.TABLE_NAME)
+                    .select(BAG_IMAGE.IMAGE)
+                    .where({ [BAG_IMAGE.BAG] : bag_id })
+                    .limit(2);
+
+                if(images && images.length > 1){ // > 1, for second image
+                    return this.classImage.findById(images[1][BAG_IMAGE.IMAGE]);
+                }    
+            } catch (error) {}
         }
         return null;
     }

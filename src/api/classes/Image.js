@@ -10,7 +10,7 @@ class Image extends Controller{
     async add(location){
         if(location){
             try {
-                let response = await this.getDb.from(IMAGEM.TABLE_NAME)
+                let response = await this.getDb.from(IMAGE.TABLE_NAME)
                     .insert({
                         [IMAGE.LOCATION] : location
                     });
