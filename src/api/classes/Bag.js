@@ -37,6 +37,9 @@ class Bag extends Controller{
     findById(id){
         return this.find(BAG.ID, id);
     }
+    findByCode(code){
+        return this.find(BAG.CODE, code);
+    }
 
     async findAll(){
         try{
@@ -72,6 +75,23 @@ class Bag extends Controller{
             }
         } catch (error) {}
         return 0;
+    }
+
+    async updatePosition(id, position){
+        if(id && position >= 0){
+            try {
+                const response = await this.getDb.from(BAG.TABLE_NAME)
+                    .update({
+                        [BAG.POSITION] : position
+                    })
+                    .where({ [BAG.ID] : id });
+
+                if(response){
+                    return true;
+                }
+            } catch (error) {}
+        }
+        return false;
     }
 }
 

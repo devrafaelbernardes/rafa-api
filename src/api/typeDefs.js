@@ -8,6 +8,7 @@ module.exports = `
     }
     type Bag {
         ${BAG.NAME}: String
+        ${BAG.CODE}: String
         ${BAG.LINK}: String
         ${BAG.DISCOUNT_PRICE}: Float
         ${BAG.TOTAL_PRICE}: Float
@@ -23,6 +24,7 @@ module.exports = `
     }
     type Media {
         ${MEDIA.LINK}: String
+        ${MEDIA.CODE}: String
         ${MEDIA.POSITION}: Int
         ${MEDIA.ACTIVE}: Boolean
         ${MEDIA.CREATED_AT}: Int
@@ -48,6 +50,14 @@ module.exports = `
         token : Token
         user : User
     }
+    input BagsUpdatePosition {
+        pos : Int
+        code : String
+    }
+    input InputUpdatePositionBags{
+        bags : [BagsUpdatePosition]
+        token : String
+    }
     input Login {
         login : String
         password : String
@@ -60,5 +70,6 @@ module.exports = `
     }
     type Mutation {
         loginValidate(input : Login): ResponseLogin
+        updatePositionBags(input : InputUpdatePositionBags) : Boolean
     }
 `;
