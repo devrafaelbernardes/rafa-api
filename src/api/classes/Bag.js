@@ -47,17 +47,13 @@ class Bag extends Controller{
                 .select(BAG.ID)
                 .where({ [BAG.ACTIVE] : true })
                 .orderBy(BAG.POSITION, 'asc');
-            var response = [];
             if(bags && bags.length > 0){
-                for(let key in bags){
-                    let bag = await this.findById(bags[key][BAG.ID]);
+                return bags.map(async(item) => {
+                    let bag = await this.findById(item[BAG.ID]);
                     if(bag){
-                        response.push(bag);
+                        return bag;
                     }
-                }
-                if(response.length > 0){
-                    return response;
-                }
+                });
             }
         }catch(e){
         }

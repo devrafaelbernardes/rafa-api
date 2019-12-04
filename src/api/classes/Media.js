@@ -61,17 +61,14 @@ class Media extends Controller{
                 .select(MEDIA.ID)
                 .where({ [MEDIA.ACTIVE] : true })
                 .orderBy(MEDIA.POSITION, 'asc');
-            var response = [];
+                
             if(medias && medias.length > 0){
-                for(let key in medias){
-                    let media = await this.findById(medias[key][MEDIA.ID]);
+                return medias.map(async(item) => {
+                    let media = await this.findById(item[MEDIA.ID]);
                     if(media){
-                        response.push(media);
+                        return media;
                     }
-                }
-                if(response.length > 0){
-                    return response;
-                }
+                });
             }
         }catch(e){
         }

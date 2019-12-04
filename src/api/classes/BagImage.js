@@ -38,7 +38,7 @@ class BagImage extends Controller{
             try {
                 let images = await this.getDb.from(BAG_IMAGE.TABLE_NAME)
                     .select(BAG_IMAGE.IMAGE)
-                    .where({ [BAG_IMAGE.BAG] : bag_id });
+                    .where({ [BAG_IMAGE.BAG] : bag_id, [BAG_IMAGE.ACTIVE] : true });
 
                 if(images && images.length > 0){
                     let response = [];
@@ -62,7 +62,7 @@ class BagImage extends Controller{
             try {
                 let image = await this.getDb.from(BAG_IMAGE.TABLE_NAME)
                     .select(BAG_IMAGE.IMAGE)
-                    .where({ [BAG_IMAGE.BAG] : bag_id })
+                    .where({ [BAG_IMAGE.BAG] : bag_id, [BAG_IMAGE.ACTIVE] : true })
                     .first();
 
                 if(image){
@@ -78,7 +78,7 @@ class BagImage extends Controller{
             try {
                 let images = await this.getDb.from(BAG_IMAGE.TABLE_NAME)
                     .select(BAG_IMAGE.IMAGE)
-                    .where({ [BAG_IMAGE.BAG] : bag_id })
+                    .where({ [BAG_IMAGE.BAG] : bag_id, [BAG_IMAGE.ACTIVE] : true })
                     .limit(2);
 
                 if(images && images.length > 1){ // > 1, for second image
