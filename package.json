@@ -16,6 +16,8 @@
   "homepage": "https://bitbucket.org/the_bernardes/rafa-api#readme",
   "dependencies": {
     "apollo-fetch": "^0.7.0",
+    "apollo-server-express": "^2.9.12",
+    "apollo-upload-server": "^7.1.0",
     "compression": "^1.7.4",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
@@ -23,6 +25,7 @@
     "express-minify": "^1.0.0",
     "graphql": "^14.5.6",
     "graphql-tools": "^4.0.5",
+    "graphql-upload": "^9.0.0",
     "knex": "^0.19.4",
     "multer": "^1.4.2",
     "mysql": "^2.17.1",

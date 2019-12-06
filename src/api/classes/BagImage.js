@@ -9,6 +9,25 @@ class BagImage extends Controller{
         this.classImage = new Image();
     }
 
+    async add({ bag_id, image_id }){
+        if(bag_id && image_id){
+            try {
+                let response = await this.getDb.from(BAG_IMAGE.TABLE_NAME)
+                    .insert({
+                        [BAG_IMAGE.BAG] : bag_id,
+                        [BAG_IMAGE.IMAGE] : image_id
+                    });
+                if(response && response[0]){
+                    return response[0];
+                }
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+        return null;
+    }
+
     async find(column, value){
         if(column && value){
             try {

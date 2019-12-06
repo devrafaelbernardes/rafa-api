@@ -1,5 +1,6 @@
 const multer = require('multer');
 const graphqlHTTP = require('express-graphql');
+const { apolloUploadExpress } = require('apollo-upload-server');
 const fs = require('fs');
 const schema = require('../api/schema');
 const { PATH_IMAGES } = require('../config/paths');
@@ -8,11 +9,14 @@ const multerConfig = require('../config/multer');
 const MediaResolver = require('../api/classes/resolver/MediaResolver');
 const routes = require('express').Router();
 
-routes.post('/api', graphqlHTTP({
-    schema: schema,
-    //rootValue: resolvers,
-    graphiql: false
-}));
+routes.post(
+    '/api', 
+    apolloUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
+    graphqlHTTP({
+        schema: schema,
+        graphiql: false
+    })
+);
 
 routes.get('/api', graphqlHTTP({
     schema: schema,
@@ -21,7 +25,7 @@ routes.get('/api', graphqlHTTP({
 }));
 
 var upload = multer(multerConfig);
-
+/*
 routes.get('/image/:name', function (req, res) {
     if (req.params && req.params.name) {
         var local_imagem = path.join(PATH_IMAGES, req.params.name);
@@ -35,7 +39,7 @@ routes.get('/image/:name', function (req, res) {
     } else {
         res.end("No such image");
     }
-});
+});*/
 
 routes.post('/media', upload.single('image'), async(req, res, next) => {
     //console.log(req.file, req.files, req.body);

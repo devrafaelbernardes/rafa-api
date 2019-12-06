@@ -1,12 +1,18 @@
 const Bag = require('../Bag');
 const User = require('../User');
+const BagImage = require('../BagImage');
+const Image = require('../Image');
+const Upload = require('../Upload');
 const { BAG } = require('../../elementsSchema');
-const { cleanValue, cleanValueInt } = require('../../functionValidate');
+const { cleanValue, cleanValueInt, cleanValueFloat } = require('../../functionValidate');
 
 class BagResolver{
     constructor(){
         this.classBag = new Bag();
         this.classUser = new User();
+        this.classBagImage = new BagImage();
+        this.classImage = new Image();
+        this.classUpload = new Upload();
     }
 
     async findAll(){
@@ -16,6 +22,44 @@ class BagResolver{
         return null;
     }
 
+    async addBag({ token, name, total, discount, deposit, installments, installments_price, link, first_image, second_image }){
+        if(token && name && first_image){
+            try {
+                let user = await this.classUser.findByToken(token);
+                
+                if(user){
+                    name = await cleanValue(name);
+                    link = await cleanValue(link);
+                    total = await cleanValueFloat(total);
+                    discount = await cleanValueFloat(discount);
+                    deposit = await cleanValueFloat(deposit);
+                    installments = await cleanValueFloat(installments);
+                    installments_price = await cleanValueFloat(installments_price);
+                    
+                    let bag_id = await this.classBag.add({ name, total, discount, deposit, installments, installments_price, link });
+                    if(bag_id){
+                        let upload_first_image = await this.classUpload.uploadImage(first_image);
+                        if(upload_first_image){
+                            let id_first_image = await this.classImage.add(upload_first_image.filename);
+                            if(id_first_image){
+                                this.classBagImage.add({ bag_id, image_id : id_first_image });
+                            }
+                            if(second_image){
+                                let upload_second_image = await this.classUpload.uploadImage(second_image);
+                                let id_second_image = await this.classImage.add(upload_second_image.filename);
+                                if(id_second_image){
+                                    this.classBagImage.add({ bag_id, image_id : id_second_image });
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                }
+            } catch (error) {}
+        }
+        return false;
+    }
+
     async updatePositionBags(token, bags){
         if(token && bags && bags.length > 0){
             try {
@@ -23,8 +67,8 @@ class BagResolver{
                 if(user){
                     for(let key in bags){
                         let element = bags[key];
-                        let code = cleanValue(element.code);
-                        let position = cleanValueInt(element.pos);
+                        let code = await cleanValue(element.code);
+                        let position = await cleanValueInt(element.pos);
                         
                         if(code && position >= 0){
                             let bag = await this.classBag.findByCode(code);

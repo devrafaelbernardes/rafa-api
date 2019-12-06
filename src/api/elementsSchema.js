@@ -9,6 +9,7 @@ module.exports = {
         INSTALLMENTS_PRICE : 'preco_parcelas',
         INSTALLMENTS : 'parcelas',
         POSITION : 'posicao',
+        DEPOSIT : 'deposit',
         LINK : 'link',
         ACTIVE : 'ativo',
         CREATED_AT : 'data_adicionado',

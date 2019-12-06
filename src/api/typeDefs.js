@@ -1,5 +1,11 @@
 const { BAG, IMAGE, MEDIA, USER, TOKEN_ACCESS } = require('./elementsSchema');
 module.exports = `
+    scalar Upload
+    type FileUpload {
+        filename : String
+        mimetype : String
+        encoding : String
+    }
     type System {
         bags : [Bag]
         medias: [Media]
@@ -50,17 +56,31 @@ module.exports = `
         token : Token
         user : User
     }
-    input BagsUpdatePosition {
+    input UpdatePosition {
         pos : Int
         code : String
     }
     input InputUpdatePositionBags{
-        bags : [BagsUpdatePosition]
-        token : String
+        bags : [UpdatePosition]
+        token : String!
+    }
+    input InputUpdatePositionMedias{
+        medias : [UpdatePosition]
+        token : String!
     }
     input Login {
-        login : String
-        password : String
+        login : String!
+        password : String!
+    }
+    input InputAddBag {
+        token : String
+        name : String
+        total : Float
+        discount : Float
+        installments_price : Float
+        deposit : Float
+        installments : Int
+        link : String
     }
     type Query {
         bags : [Bag]
@@ -71,5 +91,7 @@ module.exports = `
     type Mutation {
         loginValidate(input : Login): ResponseLogin
         updatePositionBags(input : InputUpdatePositionBags) : Boolean
+        updatePositionMedias(input : InputUpdatePositionMedias) : Boolean
+        addBag(input : InputAddBag, first_image : Upload, second_image : Upload) : Boolean
     }
 `;

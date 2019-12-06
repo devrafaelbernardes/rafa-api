@@ -1,12 +1,42 @@
 const Controller = require('./Controller');
 const BagImage = require('./BagImage');
 const { BAG } = require('../elementsSchema');
+const { encryptCode } = require('../encryptFunctions');
 
 class Bag extends Controller{
     constructor(){
         super();
 
         this.classBagImage = new BagImage();
+    }
+
+    async add({ name, total, discount, deposit, installments, installments_price, link }){
+        if(name){
+            try {
+                let code = await encryptCode(name);
+                let position = await this.maxPosition();
+                const DEFAULT = 'DEFAULT';
+                let response = await this.getDb.from(BAG.TABLE_NAME)
+                    .insert({
+                        [BAG.CODE] : code,
+                        [BAG.NAME] : name,
+                        [BAG.DEPOSIT] : deposit || this.getDb.raw(DEFAULT),
+                        [BAG.TOTAL_PRICE] : total || this.getDb.raw(DEFAULT),
+                        [BAG.DISCOUNT_PRICE] : discount || this.getDb.raw(DEFAULT),
+                        [BAG.INSTALLMENTS] : installments || this.getDb.raw(DEFAULT),
+                        [BAG.INSTALLMENTS_PRICE] : installments_price || this.getDb.raw(DEFAULT),
+                        [BAG.LINK] : link || this.getDb.raw(DEFAULT),
+                        [BAG.POSITION] : position + 1,
+                    });
+                if(response && response[0]){
+                    return response[0];
+                }
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+        return null;
     }
 
     async find(column, value){
@@ -88,6 +118,19 @@ class Bag extends Controller{
             } catch (error) {}
         }
         return false;
+    }
+
+    async maxPosition(){
+        try {
+            let response = await this.getDb.from(BAG.TABLE_NAME)
+                .max({ max : BAG.POSITION })
+                .first();
+            
+            if(response && response.max){
+                return response.max;
+            }
+        } catch (error) {}
+        return 0;
     }
 }
 

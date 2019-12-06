@@ -15,7 +15,7 @@ app.use(function(req, res, next) {
 app.use(compression());
 app.use(minify());
 app.use(express.json());
-app.use(express.static(PATH_IMAGES));
+app.use('/image', express.static(PATH_IMAGES));
 app.use(routes);
 
 app.listen(PORT, () => console.log(`Executando na porta ${PORT}`));

@@ -2,6 +2,7 @@ const Media = require('../Media');
 const User = require('../User');
 const Image = require('../Image');
 const { MEDIA, USER } = require('../../elementsSchema');
+const { cleanValue, cleanValueInt } = require('../../functionValidate');
 
 class MediaResolver{
     constructor(){
@@ -22,6 +23,33 @@ class MediaResolver{
                             return this.classMedia.findById(media_id);
                         }
                     }
+                }
+            } catch (error) {}
+        }
+        return null;
+    }
+
+    async updatePositionMedias(token, medias){
+        if(token && medias && medias.length > 0){
+            try {
+                let user = await this.classUser.findByToken(token);
+                if(user){
+                    for(let key in medias){
+                        let element = medias[key];
+                        let code = await cleanValue(element.code);
+                        let position = await cleanValueInt(element.pos);
+                        
+                        if(code && position >= 0){
+                            let media = await this.classMedia.findByCode(code);
+                            let response = await this.classMedia.updatePosition(media[MEDIA.ID], position); 
+                            if(!response){
+                                return false;
+                            }
+                        }else{
+                            return false;
+                        }
+                    }
+                    return true;
                 }
             } catch (error) {}
         }

@@ -18,20 +18,24 @@ async function encryptSHA256(value){
     return data.digest('hex');
 }
 
+function generateRandomNumber(){
+    return Math.floor(Math.random() * 1000);
+}
+
 module.exports = {
     encryptSHA256,
     encryptSHA512,
-    generateSalt : async() => {
-        return await encryptSHA256(Date.now()+"");
+    generateSalt : () => {
+        return encryptSHA256(Date.now() + generateRandomNumber());
     },
-    encryptPassword : async(password, salt) => {
+    encryptPassword : (password, salt) => {
         return encryptSHA512(password + (salt ? salt : ""));
     },
-    encryptToken : async(value) => {
-        return encryptSHA256(value + new Date());
+    encryptToken : (value) => {
+        return encryptSHA256(value + new Date() + generateRandomNumber());
     }, 
-    encryptCode : async(value) => {
+    encryptCode : (value) => {
         value = value ? value : "";
-        return await encryptSHA256(Date.now()+value);
+        return encryptSHA256(Date.now() + value + generateRandomNumber());
     }
 }

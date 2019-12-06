@@ -55,6 +55,10 @@ class Media extends Controller{
         return this.find(MEDIA.ID, id);
     }
 
+    findByCode(code){
+        return this.find(MEDIA.CODE, code);
+    }
+
     async findAll(){
         try{
             let medias = await this.getDb.from(MEDIA.TABLE_NAME)
@@ -99,6 +103,23 @@ class Media extends Controller{
             }   
         } catch (error) {}
         return 0;
+    }
+
+    async updatePosition(id, position){
+        if(id && position >= 0){
+            try {
+                const response = await this.getDb.from(MEDIA.TABLE_NAME)
+                    .update({
+                        [MEDIA.POSITION] : position
+                    })
+                    .where({ [MEDIA.ID] : id });
+
+                if(response){
+                    return true;
+                }
+            } catch (error) {}
+        }
+        return false;
     }
 }
 
