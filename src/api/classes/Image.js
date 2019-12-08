@@ -22,7 +22,7 @@ class Image extends Controller{
         return null;
     }
 
-    async find(column, value){
+    async find(column, value, directory){
         if(column && value){
             try {
                 const image = await this.getDb.from(IMAGE.TABLE_NAME)
@@ -32,7 +32,7 @@ class Image extends Controller{
                 if(image){
                     return {
                         ...image,
-                        [IMAGE.LOCATION] : this.urlShowImage(image[IMAGE.LOCATION])
+                        [IMAGE.LOCATION] : this.urlShowImage(image[IMAGE.LOCATION], directory)
                     };
                 }
             } catch (error) {}
@@ -40,15 +40,16 @@ class Image extends Controller{
         return null;
     }
 
-    findById(id){
-        return this.find(IMAGE.ID, id);
+    findById(id, directory){
+        return this.find(IMAGE.ID, id, directory);
     }
 
-    urlShowImage(name){
+    urlShowImage(name, directory){
+        directory = directory ? directory+"/" : "";
         if(isDevelopment){
-            return 'http://localhost:'+PORT+'/image/'+name;
+            return 'http://localhost:'+PORT+'/image/' + directory + name;
         }
-        return 'http://api.rbernardes.com.br/image/'+name;
+        return 'http://api.rbernardes.com.br/image/' + directory + name;
     }
 }
 

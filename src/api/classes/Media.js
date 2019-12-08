@@ -2,6 +2,7 @@ const Controller = require('./Controller');
 const Image = require('./Image');
 const { MEDIA } = require('../elementsSchema');
 const { encryptCode } = require('../encryptFunctions');
+const DIRECTORY_MEDIAS = 'media';
 
 class Media extends Controller{
     constructor(){
@@ -43,7 +44,7 @@ class Media extends Controller{
                 if(media){
                     return {
                         ...media,
-                        image : () => this.classImage.findById(media[MEDIA.IMAGE])
+                        image : () => this.classImage.findById(media[MEDIA.IMAGE], DIRECTORY_MEDIAS)
                     };
                 }
             } catch (error) {}
@@ -77,6 +78,20 @@ class Media extends Controller{
         }catch(e){
         }
         return null;
+    }
+
+    async remove(id){
+        if(id){
+            try {
+                let response = await this.getDb.from(MEDIA.TABLE_NAME)
+                    .update({ [MEDIA.ACTIVE] : false })
+                    .where({ [MEDIA.ID] : id });
+                if(response){
+                    return true;
+                }
+            } catch (error) {}
+        }
+        return false;
     }
 
     async count(){

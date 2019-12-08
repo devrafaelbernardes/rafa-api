@@ -2,7 +2,7 @@ const express = require('express');
 const minify = require('express-minify');
 const compression = require('compression');
 const routes = require('./routes/routes');
-const { PATH_IMAGES } = require('./config/paths');
+const { PATH_BAG_IMAGES, PATH_MEDIA_IMAGES, PATH_OTHERS_IMAGES } = require('./config/paths');
 const { PORT } = require('./config/server');
 
 const app = express();
@@ -15,7 +15,9 @@ app.use(function(req, res, next) {
 app.use(compression());
 app.use(minify());
 app.use(express.json());
-app.use('/image', express.static(PATH_IMAGES));
+app.use('/image/bag/', express.static(PATH_BAG_IMAGES));
+app.use('/image/media/', express.static(PATH_MEDIA_IMAGES));
+app.use('/image/others/', express.static(PATH_OTHERS_IMAGES));
 app.use(routes);
 
 app.listen(PORT, () => console.log(`Executando na porta ${PORT}`));

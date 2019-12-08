@@ -1,21 +1,11 @@
 const { BAG, IMAGE, MEDIA, USER, TOKEN_ACCESS } = require('./elementsSchema');
 module.exports = `
     scalar Upload
-    type FileUpload {
-        filename : String
-        mimetype : String
-        encoding : String
-    }
-    type System {
-        bags : [Bag]
-        medias: [Media]
-        count_bags : Int
-        count_medias : Int
-    }
     type Bag {
         ${BAG.NAME}: String
         ${BAG.CODE}: String
         ${BAG.LINK}: String
+        ${BAG.DEPOSIT}: Float
         ${BAG.DISCOUNT_PRICE}: Float
         ${BAG.TOTAL_PRICE}: Float
         ${BAG.INSTALLMENTS_PRICE}: Float
@@ -82,10 +72,30 @@ module.exports = `
         installments : Int
         link : String
     }
+    input InputAddMedia {
+        token : String
+        link : String
+    }
+    input InputEditBag {
+        token : String
+        code : String
+        name : String
+        total : Float
+        discount : Float
+        installments_price : Float
+        deposit : Float
+        installments : Int
+        link : String
+    }
+    input InputRemove {
+        token : String
+        code : String
+    }
     type Query {
+        bag(code : String) : Bag
+        media(code : String) : Media
         bags : [Bag]
         medias : [Media]
-        system : System
         user(token : String!) : User
     }
     type Mutation {
@@ -93,5 +103,9 @@ module.exports = `
         updatePositionBags(input : InputUpdatePositionBags) : Boolean
         updatePositionMedias(input : InputUpdatePositionMedias) : Boolean
         addBag(input : InputAddBag, first_image : Upload, second_image : Upload) : Boolean
+        addMedia(input : InputAddMedia, image : Upload) : Boolean
+        editBag(input : InputEditBag) : Boolean
+        removeBag(input : InputRemove) : Boolean
+        removeMedia(input : InputRemove) : Boolean
     }
 `;

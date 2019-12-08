@@ -44,5 +44,46 @@ module.exports = {
             } catch (error) {}
         }
         return false;
+    },
+    editBag : async(_, { input }) => {
+        if(input){
+            try {
+                let { token, code, name, total, discount, deposit, installments, installments_price, link } = input;
+                const classBagResolver = new BagResolver();
+                return classBagResolver.editBag({ token, code, name, total, discount, deposit, installments, installments_price, link });
+            } catch (error) {}
+        }
+        return false;
+    },
+    addMedia : async(_, { input, image }) => {
+        if(input && image){
+            try {
+                let { token, link } = input;
+                const classMediaResolver = new MediaResolver();
+                return classMediaResolver.addMedia({ token, link, image });
+            } catch (error) {}
+        }
+        return false;
+    },
+    removeBag : async(_, { input }) => {
+        if(input){
+            try {
+                let { token, code } = input;
+                
+                const classBagResolver = new BagResolver();
+                return classBagResolver.remove({ token, code });
+            } catch (error) {}
+        }
+        return false;
+    },
+    removeMedia : async(_, { input }) => {
+        if(input){
+            try {
+                let { token, code } = input;
+                const classMediaResolver = new MediaResolver();
+                return classMediaResolver.remove({ token, code });
+            } catch (error) {}
+        }
+        return false;
     }
 }

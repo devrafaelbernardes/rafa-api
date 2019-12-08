@@ -31,12 +31,32 @@ class Bag extends Controller{
                 if(response && response[0]){
                     return response[0];
                 }
-            } catch (error) {
-                console.log(error);
-                
-            }
+            } catch (error) {}
         }
         return null;
+    }
+
+    async update({ id, name, total, discount, deposit, installments, installments_price, link }){
+        if(id && name){
+            try {
+                const DEFAULT = 'DEFAULT';
+                let response = await this.getDb.from(BAG.TABLE_NAME)
+                    .update({
+                        [BAG.NAME] : name,
+                        [BAG.DEPOSIT] : deposit || this.getDb.raw(DEFAULT),
+                        [BAG.TOTAL_PRICE] : total || this.getDb.raw(DEFAULT),
+                        [BAG.DISCOUNT_PRICE] : discount || this.getDb.raw(DEFAULT),
+                        [BAG.INSTALLMENTS] : installments || this.getDb.raw(DEFAULT),
+                        [BAG.INSTALLMENTS_PRICE] : installments_price || this.getDb.raw(DEFAULT),
+                        [BAG.LINK] : link || this.getDb.raw(DEFAULT)
+                    })
+                    .where({ [BAG.ID] : id });
+                if(response){
+                    return true;
+                }
+            } catch (error) {}
+        }
+        return false;
     }
 
     async find(column, value){
@@ -88,6 +108,20 @@ class Bag extends Controller{
         }catch(e){
         }
         return null;
+    }
+
+    async remove(id){
+        if(id){
+            try {
+                let response = await this.getDb.from(BAG.TABLE_NAME)
+                    .update({ [BAG.ACTIVE] : false })
+                    .where({ [BAG.ID] : id });
+                if(response){
+                    return true;
+                }
+            } catch (error) {}
+        }
+        return false;
     }
 
     async count(){

@@ -32,10 +32,10 @@ const storageLOCAL = multer.diskStorage({
     }
 });
 
-const storeFS = ({ stream, mimetype }) => {
+const storeFS = ({ directory, stream, mimetype }) => {
     const filetype = defineFiletype(mimetype);  
     let filename = "img" + (Math.floor(Math.random() * 1000) + Date.now()) + '.' + filetype;
-    const result_path = path.resolve(PATH_IMAGES, filename);
+    const result_path = path.resolve(directory, filename);
 
     return new Promise((resolve, reject) => {
         if(allowedMimes.includes(mimetype)){

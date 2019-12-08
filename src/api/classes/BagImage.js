@@ -1,7 +1,7 @@
 const Controller = require('./Controller');
 const Image = require('./Image');
 const { BAG_IMAGE } = require('../elementsSchema');
-
+const DIRECTOY_BAG_IMAGES = 'bag';
 class BagImage extends Controller{
     constructor(){
         super();
@@ -62,7 +62,7 @@ class BagImage extends Controller{
                 if(images && images.length > 0){
                     let response = [];
                     for(let key in images){
-                        let image = await this.classImage.findById(images[key][BAG_IMAGE.IMAGE]);
+                        let image = await this.classImage.findById(images[key][BAG_IMAGE.IMAGE], DIRECTOY_BAG_IMAGES);
                         if(image){
                             response.push(image);
                         }
@@ -85,7 +85,7 @@ class BagImage extends Controller{
                     .first();
 
                 if(image){
-                    return this.classImage.findById(image[BAG_IMAGE.IMAGE]);
+                    return this.classImage.findById(image[BAG_IMAGE.IMAGE], DIRECTOY_BAG_IMAGES);
                 }    
             } catch (error) {}
         }
@@ -101,7 +101,7 @@ class BagImage extends Controller{
                     .limit(2);
 
                 if(images && images.length > 1){ // > 1, for second image
-                    return this.classImage.findById(images[1][BAG_IMAGE.IMAGE]);
+                    return this.classImage.findById(images[1][BAG_IMAGE.IMAGE], DIRECTOY_BAG_IMAGES);
                 }    
             } catch (error) {}
         }
