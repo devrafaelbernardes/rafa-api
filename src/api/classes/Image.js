@@ -1,6 +1,6 @@
 const Controller = require('./Controller');
 const { IMAGE } = require('../elementsSchema');
-const { PORT, isDevelopment } = require('../../config/server');
+const { LINK_IMAGES } = require('../../config/server');
 
 class Image extends Controller{
     constructor(){
@@ -46,10 +46,7 @@ class Image extends Controller{
 
     urlShowImage(name, directory){
         directory = directory ? directory+"/" : "";
-        if(isDevelopment){
-            return 'http://localhost:'+PORT+'/image/' + directory + name;
-        }
-        return 'http://api.rbernardes.com.br/image/' + directory + name;
+        return LINK_IMAGES + directory + name;
     }
 }
 
