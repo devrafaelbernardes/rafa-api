@@ -48,26 +48,21 @@ class User extends Controller{
     }
 
     async login(login, password){
-        console.log("User");
-        console.log(login, password);
         if(login && password){
-            const user = await this.getDb.from(USER.TABLE_NAME)
-                .where({ 
-                    [USER.EMAIL] : login,
-                    [USER.ACTIVE] : true,
-                })
-                .first();
-                console.log("User");
-                console.log(user);
-            if(user){
-                password = await encryptPassword(password, user[USER.SALT_PASSWORD]);
-                
-                console.log("User");
-                console.log(password);
-                if(password === user[USER.PASSWORD]){
-                    return this.findById(user[USER.ID]);
+            try {
+                const user = await this.getDb.from(USER.TABLE_NAME)
+                    .where({ 
+                        [USER.EMAIL] : login,
+                        [USER.ACTIVE] : true,
+                    })
+                    .first();
+                if(user){
+                    password = await encryptPassword(password, user[USER.SALT_PASSWORD]);
+                    if(password === user[USER.PASSWORD]){
+                        return this.findById(user[USER.ID]);
+                    }
                 }
-            }
+            } catch (error) {}
         }
         return null;
     }

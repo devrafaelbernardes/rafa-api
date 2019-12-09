@@ -1,5 +1,6 @@
 const path = require('path');
-const PATH_IMAGES = path.join(__dirname, '..', '..', '..', 'images_api');
+const { isDevelopment } = require('../config/server');
+const PATH_IMAGES = isDevelopment ? path.join(__dirname, '..', '..', '..', 'images_api') : "/var/www/images_api/";
 
 module.exports = {
     PATH_IMAGES : PATH_IMAGES,
