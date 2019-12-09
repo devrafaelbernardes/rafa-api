@@ -6,13 +6,18 @@ const { storeFS } = require('../../../config/multer');
 
 module.exports = {
     loginValidate : async(_, { input }) => {
+        console.log(input);
         if(input){
             try {
                 var { login, password } = input;
+                
                 const classUserResolver = new UserResolver();
                 return await classUserResolver.login(login, password);
-            } catch (error) {}
+            } catch (error) {
+                console.log(error);
+            }
         }
+        console.log("TESTE");
         return null;
     },
     updatePositionBags : (_, { input }) => {
