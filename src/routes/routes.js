@@ -3,13 +3,13 @@ const { apolloUploadExpress } = require('apollo-upload-server');
 const schema = require('../api/schema');
 const { isDevelopment } = require('../config/server');
 const routes = require('express').Router();
-
-routes.get('/', (req, res) => {
+const BASE_ROUTE = '/api/';
+routes.get(BASE_ROUTE, (req, res) => {
     res.send('API');
 });
 
 routes.post(
-    '/api', 
+    BASE_ROUTE+'/api', 
     apolloUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
     graphqlHTTP({
         schema: schema,
@@ -17,7 +17,7 @@ routes.post(
     })
 );
 if(isDevelopment){
-    routes.get('/api', graphqlHTTP({
+    routes.get(BASE_ROUTE+'/api', graphqlHTTP({
         schema: schema,
         graphiql: true
     }));
