@@ -18,6 +18,7 @@ class UserResolver{
     async login(login, password){
         try {
             let user = await this.classUser.login(login, password);
+            console.log("UserResolver");
             console.log(user);
             
             if(user){                
@@ -27,7 +28,10 @@ class UserResolver{
                     return { token, user };
                 }
             }
-        } catch (error) {}
+        } catch (error) {
+            console.log("UserResolver");
+            console.log(error);
+        }
         return null;
     }
 }
