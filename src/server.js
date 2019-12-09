@@ -2,6 +2,7 @@ const express = require('express');
 const minify = require('express-minify');
 const compression = require('compression');
 const routes = require('./routes/routes');
+const { BASE_ROUTE } = require('./config/server');
 const { PATH_BAG_IMAGES, PATH_MEDIA_IMAGES, PATH_OTHERS_IMAGES } = require('./config/paths');
 
 const app = express();
