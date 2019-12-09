@@ -1,9 +1,8 @@
 const graphqlHTTP = require('express-graphql');
 const { apolloUploadExpress } = require('apollo-upload-server');
 const schema = require('../api/schema');
-const { isDevelopment } = require('../config/server');
+const { isDevelopment, BASE_ROUTE } = require('../config/server');
 const routes = require('express').Router();
-const BASE_ROUTE = !isDevelopment ? '/api/' : "/"; //TEMPORÁRIO
 
 routes.get(BASE_ROUTE, (req, res) => {
     res.send('API');

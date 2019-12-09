@@ -11,9 +11,9 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use('/image/bag/', express.static(PATH_BAG_IMAGES));
-app.use('/image/media/', express.static(PATH_MEDIA_IMAGES));
-app.use('/image/others/', express.static(PATH_OTHERS_IMAGES));
+app.use(BASE_ROUTE+'image/bag/', express.static(PATH_BAG_IMAGES));
+app.use(BASE_ROUTE+'image/media/', express.static(PATH_MEDIA_IMAGES));
+app.use(BASE_ROUTE+'image/others/', express.static(PATH_OTHERS_IMAGES));
 app.use(routes);
 app.use(compression());
 app.use(minify());
