@@ -3,6 +3,7 @@ const { apolloUploadExpress } = require('apollo-upload-server');
 const schema = require('../api/schema');
 const { isDevelopment, BASE_ROUTE } = require('../config/server');
 const routes = require('express').Router();
+/*
 const fs = require('fs');
 const path = require('path');
 const { PATH_BAG_IMAGES, PATH_MEDIA_IMAGES, PATH_OTHERS_IMAGES } = require('../config/paths');
@@ -24,12 +25,13 @@ const readImage = (directory, req, res) => {
     }
 }
 
-routes.get(BASE_ROUTE, (req, res) => {
-    res.send('API');
-});
-
 routes.get(BASE_ROUTE+'image_test/:name', function (req, res) {
     readImage(PATH_BAG_IMAGES, req, res);
+});
+*/
+
+routes.get(BASE_ROUTE, (req, res) => {
+    res.send('API');
 });
 
 routes.post(

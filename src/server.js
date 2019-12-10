@@ -11,7 +11,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-console.log(BASE_ROUTE+'image/bag/', PATH_BAG_IMAGES);
 
 app.use(BASE_ROUTE+'image/bag/', express.static(PATH_BAG_IMAGES));
 app.use(BASE_ROUTE+'image/media/', express.static(PATH_MEDIA_IMAGES));
