@@ -1,9 +1,10 @@
 // Update with your config settings.
+const { isDevelopment } = require('./server');
 const dotenv = require('dotenv');
 dotenv.config();
 
 const path = require('path');
-const PATH_IMAGES = path.join(__dirname, '..', '..', 'images_api');
+const PATH_IMAGES = isDevelopment ? path.join(__dirname, '..', '..', '..', 'images_api') : path.join(__dirname, '..', '..', 'images_api');
 
 module.exports = {
     PATH_IMAGES : process.env.PATH_IMAGES || PATH_IMAGES,

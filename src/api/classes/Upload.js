@@ -8,19 +8,13 @@ class Upload{
         let response = null;
         if(file && directory){
             try {
-                console.log(file);
                 await file.then(async(element_file) => {
                     const { createReadStream, filename, mimetype, encoding } = await element_file;
                     const stream = createReadStream();
                     const pathObj = await storeFS({ directory, stream, mimetype });
                     response = pathObj;
-                    console.log(pathObj)
-                })
-                .catch((error) => console.log(error));
-            } catch (error) {
-                console.log(error);
-                
-            }    
+                });
+            } catch (error) {}    
         }
         return response;
     }
