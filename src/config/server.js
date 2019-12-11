@@ -4,8 +4,8 @@ dotenv.config();
 
 const PORT = 4040;
 const isDevelopment = process.env.NODE_ENV !== "production";
-const BASE_ROUTE = !isDevelopment ? '/api/' : "/"; //TEMPORÁRIO o "/api/"
-const LINK_SERVER = isDevelopment ? 'http://localhost:'+PORT+'/' : 'http://167.172.230.69'+BASE_ROUTE; //temporário
+const BASE_ROUTE = "/";
+const LINK_SERVER = isDevelopment ? 'http://localhost:'+PORT+'/' : 'http://www.api.rbernardes.com.br'+BASE_ROUTE;
 const LINK_IMAGES = LINK_SERVER+'image/';
 
 module.exports = {
