@@ -9,7 +9,7 @@ const { PATH_BAG_IMAGES, PATH_MEDIA_IMAGES, PATH_OTHERS_IMAGES } = require('./co
 const app = express();
 if(!isDevelopment){
     app.use(cors({
-        origin: ["http://167.172.230.69/", "http://rbernardes.com.br/", "http://www.rbernardes.com.br/", "https://rbernardes.com.br/", "https://www.rbernardes.com.br/"],
+        origin: ["https://rbernardes.com.br/", "https://www.rbernardes.com.br/"],
         methods: ["GET", "POST"],
         allowedHeaders: ["Content-Type", "Origin", "X-Requested-With", "Accept"]
     }));
