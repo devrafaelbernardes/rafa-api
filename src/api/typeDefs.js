@@ -1,4 +1,4 @@
-const { BAG, IMAGE, MEDIA, USER, TOKEN_ACCESS } = require('./elementsSchema');
+const { BAG, IMAGE, MEDIA, USER, TOKEN_ACCESS, SOCIAL_NETWORK } = require('./elementsSchema');
 module.exports = `
     scalar Upload
     type Bag {
@@ -24,6 +24,14 @@ module.exports = `
         ${MEDIA.POSITION}: Int
         ${MEDIA.ACTIVE}: Boolean
         ${MEDIA.CREATED_AT}: Int
+        image : Image
+    }
+    type SocialNetwork {
+        ${SOCIAL_NETWORK.LINK}: String
+        ${SOCIAL_NETWORK.CODE}: String
+        ${SOCIAL_NETWORK.POSITION}: Int
+        ${SOCIAL_NETWORK.ACTIVE}: Boolean
+        ${SOCIAL_NETWORK.CREATED_AT}: Int
         image : Image
     }
     type Image {
@@ -58,6 +66,10 @@ module.exports = `
         medias : [UpdatePosition]
         token : String!
     }
+    input InputUpdatePositionSocialNetwork{
+        social_networks : [UpdatePosition]
+        token : String!
+    }
     input Login {
         login : String!
         password : String!
@@ -73,6 +85,10 @@ module.exports = `
         link : String
     }
     input InputAddMedia {
+        token : String
+        link : String
+    }
+    input InputAddSocialNetwork {
         token : String
         link : String
     }
@@ -94,18 +110,23 @@ module.exports = `
     type Query {
         bag(code : String) : Bag
         media(code : String) : Media
+        social_network(code : String) : SocialNetwork
         bags : [Bag]
         medias : [Media]
+        social_networks : [SocialNetwork]
         user(token : String!) : User
     }
     type Mutation {
         loginValidate(input : Login): ResponseLogin
         updatePositionBags(input : InputUpdatePositionBags) : Boolean
         updatePositionMedias(input : InputUpdatePositionMedias) : Boolean
+        updatePositionSocialNetworks(input : InputUpdatePositionSocialNetwork) : Boolean
         addBag(input : InputAddBag, first_image : Upload, second_image : Upload) : Boolean
         addMedia(input : InputAddMedia, image : Upload) : Boolean
+        addSocialNetwork(input : InputAddSocialNetwork, image : Upload) : Boolean
         editBag(input : InputEditBag) : Boolean
         removeBag(input : InputRemove) : Boolean
         removeMedia(input : InputRemove) : Boolean
+        removeSocialNetwork(input : InputRemove) : Boolean
     }
 `;

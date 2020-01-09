@@ -37,6 +37,16 @@ module.exports = {
         ACTIVE : 'ativo',
         CREATED_AT : 'data_adicionado',
     },
+    SOCIAL_NETWORK : {
+        TABLE_NAME : 'redes_sociais_rb',
+        ID : 'id',
+        CODE : 'code',
+        LINK : 'link',
+        POSITION : 'posicao',
+        IMAGE : 'id_imagem',
+        ACTIVE : 'ativo',
+        CREATED_AT : 'data_adicionado',
+    },
     USER : {
         TABLE_NAME : 'pessoa_rb',
         ID : 'id',

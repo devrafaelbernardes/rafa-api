@@ -4,7 +4,7 @@ const compression = require('compression');
 const routes = require('./routes/routes');
 const cors = require('cors');
 const { BASE_ROUTE, isDevelopment } = require('./config/server');
-const { PATH_BAG_IMAGES, PATH_MEDIA_IMAGES, PATH_OTHERS_IMAGES } = require('./config/paths');
+const { PATH_BAG_IMAGES, PATH_MEDIA_IMAGES, PATH_OTHERS_IMAGES, PATH_SOCIAL_NETWORK_IMAGES } = require('./config/paths');
 
 const app = express();
 /*if(!isDevelopment){
@@ -23,6 +23,7 @@ const app = express();
 
 app.use(BASE_ROUTE+'image/bag/', express.static(PATH_BAG_IMAGES));
 app.use(BASE_ROUTE+'image/media/', express.static(PATH_MEDIA_IMAGES));
+app.use(BASE_ROUTE+'image/social_networks/', express.static(PATH_SOCIAL_NETWORK_IMAGES));
 app.use(BASE_ROUTE+'image/others/', express.static(PATH_OTHERS_IMAGES));
 app.use(routes);
 app.use(compression());

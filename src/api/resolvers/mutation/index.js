@@ -1,6 +1,7 @@
 const UserResolver = require('../../classes/resolver/UserResolver');
 const BagResolver = require('../../classes/resolver/BagResolver');
 const MediaResolver = require('../../classes/resolver/MediaResolver');
+const SocialNetworkResolver = require('../../classes/resolver/SocialNetworkResolver');
 const Upload = require('../../classes/Upload');
 const { storeFS } = require('../../../config/multer');
 
@@ -36,6 +37,16 @@ module.exports = {
         }
         return false;
     },
+    updatePositionSocialNetworks : (_, { input }) => {
+        if(input){
+            try {
+                let { token, social_networks } = input;
+                const classSocialNetworkResolver = new SocialNetworkResolver();
+                return classSocialNetworkResolver.updatePositionSocialNetworks(token, social_networks); 
+            } catch (error) {}
+        }
+        return false;
+    },
     addBag : async(_, { input, first_image, second_image }) => {
         if(input && first_image){
             try {
@@ -66,6 +77,16 @@ module.exports = {
         }
         return false;
     },
+    addSocialNetwork : async(_, { input, image }) => {
+        if(input && image){
+            try {
+                let { token, link } = input;
+                const classSocialNetworkResolver = new SocialNetworkResolver();
+                return classSocialNetworkResolver.add({ token, link, image });
+            } catch (error) {}
+        }
+        return false;
+    },
     removeBag : async(_, { input }) => {
         if(input){
             try {
@@ -83,6 +104,16 @@ module.exports = {
                 let { token, code } = input;
                 const classMediaResolver = new MediaResolver();
                 return classMediaResolver.remove({ token, code });
+            } catch (error) {}
+        }
+        return false;
+    },
+    removeSocialNetwork : async(_, { input }) => {
+        if(input){
+            try {
+                let { token, code } = input;
+                const classSocialNetworkResolver = new SocialNetworkResolver();
+                return classSocialNetworkResolver.remove({ token, code });
             } catch (error) {}
         }
         return false;

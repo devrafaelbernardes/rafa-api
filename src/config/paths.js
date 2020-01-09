@@ -10,5 +10,6 @@ module.exports = {
     PATH_IMAGES : process.env.PATH_IMAGES || PATH_IMAGES,
     PATH_BAG_IMAGES : path.join(PATH_IMAGES, 'bags'),
     PATH_MEDIA_IMAGES : path.join(PATH_IMAGES, 'medias'),
+    PATH_SOCIAL_NETWORK_IMAGES : path.join(PATH_IMAGES, 'social_networks'),
     PATH_OTHERS_IMAGES : path.join(PATH_IMAGES, 'others')
 }

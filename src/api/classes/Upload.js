@@ -1,5 +1,5 @@
 const { storeFS } = require('../../config/multer');
-const { PATH_BAG_IMAGES, PATH_MEDIA_IMAGES } = require('../../config/paths');
+const { PATH_BAG_IMAGES, PATH_MEDIA_IMAGES, PATH_SOCIAL_NETWORK_IMAGES } = require('../../config/paths');
 
 class Upload{
     constructor(){}
@@ -25,6 +25,10 @@ class Upload{
 
     uploadMediaImage(file){
         return this.uploadImage(file, PATH_MEDIA_IMAGES);
+    }
+
+    uploadSocialNetworkImage(file){
+        return this.uploadImage(file, PATH_SOCIAL_NETWORK_IMAGES);
     }
 }
 

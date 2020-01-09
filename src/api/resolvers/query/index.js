@@ -1,6 +1,7 @@
 const MediaResolver = require('../../classes/resolver/MediaResolver');
 const BagResolver = require('../../classes/resolver/BagResolver');
 const UserResolver = require('../../classes/resolver/UserResolver');
+const SocialNetworkResolver = require('../../classes/resolver/SocialNetworkResolver');
 
 module.exports = {
     user : (_, { token }) => {
@@ -37,5 +38,19 @@ module.exports = {
             return classMediaResolver.findAll();
         } catch (error) {}
         return null;
-    }
+    },
+    social_network : async(_, { code }) => {
+        try {
+            const classSocialNetworkResolver = new SocialNetworkResolver();
+            return classSocialNetworkResolver.find({ code });
+        } catch (error) {}
+        return null;
+    },
+    social_networks : async() => {
+        try {
+            const classSocialNetworkResolver = new SocialNetworkResolver();
+            return classSocialNetworkResolver.findAll();
+        } catch (error) {}
+        return null;
+    },
 }
