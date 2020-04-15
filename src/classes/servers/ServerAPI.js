@@ -30,7 +30,7 @@ const server = new ApolloServer({
     introspection: isDevelopment,
     playground: isDevelopment,
     subscriptions: {
-        path : pathServer,
+        path: pathServer,
         onConnect: ({ authorization = null } = {}, webSocket, context) => {
             const tokenUser = getToken(authorization) || {};
             /* 
@@ -53,7 +53,7 @@ const server = new ApolloServer({
         },
     },
     context: ({ req, connection }) => {
-        if(connection && connection.context){
+        if (connection && connection.context) {
             return connection.context;
         }
         return ({
@@ -65,12 +65,16 @@ const server = new ApolloServer({
 app.use(helmet());
 app.use(minify());
 app.use(express.json());
-app.use(cors({
-    origin: '*',
-    methods: ["GET", "POST"],
-    credentials: true,
-    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
-}));
+if (!isDevelopment) {
+    app.use(cors({
+        origin: ['https://dashboard.rbernardes.com.br', 'https://ead.rbernardes.com.br', 'https://rbernardes.com.br'],
+        methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+        credentials: true,
+        allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
+    }));
+} else {
+    app.use(cors());
+} 
 
 app.use(`${ROUTE.IMAGE}`, express.static(PATH_IMAGES));
 app.use(`${ROUTE.VIDEO}`, express.static(PATH_VIDEOS));

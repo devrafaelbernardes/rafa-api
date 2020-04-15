@@ -29,7 +29,7 @@ export const Upload = () => {
         Body: file,
         Bucket,
         Key: filename,
-        ACL: 'public-read'
+        ACL: 'private'
     });
 
     const getParamsDelete = (file) => ({
