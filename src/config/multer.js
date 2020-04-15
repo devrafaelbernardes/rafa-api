@@ -17,6 +17,8 @@ const defineFiletype = (type) => {
         filetype = 'png';
     }else if (type === 'image/jpeg') {
         filetype = 'jpg';
+    }else if (type === 'video/mp4') {
+        filetype = 'mp4';
     }
     return filetype;
 }

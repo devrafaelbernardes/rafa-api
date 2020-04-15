@@ -1,17 +1,24 @@
-// Update with your config settings.
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
 
-const PORT = 4040;
-const isDevelopment = process.env.NODE_ENV !== "production";
-const BASE_ROUTE = "/";
-const LINK_SERVER = isDevelopment ? 'http://localhost:'+PORT+'/' : 'https://www.api.rbernardes.com.br'+BASE_ROUTE;
-const LINK_IMAGES = LINK_SERVER+'image/';
+export const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || null;
+export const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY || null;
+export const BUCKET_AWS_S3 = process.env.BUCKET_AWS_S3 || null;
+export const ENDPOINT_SPACE = process.env.ENDPOINT_SPACE || null;
 
-module.exports = {
-    isDevelopment : isDevelopment,
-    PORT : PORT,
-    LINK_SERVER : LINK_SERVER,
-    LINK_IMAGES : LINK_IMAGES,
-    BASE_ROUTE : BASE_ROUTE
-}
+export const KEY_SECRET_JWT = process.env.KEY_SECRET_JWT || "testJWT12345689851541512154";
+export const KEY_SECRET_CRYPTO = process.env.KEY_SECRET_CRYPTO || "testJWT1@sdasd4s5aad8as4d8";
+
+export const PORT = 4040;
+export const isDevelopment = process.env.NODE_ENV !== "production";
+export const BASE_ROUTE = "/";
+export const LINK_SERVER = isDevelopment ? `http://localhost:${PORT}/` : `https://www.api.rbernardes.com.br${BASE_ROUTE}`;
+export const LINK_IMAGES = LINK_SERVER+'image/';
+export const LINK_VIDEOS = LINK_SERVER+'video/';
+
+export const ROUTE = {
+    HOME : '/',
+    GRAPHQL : '/api',
+    IMAGE : '/image',
+    VIDEO : '/video',
+};
