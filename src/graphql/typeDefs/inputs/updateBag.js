@@ -24,8 +24,8 @@ export const updateBag = {
             ${COLUMNS.TOTAL} : Float
             ${COLUMNS.DISCOUNT} : Float
             ${COLUMNS.INSTALLMENTS_PRICE} : Float
-            ${COLUMNS.INSTALLMENTS} : Float
-            ${COLUMNS.DEPOSIT} : Int
+            ${COLUMNS.INSTALLMENTS} : Int
+            ${COLUMNS.DEPOSIT} : Float
             ${COLUMNS.LINK} : String
             ${COLUMNS.POSITION} : Int
         }
