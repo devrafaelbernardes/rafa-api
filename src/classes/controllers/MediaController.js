@@ -15,32 +15,30 @@ export const MediaController = () => {
 
     return {
         add: async ({ link = null, image = null } = {}, context) => {
-            if (link) {
-                try {
-                    link = validations.cleanValue(link);
+            try {
+                link = validations.cleanValue(link) || null;
 
-                    const imageUploaded = await classUpload.upload(image);
-                    if(imageUploaded && imageUploaded.url){
-                        const imageId = await classImageModel.add({ url : imageUploaded.url, name : imageUploaded.filename });
-                        if(imageId){
-                            const mediaId = await classMediaModel.add({
-                                imageId,
-                                link
-                            });
-                            if (mediaId) {
-                                const media = await loaderMedia.load(mediaId);
-                                if (media) {
-                                    return media;
-                                }
-                            } else {
-                                await classMediaModel.remove({ id: mediaId });
+                const imageUploaded = await classUpload.upload(image);
+                if (imageUploaded && imageUploaded.url) {
+                    const imageId = await classImageModel.add({ url: imageUploaded.url, name: imageUploaded.filename });
+                    if (imageId) {
+                        const mediaId = await classMediaModel.add({
+                            imageId,
+                            link
+                        });
+                        if (mediaId) {
+                            const media = await loaderMedia.load(mediaId);
+                            if (media) {
+                                return media;
                             }
-                        }else{
-                            await classUpload.remove(image);
+                        } else {
+                            await classMediaModel.remove({ id: mediaId });
                         }
+                    } else {
+                        await classUpload.remove(image);
                     }
-                } catch (error) { }
-            }
+                }
+            } catch (error) { }
             return null;
         },
         updatePositions: async ({ positions = [] } = {}, context) => {
@@ -57,7 +55,7 @@ export const MediaController = () => {
                             });
                             if (!updated) {
                                 return false;
-                            }else{
+                            } else {
                                 await loaderMedia.clear(id);
                             }
                         }
@@ -94,7 +92,7 @@ export const MediaController = () => {
             return MediasGraphql({
                 items,
                 totalItems,
-                pageTotalItems : items.length || 0,
+                pageTotalItems: items.length || 0,
                 ...infoPagination,
             });
         },
@@ -106,7 +104,7 @@ export const MediaController = () => {
                     const media = await loaderMedia.load(id);
                     if (media) {
                         const removed = await classMediaModel.remove({ id });
-                        if(removed){
+                        if (removed) {
                             await loaderMedia.clear(id);
                             return media;
                         }

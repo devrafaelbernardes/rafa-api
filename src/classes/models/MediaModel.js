@@ -29,7 +29,7 @@ export const MediaModel = () => {
     return {
         maxPosition,
         add: async ({ link = null, imageId = null } = {}) => {
-            if (link && imageId) {
+            if (imageId) {
                 try {
                     let position = await maxPosition();
 
