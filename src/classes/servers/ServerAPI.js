@@ -65,7 +65,7 @@ const server = new ApolloServer({
 app.use(helmet());
 app.use(minify());
 app.use(express.json());
-if (!isDevelopment) {
+/* if (!isDevelopment) {
     const whitelist = ['dashboard.rbernardes.com.br', 'ead.rbernardes.com.br', 'rbernardes.com.br'];
     app.use(cors({
         origin: function (origin, callback) {
@@ -79,9 +79,9 @@ if (!isDevelopment) {
         credentials: true,
         //allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
     }));
-} else {
+} else { */
     app.use(cors());
-}
+/* } */
 
 app.use(`${ROUTE.IMAGE}`, express.static(PATH_IMAGES));
 app.use(`${ROUTE.VIDEO}`, express.static(PATH_VIDEOS));
