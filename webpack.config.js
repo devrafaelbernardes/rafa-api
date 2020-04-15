@@ -1,20 +1,16 @@
 const path = require('path');
-const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-//const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     mode: 'production',
     devtool: 'source-map',
-    entry: {
-        index: './index.js',
-    },
+    entry: ['@babel/polyfill', './server.js'],
     output: {
         path: path.join(__dirname, 'build'),
         publicPath: '/',
-        filename: '[name].js',
+        filename: 'api_server.js',
     },
     target: 'node',
     node: {
