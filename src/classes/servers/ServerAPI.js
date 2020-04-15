@@ -67,7 +67,7 @@ app.use(minify());
 app.use(express.json());
 if (!isDevelopment) {
     app.use(cors({
-        origin: ['dashboard.rbernardes.com.br', 'ead.rbernardes.com.br', 'rbernardes.com.br'],
+        origin: ['https://dashboard.rbernardes.com.br', 'https://ead.rbernardes.com.br', 'https://rbernardes.com.br'],
         methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
         credentials: true,
         allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
