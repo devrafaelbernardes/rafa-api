@@ -65,23 +65,16 @@ const server = new ApolloServer({
 app.use(helmet());
 app.use(minify());
 app.use(express.json());
-/* if (!isDevelopment) {
-    const whitelist = ['dashboard.rbernardes.com.br', 'ead.rbernardes.com.br', 'rbernardes.com.br'];
+if (!isDevelopment) {
     app.use(cors({
-        origin: function (origin, callback) {
-            if (whitelist.indexOf(origin) !== -1) {
-                callback(null, true)
-            } else {
-                callback(new Error('Not allowed by CORS'))
-            }
-        },
-        //methods: ["GET", "POST"],
+        origin: ['dashboard.rbernardes.com.br', 'ead.rbernardes.com.br', 'rbernardes.com.br'],
+        methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
         credentials: true,
-        //allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
+        allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
     }));
-} else { */
+} else {
     app.use(cors());
-/* } */
+} 
 
 app.use(`${ROUTE.IMAGE}`, express.static(PATH_IMAGES));
 app.use(`${ROUTE.VIDEO}`, express.static(PATH_VIDEOS));
