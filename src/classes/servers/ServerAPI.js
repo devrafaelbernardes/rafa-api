@@ -65,8 +65,8 @@ const server = new ApolloServer({
 app.use(helmet());
 app.use(minify());
 app.use(express.json());
-if (!isDevelopment) {
-    app.use(cors(/* {
+/* if (!isDevelopment) {
+    app.use(cors({
         origin: [
             'https://dashboard.rbernardes.com.br', 'https://www.dashboard.rbernardes.com.br',
             'https://ead.rbernardes.com.br', 'https://www.ead.rbernardes.com.br',
@@ -74,13 +74,11 @@ if (!isDevelopment) {
         ],
         methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
         credentials: true,
-        allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
-    } */));
-    console.log("ENTROU AQUI NO CORS");
-    
-} else { 
+        allowedHeaders: "*",//["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
+    }));
+} else { */
     app.use(cors());
-}
+/* } */
 
 app.use(`${ROUTE.IMAGE}`, express.static(PATH_IMAGES));
 app.use(`${ROUTE.VIDEO}`, express.static(PATH_VIDEOS));

@@ -43,17 +43,11 @@ export const CourseVideoController = () => {
                     courseId = validations.cleanValue(courseId);
                     name = validations.cleanValue(name);
                     description = validations.cleanValue(description);
-                    let videoUploaded = null;
-                    try {
-                        videoUploaded = await classUpload.upload(video, true);
-                        console.log("SUCESSO: ", videoUploaded);
-                    } catch (error) {
-                        console.log("Error upload: ", error);
-                    }
-                    
+
+                    const videoUploaded = await classUpload.upload(video, true);
+
                     if (videoUploaded && videoUploaded.url) {
                         const videoAddedId = await classVideoModel.add({ name: videoUploaded.filename });
-                        console.log("SUCESSO - videoAddedId: ", videoAddedId);
                         if (videoAddedId) {
                             const courseVideoId = await classCourseVideoModel.add({
                                 courseId,
@@ -61,20 +55,16 @@ export const CourseVideoController = () => {
                                 description,
                                 videoId: videoAddedId
                             });
-                            console.log("SUCESSO - courseVideoId: ", courseVideoId);
                             if (courseVideoId) {
                                 let courseVideo = await loaderCourseVideo.load(courseVideoId);
                                 if (courseVideo) {
-                                    console.log("SUCESSO - courseVideo: ", courseVideo);
                                     return courseVideo;
                                 }
                             }
                         }
                     }
 
-                } catch (error) {
-                    console.log("ERROR: ", error);
-                }
+                } catch (error) { }
             }
             return null;
         },
