@@ -1,21 +1,17 @@
-import CourseModel from "../models/CourseModel";
 import Token from "../models/Token";
 import CourseStudentModel from "../models/CourseStudentModel";
 import CourseAccessModel from "../models/CourseAccessModel";
-import TokenAccessModel from "../models/TokenAccessModel";
 import StudentModel from "../models/StudentModel";
 import Pagination from "../models/Pagination";
-import { COURSE_STUDENT, COURSE_ACCESS, TOKEN_ACCESS, STUDENT } from "../../database/tables";
+import { COURSE_STUDENT, COURSE_ACCESS, STUDENT } from "../../database/tables";
 import loaderCourseStudent from "../../loaders/loaderCourseStudent";
 import validations from "../../utils/validations";
 import CourseStudentsGraphql from "../../graphql/resolvers/types/CourseStudentsGraphql";
 import CourseStudentSubscription from "../subscriptions/CourseStudentSubscription";
 
 export const CourseStudentController = () => {
-    const classCourseModel = CourseModel();
     const classCourseStudentModel = CourseStudentModel();
     const classCourseAccessModel = CourseAccessModel();
-    const classTokenAccessModel = TokenAccessModel();
     const classStudentModel = StudentModel();
     const classToken = Token();
     const classPagination = Pagination();
@@ -30,14 +26,11 @@ export const CourseStudentController = () => {
             let OKEY = true;
             let courseAccess = null;
             if (token) {
-                const tokenAccess = await classTokenAccessModel.findByToken(token);
-                if (tokenAccess) {
-                    courseAccess = await classCourseAccessModel.findByTokenId(tokenAccess[TOKEN_ACCESS.ID]);
-                    if (courseAccess && String(courseAccess[COURSE_ACCESS.CURRENTY_STATE]) === String(classCourseAccessModel.STATE.PENDING)) {
-                        OKEY = true;
-                    } else {
-                        OKEY = false;
-                    }
+                courseAccess = await classCourseAccessModel.findByToken(token);
+                if (courseAccess && String(courseAccess[COURSE_ACCESS.CURRENTY_STATE]) === String(classCourseAccessModel.STATE.PENDING)) {
+                    OKEY = true;
+                } else {
+                    OKEY = false;
                 }
             }
 

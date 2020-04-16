@@ -16,10 +16,10 @@ export const StudentAccessModel = () => {
     });
 
     return {
-        add: async ({ studentId = null, token = null } = {}) => {
-            if (studentId && token) {
+        add: async ({ studentId = null } = {}) => {
+            if (studentId) {
                 try {
-                    const tokenId = await classTokenAccessModel.add({ token });
+                    const tokenId = await classTokenAccessModel.add();
                     if(tokenId){
                         return crud.addOne({
                             data: {

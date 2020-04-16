@@ -16,10 +16,10 @@ export const AdminAccessModel = () => {
     });
 
     return {
-        add: async ({ adminId = null, token = null } = {}) => {
-            if (adminId && token) {
+        add: async ({ adminId = null } = {}) => {
+            if (adminId) {
                 try {
-                    const tokenId = await classTokenAccessModel.add({ token });
+                    const tokenId = await classTokenAccessModel.add();
                     if (tokenId) {
                         return crud.addOne({
                             data: {

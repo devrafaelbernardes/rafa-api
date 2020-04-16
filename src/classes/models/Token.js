@@ -26,7 +26,10 @@ const verifyToken = (authorization = "") => {
 }
 
 const getTokenAccess = (authorization) => {
-    return verifyToken(authorization);
+    try {
+        return verifyToken(authorization);
+    } catch (error) {}
+    return {};
 }
 
 export const Token = () => ({

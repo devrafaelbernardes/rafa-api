@@ -28,25 +28,13 @@ const findCourse = async (courseId) => {
     return null;
 }
 
-const findTokenAccess = async (tokenId) => {
-    if (tokenId) {
-        try {
-            let token = await loaderTokenAccess.load(tokenId);
-            if(token){
-                return token;
-            }
-        } catch (error) { }
-    }
-    return null;
-}
-
 export const CourseAccessGraphql = ({
     // <column_name> : (<type_values>, <args>, <context>, <infos>) => <return>,
     [typeCourseAccess.COLUMNS.ID]: (courseAccess) => courseAccess[COURSE_ACCESS.ID],
     [typeCourseAccess.COLUMNS.CURRENTY_STATE]: (courseAccess) => courseAccess[COURSE_ACCESS.CURRENTY_STATE],
     [typeCourseAccess.COLUMNS.IS_ACTIVE]: (courseAccess) => courseAccess[COURSE_ACCESS.IS_ACTIVE],
     [typeCourseAccess.COLUMNS.CREATED_AT]: (courseAccess) => courseAccess[COURSE_ACCESS.CREATED_AT],
-    [typeCourseAccess.COLUMNS.TOKEN]: (courseAccess) => findTokenAccess(courseAccess[COURSE_ACCESS.TOKEN]),
+    [typeCourseAccess.COLUMNS.TOKEN]: (courseAccess) => courseAccess[COURSE_ACCESS.TOKEN],
     [typeCourseAccess.COLUMNS.COURSE]: (courseAccess) => findCourse(courseAccess[COURSE_ACCESS.COURSE]),
     [typeCourseAccess.COLUMNS.STUDENT]: (courseAccess) => findStudent(courseAccess[COURSE_ACCESS.STUDENT]),
 });

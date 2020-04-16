@@ -146,13 +146,14 @@ export const CourseController = () => {
                 studentId = validations.cleanValue(studentId);
 
                 if (instructorId) {
+                    const where = {
+                        [COURSE.INSTRUCTOR]: instructorId,
+                    };
                     items = await classCourseModel.findAll({
-                        where: {
-                            [COURSE.INSTRUCTOR]: instructorId,
-                        },
+                        where,
                         ...classPagination.paramsToModel(params),
                     });
-                    totalItems = await classCourseModel.count();
+                    totalItems = await classCourseModel.count({ where });
                 } else if (studentId) {
                     const where = {
                         [COURSE_STUDENT.STUDENT]: studentId,

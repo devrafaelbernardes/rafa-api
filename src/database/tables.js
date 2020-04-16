@@ -81,7 +81,7 @@ export const COURSE_VIDEO = {
 export const COURSE_ACCESS = {
     TABLE_NAME : 'course_access',
     ID : 'id',
-    TOKEN : 'token_id',
+    TOKEN : 'token',
     COURSE : 'course_id',
     STUDENT : 'student_id',
     CURRENTY_STATE : 'currenty_state',
@@ -142,7 +142,6 @@ export const STUDENT_ACCESS = {
 export const TOKEN_ACCESS = {
     TABLE_NAME : 'token_access',
     ID : 'id',
-    TOKEN : 'token',
     IS_ACTIVE : 'is_active',
     CREATED_AT : 'created_at',
 }
