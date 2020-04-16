@@ -76,6 +76,8 @@ if (!isDevelopment) {
         credentials: true,
         allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
     }));
+    console.log("ENTROU AQUI NO CORS");
+    
 } else { 
     app.use(cors());
 }

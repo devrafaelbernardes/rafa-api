@@ -45,9 +45,11 @@ export const CourseVideoController = () => {
                     description = validations.cleanValue(description);
 
                     const videoUploaded = await classUpload.upload(video, true);
-
+                    console.log("SUCESSO: ", videoUploaded);
+                    
                     if (videoUploaded && videoUploaded.url) {
                         const videoAddedId = await classVideoModel.add({ name: videoUploaded.filename });
+                        console.log("SUCESSO - videoAddedId: ", videoAddedId);
                         if (videoAddedId) {
                             const courseVideoId = await classCourseVideoModel.add({
                                 courseId,
@@ -55,16 +57,20 @@ export const CourseVideoController = () => {
                                 description,
                                 videoId: videoAddedId
                             });
+                            console.log("SUCESSO - courseVideoId: ", courseVideoId);
                             if (courseVideoId) {
                                 let courseVideo = await loaderCourseVideo.load(courseVideoId);
                                 if (courseVideo) {
+                                    console.log("SUCESSO - courseVideo: ", courseVideo);
                                     return courseVideo;
                                 }
                             }
                         }
                     }
 
-                } catch (error) { }
+                } catch (error) {
+                    console.log("ERROR: ", error);
+                }
             }
             return null;
         },

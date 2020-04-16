@@ -67,6 +67,8 @@ export const Upload = () => {
 
             return new Promise(async (resolve, reject) => {
                 await awsS3.upload(params, options, (err, data) => {
+                    console.log(err, data, "UPLOAD AWSS3");
+                    
                     if (err || !data) {
                         reject("ERROR UPLOAD");
                     }
