@@ -67,8 +67,6 @@ export const Upload = () => {
 
             return new Promise(async (resolve, reject) => {
                 await awsS3.upload(params, options, (err, data) => {
-                    console.log(err, data, "UPLOAD AWSS3");
-                    
                     if (err || !data) {
                         reject("ERROR UPLOAD");
                     }
@@ -104,11 +102,8 @@ export const Upload = () => {
         async upload(file, isVideo = false) {
             if (file) {
                 const elementFile = await file;
-                console.log("ELEMENT FILE:",elementFile);
-                
                 if (elementFile) {
                     const { createReadStream, filename, mimetype, encoding } = elementFile;
-                    console.log("FILENAME:",filename, justVideo(mimetype));
                     // valida se é video
                     if (isVideo && !justVideo(mimetype)) {
                         return null;
