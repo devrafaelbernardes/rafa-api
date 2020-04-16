@@ -43,9 +43,13 @@ export const CourseVideoController = () => {
                     courseId = validations.cleanValue(courseId);
                     name = validations.cleanValue(name);
                     description = validations.cleanValue(description);
-
-                    const videoUploaded = await classUpload.upload(video, true);
-                    console.log("SUCESSO: ", videoUploaded);
+                    let videoUploaded = null;
+                    try {
+                        videoUploaded = await classUpload.upload(video, true);
+                        console.log("SUCESSO: ", videoUploaded);
+                    } catch (error) {
+                        console.log("Error upload: ", error);
+                    }
                     
                     if (videoUploaded && videoUploaded.url) {
                         const videoAddedId = await classVideoModel.add({ name: videoUploaded.filename });

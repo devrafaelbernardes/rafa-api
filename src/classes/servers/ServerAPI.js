@@ -66,16 +66,16 @@ app.use(helmet());
 app.use(minify());
 app.use(express.json());
 if (!isDevelopment) {
-    app.use(cors({
-        origin: "*"/* [
+    app.use(cors(/* {
+        origin: [
             'https://dashboard.rbernardes.com.br', 'https://www.dashboard.rbernardes.com.br',
             'https://ead.rbernardes.com.br', 'https://www.ead.rbernardes.com.br',
             'https://rbernardes.com.br', 'https://www.rbernardes.com.br'
-        ] */,
+        ],
         methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
         credentials: true,
         allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
-    }));
+    } */));
     console.log("ENTROU AQUI NO CORS");
     
 } else { 
