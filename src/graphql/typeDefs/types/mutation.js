@@ -39,13 +39,11 @@ export const TYPE = {
     CONTENT: `
         type ${NAME}{
             # EVERYONE
-            loginAdmin(${inputLoginAdmin.CONTENT_FOR_PARAMS}) : ${adminAccess.NAME}
-            loginStudent(${inputLoginStudent.CONTENT_FOR_PARAMS}) : ${studentAccess.NAME}
-            signUpStudent(${inputSignUpStudent.CONTENT_FOR_PARAMS}) : ${studentAccess.NAME}
 
             # ADMINS OR STUDENTS
 
             # JUST ADMINS
+            loginAdmin(${inputLoginAdmin.CONTENT_FOR_PARAMS}) : String
             addCourseStudentByInstructor(${inputAddCourseStudentByInstructor.CONTENT_FOR_PARAMS}) : ${courseStudent.NAME}
             addCourseVideo(${inputAddCourseVideo.CONTENT_FOR_PARAMS}, video : Upload) : ${courseVideo.NAME}
             createCourse(${inputCreateCourse.CONTENT_FOR_PARAMS}, image: Upload) : ${course.NAME}
@@ -70,6 +68,8 @@ export const TYPE = {
 
 
             # JUST STUDENTS
+            loginStudent(${inputLoginStudent.CONTENT_FOR_PARAMS}) : String
+            signUpStudent(${inputSignUpStudent.CONTENT_FOR_PARAMS}) : String
             addCourseStudent(${inputAddCourseStudent.CONTENT_FOR_PARAMS}) : ${courseStudent.NAME}
             updateStudent(${inputUpdateStudent.CONTENT_FOR_PARAMS}, image : Upload) : ${student.NAME}
             updatePasswordStudent(${inputUpdatePassword.CONTENT_FOR_PARAMS}) : Boolean

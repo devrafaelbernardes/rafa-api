@@ -1,4 +1,3 @@
-import tokenAccess from './tokenAccess';
 import course from './course';
 import student from './student';
 
@@ -23,7 +22,7 @@ export const TYPE = {
             ${COLUMNS.CURRENTY_STATE} : Int
             ${COLUMNS.IS_ACTIVE} : Boolean
             ${COLUMNS.CREATED_AT} : String
-            ${COLUMNS.TOKEN} : ${tokenAccess.NAME}
+            ${COLUMNS.TOKEN} : String
             ${COLUMNS.COURSE}: ${course.NAME}
             ${COLUMNS.STUDENT}: ${student.NAME}
         }

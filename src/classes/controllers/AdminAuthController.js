@@ -2,7 +2,7 @@ import AdminModel from "../models/AdminModel";
 import AdminAccessModel from "../models/AdminAccessModel";
 import Token from "../models/Token";
 import Cryptography from "../models/Cryptography";
-import { ADMIN } from "../../database/tables";
+import { ADMIN, ADMIN_ACCESS } from "../../database/tables";
 import validations from "../../utils/validations";
 
 export const AdminAuthController = () => {
@@ -11,7 +11,7 @@ export const AdminAuthController = () => {
     const classAdminModel = AdminModel();
     const classAdminAccessModel = AdminAccessModel();
 
-    const generateToken = async (adminId) => classToken.create({ adminId });
+    const generateToken = async (adminId, tokenId) => classToken.create({ adminId, tokenId });
 
     return {
         login: async ({ email = null, password = null } = {}) => {
@@ -27,10 +27,12 @@ export const AdminAuthController = () => {
                         
                         if (password === admin[ADMIN.PASSWORD]) {
                             const adminId = admin[ADMIN.ID];
-                            const token = await generateToken(adminId);
-                            const accessId = await classAdminAccessModel.add({ adminId, token });
+                            const accessId = await classAdminAccessModel.add({ adminId });
                             if (accessId) {
-                                return classAdminAccessModel.findById(accessId);
+                                const adminAccess = await classAdminAccessModel.findById(accessId);
+                                if(adminAccess){
+                                    return generateToken(adminId, adminAccess[ADMIN_ACCESS.TOKEN]);
+                                }
                             }
                         }
                     }

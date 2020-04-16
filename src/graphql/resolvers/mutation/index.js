@@ -36,9 +36,9 @@ const isAllowToAccessCourseResolver = (callback) => combineResolvers(classAuthCo
 
 export const mutation = {
     // EVERYONE
-    loginAdmin: (_, { input, ...params } = {}, context) => classAdminAuthController.login({ ...input, ...params }, context),
-    loginStudent: (_, { input, ...params } = {}, context) => classStudentAuthController.login({ ...input, ...params }, context),
-    signUpStudent: (_, { input, ...params } = {}, context) => classStudentAuthController.signUp({ ...input, ...params }, context),
+    loginAdmin: isNotAuthResolver((_, { input, ...params } = {}, context) => classAdminAuthController.login({ ...input, ...params }, context)),
+    loginStudent: isNotAuthResolver((_, { input, ...params } = {}, context) => classStudentAuthController.login({ ...input, ...params }, context)),
+    signUpStudent: isNotAuthResolver((_, { input, ...params } = {}, context) => classStudentAuthController.signUp({ ...input, ...params }, context)),
     
     // ADMINS OR STUDENTS
 

@@ -66,7 +66,7 @@ export const Model = () => {
                 return null;
             },
             addOne: async ({ data = {} } = {}) => {
-                if (tableName && !dataObject().isEmpty(data)) {
+                if (tableName) {
                     try {
                         let response = await connection.from(tableName)
                             .insert(data);

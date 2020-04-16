@@ -14,27 +14,16 @@ export const TokenAccessModel = () => {
     });
 
     return {
-        add: async ({ token = null } = {}) => {
-            if (token) {
-                try {
-                    return crud.addOne({
-                        data: {
-                            [TOKEN_ACCESS.TOKEN]: token,
-                        }
-                    });
-                } catch (error) { }
-            }
+        add: async () => {
+            try {
+                return crud.addOne();
+            } catch (error) {}
             return null;
         },
         findOne: ({ where = {} } = {}) => crud.findOne({ where }),
         findById: (id = null) => crud.findOne({
             where: {
                 [TOKEN_ACCESS.ID]: id,
-            }
-        }),
-        findByToken: (token = null) => crud.findOne({
-            where: {
-                [TOKEN_ACCESS.TOKEN]: token,
             }
         }),
         findAll: ({ where = {}, ...params } = {}) => crud.findAll({

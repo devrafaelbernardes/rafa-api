@@ -16,9 +16,9 @@ export const CourseAccessModel = () => {
     });
 
     const STATE = {
-        PENDING : 1,
-        SUCCESS : 2,
-        CANCEL : 3,
+        PENDING: 1,
+        SUCCESS: 2,
+        CANCEL: 3,
     };
 
     const getState = (state) => Object.values(STATE).includes(state) ? state : null;
@@ -29,16 +29,13 @@ export const CourseAccessModel = () => {
         add: async ({ courseId = null, studentId = null, token = null } = {}) => {
             if (courseId && token) {
                 try {
-                    const tokenId = await classTokenAccessModel.add({ token });
-                    if(tokenId){
-                        return crud.addOne({
-                            data: {
-                                [COURSE_ACCESS.COURSE]: courseId,
-                                [COURSE_ACCESS.STUDENT]: studentId,
-                                [COURSE_ACCESS.TOKEN]: tokenId,
-                            }
-                        });
-                    }
+                    return crud.addOne({
+                        data: {
+                            [COURSE_ACCESS.COURSE]: courseId,
+                            [COURSE_ACCESS.STUDENT]: studentId,
+                            [COURSE_ACCESS.TOKEN]: token,
+                        }
+                    });
                 } catch (error) { }
             }
             return null;
@@ -49,9 +46,9 @@ export const CourseAccessModel = () => {
                 [COURSE_ACCESS.ID]: id,
             }
         }),
-        findByTokenId: (tokenId = null) => crud.findOne({
+        findByToken: (token = null) => crud.findOne({
             where: {
-                [COURSE_ACCESS.TOKEN]: tokenId,
+                [COURSE_ACCESS.TOKEN]: token,
             }
         }),
         findAll: ({ where = {}, ...params } = {}) => crud.findAll({

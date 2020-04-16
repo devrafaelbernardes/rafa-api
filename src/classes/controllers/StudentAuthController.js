@@ -3,7 +3,7 @@ import Token from "../models/Token";
 import TokenAccessModel from "../models/TokenAccessModel";
 import StudentAccessModel from "../models/StudentAccessModel";
 import Cryptography from "../models/Cryptography";
-import { STUDENT } from "../../database/tables";
+import { STUDENT, STUDENT_ACCESS } from "../../database/tables";
 import validations from "../../utils/validations";
 import StudentSubscription from "../subscriptions/StudentSubscription";
 import loaderStudent from "../../loaders/loaderStudent";
@@ -16,7 +16,7 @@ export const StudentAuthController = () => {
     const classStudentAccessModel = StudentAccessModel();
     const classStudentSubscription = StudentSubscription();
 
-    const generateToken = async (studentId) => classToken.create({ studentId });
+    const generateToken = async (studentId, tokenId) => classToken.create({ studentId, tokenId });
 
     return {
         login: async ({ email = null, password = null } = {}) => {
@@ -31,10 +31,12 @@ export const StudentAuthController = () => {
 
                         if (password === student[STUDENT.PASSWORD]) {
                             const studentId = student[STUDENT.ID];
-                            const token = await generateToken(studentId);
-                            const accessId = await classStudentAccessModel.add({ studentId, token });
+                            const accessId = await classStudentAccessModel.add({ studentId });
                             if (accessId) {
-                                return classStudentAccessModel.findById(accessId);
+                                const studentAccess = await classStudentAccessModel.findById(accessId);
+                                if(studentAccess){
+                                    return generateToken(studentId, studentAccess[STUDENT_ACCESS.TOKEN]);
+                                }
                             }
                         }
                     }
@@ -57,15 +59,16 @@ export const StudentAuthController = () => {
                         password
                     });
                     if (studentId) {
-                        const token = await generateToken(studentId);
-                        const accessId = await classStudentAccessModel.add({ studentId, token });
+                        const accessId = await classStudentAccessModel.add({ studentId });
                         if (accessId) {
-                            let studentAccess = await classStudentAccessModel.findById(accessId);
-                            const student = await loaderStudent.load(studentId);
-                            if(student){
-                                await classStudentSubscription.added.publish(student);
+                            const studentAccess = await classStudentAccessModel.findById(accessId);
+                            if(studentAccess){
+                                const student = await loaderStudent.load(studentId);
+                                if(student){
+                                    await classStudentSubscription.added.publish(student);
+                                }
+                                return generateToken(studentId, studentAccess[STUDENT_ACCESS.TOKEN]);
                             }
-                            return studentAccess;
                         }
                     }
                 } catch (error) { }

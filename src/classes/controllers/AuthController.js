@@ -3,11 +3,26 @@ import StudentController from "./StudentController";
 import CourseController from "./CourseController";
 import CourseStudentController from "./CourseStudentController";
 
+import TokenAccessModel from "../models/TokenAccessModel";
+
 export const AuthController = () => {
     const classAdminController = AdminController();
     const classCourseController = CourseController();
     const classCourseStudentController = CourseStudentController();
     const classStudentController = StudentController();
+
+    const classTokenAccessModel = TokenAccessModel();
+
+    const validatedTokenConnected = async(tokenUser) => {
+        if(!tokenUser || !tokenUser.tokenId){
+            throw new Error('Not authenticated!');
+        }
+        const tokenId = tokenUser.tokenId;
+        const tokenConnected = await classTokenAccessModel.findById(tokenId);
+        if(!tokenConnected){
+            throw new Error('Token desconnected!');
+        }
+    }
 
     const validatedAdmin = async (adminId) => {
         if (!adminId) {
@@ -64,7 +79,7 @@ export const AuthController = () => {
 
     return {
         isNotAuthenticated: async (root, args, { tokenUser = null } = {}, info) => {
-            if (tokenUser) {
+            if (tokenUser && (tokenUser.adminId || tokenUser.studentId)) {
                 throw new Error('User is authenticated!');
             }
         },
@@ -72,7 +87,7 @@ export const AuthController = () => {
             if (!tokenUser && !tokenUser.adminId && !tokenUser.studentId) {
                 throw new Error('Not authenticated!');
             }
-            
+            await validatedTokenConnected(tokenUser);
             if(tokenUser.adminId){
                 await validatedAdmin(tokenUser.adminId);
             }else{
@@ -80,27 +95,26 @@ export const AuthController = () => {
             }
         },
         isAdmin: async (root, args, { tokenUser = null } = {}, info) => {
-            if (!tokenUser) {
-                throw new Error('Not authenticated!');
-            }
+            await validatedTokenConnected(tokenUser);
             await validatedAdmin(tokenUser.adminId);
         },
         isStudent: async (root, args, { tokenUser = null } = {}, info) => {
-            if (!tokenUser) {
-                throw new Error('Not authenticated!');
-            }
+            await validatedTokenConnected(tokenUser);
             await validatedStudent(tokenUser.studentId);
         },
         isCourseInstructor: async (root, args, { tokenUser = null } = {}, info) => {
+            await validatedTokenConnected(tokenUser);
             await validatedCourseInstructor(args, tokenUser.adminId);
         },
         isCourseStudent: async (root, args, { tokenUser = null } = {}, info) => {
+            await validatedTokenConnected(tokenUser);
             await validatedCourseStudent(args, tokenUser.studentId);
         },
         isAllowToAccessCourse: async (root, args, { tokenUser = null } = {}, info) => {
             if (!tokenUser && !tokenUser.adminId && !tokenUser.studentId) {
                 throw new Error('Not authenticated!');
             }
+            await validatedTokenConnected(tokenUser);
             if (tokenUser.adminId) {
                 await validatedCourseInstructor(args, tokenUser.adminId);
             }

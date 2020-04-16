@@ -1,7 +1,7 @@
 const TABLE = {
     TABLE_NAME : 'course_access',
     ID : 'id',
-    TOKEN : 'token_id',
+    TOKEN : 'token',
     COURSE : 'course_id',
     STUDENT : 'student_id',
     CURRENTY_STATE : 'currenty_state',
@@ -12,6 +12,7 @@ const TABLE = {
 exports.up = function (knex) {
     return knex.schema.createTable(TABLE.TABLE_NAME, function(table){
         table.increments(TABLE.ID).notNullable().primary();
+        table.string(TABLE.TOKEN).notNullable().unique();
         
         // WITH DEFAULTS
         table.integer(TABLE.CURRENTY_STATE).notNullable().defaultTo(1);
@@ -21,12 +22,10 @@ exports.up = function (knex) {
         // FOREIGN COLUMNS
         table.integer(TABLE.STUDENT).unsigned();
         table.integer(TABLE.COURSE).notNullable().unsigned();
-        table.integer(TABLE.TOKEN).notNullable().unsigned().unique();
 
         // FOREIGN KEYS
         table.foreign(TABLE.COURSE).references('id').inTable('course');
         table.foreign(TABLE.STUDENT).references('id').inTable('student');
-        table.foreign(TABLE.TOKEN).references('id').inTable('token_access');
     })
 };
 
