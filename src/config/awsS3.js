@@ -19,7 +19,7 @@ export const Bucket = BUCKET_AWS_S3;
 
 export const options = {
     //partSize: 10 * 1024 * 1024,
-    queueSize: 1
+    //queueSize: 1
 };
 
 export const getSignedUrl = (location) => {

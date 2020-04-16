@@ -104,8 +104,11 @@ export const Upload = () => {
         async upload(file, isVideo = false) {
             if (file) {
                 const elementFile = await file;
+                console.log("ELEMENT FILE:",elementFile);
+                
                 if (elementFile) {
                     const { createReadStream, filename, mimetype, encoding } = elementFile;
+                    console.log("FILENAME:",filename, justVideo(mimetype));
                     // valida se é video
                     if (isVideo && !justVideo(mimetype)) {
                         return null;
