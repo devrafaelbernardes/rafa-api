@@ -77,7 +77,7 @@ app.use(express.json());
         allowedHeaders: "*",//["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
     }));
 } else { */
-    app.use(cors());
+    app.use(cors({ origin: '*' }));
 /* } */
 
 app.use(`${ROUTE.IMAGE}`, express.static(PATH_IMAGES));
