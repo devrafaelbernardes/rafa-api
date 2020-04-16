@@ -65,6 +65,10 @@ const server = new ApolloServer({
 app.use(helmet());
 app.use(minify());
 app.use(express.json());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
 /* if (!isDevelopment) {
     app.use(cors({
         origin: [
@@ -76,9 +80,9 @@ app.use(express.json());
         credentials: true,
         allowedHeaders: "*",//["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
     }));
-} else { */
-    app.use(cors({ origin: '*' }));
-/* } */
+} else { 
+    app.use(cors());
+} */
 
 app.use(`${ROUTE.IMAGE}`, express.static(PATH_IMAGES));
 app.use(`${ROUTE.VIDEO}`, express.static(PATH_VIDEOS));

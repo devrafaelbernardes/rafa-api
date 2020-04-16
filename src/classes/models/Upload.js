@@ -112,10 +112,10 @@ export const Upload = () => {
                     const type = defineFiletype(mimetype);
                     if (type) {
                         const options = { stream, filename, type };
-                        //if (!isDevelopment) {
+                        if (!isDevelopment) {
                             return storeAwsS3(options);
-                        //}
-                        //return storeLocal(options);
+                        }
+                        return storeLocal(options);
                     }
                 }
             }
