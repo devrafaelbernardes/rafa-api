@@ -1,4 +1,5 @@
 import addCourseStudent from './addCourseStudent';
+import addCourseMaterial from './addCourseMaterial';
 import addCourseStudentByInstructor from './addCourseStudentByInstructor';
 import addCourseVideo from './addCourseVideo';
 import createBag from './createBag';
@@ -9,6 +10,7 @@ import generateCourseAccess from './generateCourseAccess';
 import loginAdmin from './loginAdmin';
 import loginStudent from './loginStudent';
 import remove from './remove';
+import removeCourseMaterial from './removeCourseMaterial';
 import removeCourseStudent from './removeCourseStudent';
 import removeCourseVideo from './removeCourseVideo';
 import signUpStudent from './signUpStudent';
@@ -35,12 +37,14 @@ export const inputs = `
     # JUST ADMINS
     ${addCourseStudentByInstructor.CONTENT}
     ${addCourseVideo.CONTENT}
+    ${addCourseMaterial.CONTENT}
     ${createBag.CONTENT}
     ${createCourse.CONTENT}
     ${createMedia.CONTENT}
     ${createSocialNetwork.CONTENT}
     ${generateCourseAccess.CONTENT}
     ${remove.CONTENT}
+    ${removeCourseMaterial.CONTENT}
     ${removeCourseStudent.CONTENT}
     ${removeCourseVideo.CONTENT}
     ${updateAdmin.CONTENT}

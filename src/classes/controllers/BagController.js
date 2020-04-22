@@ -17,7 +17,7 @@ export const BagController = () => {
 
     const uploadImage = async(file) => {
         if (file) {
-            const fileUploaded = await classUpload.upload(file);
+            const fileUploaded = await classUpload.uploadImage(file);
             if (fileUploaded && fileUploaded.url) {
                 return await classImageModel.add({ url: fileUploaded.url, name: fileUploaded.filename });
             }

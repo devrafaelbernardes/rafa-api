@@ -27,11 +27,17 @@ import CoursePreviewGraphql from './types/CoursePreviewGraphql';
 import courseStudent from '../typeDefs/types/courseStudent';
 import CourseStudentGraphql from './types/CourseStudentGraphql';
 
+import courseMaterial from '../typeDefs/types/courseMaterial';
+import CourseMaterialGraphql from './types/CourseMaterialGraphql';
+
 import courseVideo from '../typeDefs/types/courseVideo';
 import CourseVideoGraphql from './types/CourseVideoGraphql';
 
 import image from '../typeDefs/types/image';
 import ImageGraphql from './types/ImageGraphql';
+
+import material from '../typeDefs/types/material';
+import MaterialGraphql from './types/MaterialGraphql';
 
 import media from '../typeDefs/types/media';
 import MediaGraphql from './types/MediaGraphql';
@@ -64,10 +70,12 @@ export const resolvers = {
     [bagImage.NAME] : BagImageGraphql,
     [course.NAME] : CourseGraphql,
     [courseAccess.NAME] : CourseAccessGraphql,
+    [courseMaterial.NAME] : CourseMaterialGraphql,
     [coursePreview.NAME] : CoursePreviewGraphql,
     [courseStudent.NAME] : CourseStudentGraphql,
     [courseVideo.NAME] : CourseVideoGraphql,
     [image.NAME] : ImageGraphql,
+    [material.NAME] : MaterialGraphql,
     [media.NAME] : MediaGraphql,
     [socialNetwork.NAME] : SocialNetworkGraphql,
     [student.NAME] : StudentGraphql,

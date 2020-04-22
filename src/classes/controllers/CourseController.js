@@ -36,7 +36,7 @@ export const CourseController = () => {
                     if (image) {
                         let imageUploaded = null;
                         try {
-                            imageUploaded = await classUpload.upload(image);
+                            imageUploaded = await classUpload.uploadImage(image);
                         } catch (error) { }
                         if (imageUploaded && imageUploaded.url) {
                             imageId = await classImageModel.add({ url: imageUploaded.url, name: imageUploaded.filename });
@@ -73,7 +73,7 @@ export const CourseController = () => {
                     if (image) {
                         let imageUploaded = null;
                         try {
-                            imageUploaded = await classUpload.upload(image);
+                            imageUploaded = await classUpload.uploadImage(image);
                         } catch (error) { }
                         if (imageUploaded && imageUploaded.url) {
                             imageId = await classImageModel.add({ url: imageUploaded.url, name: imageUploaded.filename });
@@ -187,18 +187,13 @@ export const CourseController = () => {
                 }
                 if (token) {
                     token = validations.cleanValue(token);
-                    const tokenAccess = await classTokenAccessModel.findByToken(token);
-                    if (tokenAccess) {
-                        const courseAccess = await classCourseAccessModel.findByTokenId(tokenAccess[TOKEN_ACCESS.ID]);
-                        
-                        if (courseAccess) {
-                            course = await loaderCourse.load(courseAccess[COURSE_ACCESS.COURSE]);
-                        }
+                    const courseAccess = await classCourseAccessModel.findByToken(token);
+
+                    if (courseAccess) {
+                        course = await loaderCourse.load(courseAccess[COURSE_ACCESS.COURSE]);
                     }
                 }
-                if (course) {
-                    return course;
-                }
+                return course;
             } catch (error) { }
             return null;
         },

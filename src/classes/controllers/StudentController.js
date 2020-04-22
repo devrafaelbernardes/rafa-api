@@ -71,7 +71,7 @@ export const StudentController = () => {
                     if (image) {
                         let imageUploaded = null;
                         try {
-                            imageUploaded = await classUpload.upload(image);
+                            imageUploaded = await classUpload.uploadImage(image);
                         } catch (error) {}
                         if (imageUploaded && imageUploaded.url) {
                             imageId = await classImageModel.add({ url: imageUploaded.url, name: imageUploaded.filename });

@@ -1,4 +1,5 @@
 import VideoModel from "../models/VideoModel";
+import ImageModel from "../models/ImageModel";
 import CourseVideoModel from "../models/CourseVideoModel";
 import Upload from "../models/Upload";
 import { COURSE_VIDEO, VIDEO } from "../../database/tables";
@@ -8,6 +9,7 @@ import validations from "../../utils/validations";
 
 export const CourseVideoController = () => {
     const classVideoModel = VideoModel();
+    const classImageModel = ImageModel();
     const classCourseVideoModel = CourseVideoModel();
     const classUpload = Upload();
     //const classPagination = Pagination();
@@ -36,7 +38,7 @@ export const CourseVideoController = () => {
     }
 
     return {
-        add: async ({ courseId = null, name = null, description = null, video = null } = {}, { tokenUser: { adminId: instructorId = null } = {} } = {}) => {
+        add: async ({ courseId = null, name = null, description = null, video = null, thumbnail = null } = {}, { tokenUser: { adminId: instructorId = null } = {} } = {}) => {
             if (courseId && name && instructorId) {
                 try {
                     instructorId = validations.cleanValue(instructorId);
@@ -44,7 +46,17 @@ export const CourseVideoController = () => {
                     name = validations.cleanValue(name);
                     description = validations.cleanValue(description);
 
-                    const videoUploaded = await classUpload.upload(video, true);
+                    let thumbnailId = null;
+
+                    if (thumbnail) {
+                        const thumbnailUploaded = await classUpload.uploadImage(thumbnail);
+
+                        if (thumbnailUploaded && thumbnailUploaded.url) {
+                            thumbnailId = await classImageModel.add({ name: thumbnailUploaded.filename });
+                        }
+                    }
+
+                    const videoUploaded = await classUpload.uploadVideo(video);
 
                     if (videoUploaded && videoUploaded.url) {
                         const videoAddedId = await classVideoModel.add({ name: videoUploaded.filename });
@@ -53,7 +65,8 @@ export const CourseVideoController = () => {
                                 courseId,
                                 name,
                                 description,
-                                videoId: videoAddedId
+                                videoId: videoAddedId,
+                                thumbnailId,
                             });
                             if (courseVideoId) {
                                 let courseVideo = await loaderCourseVideo.load(courseVideoId);
@@ -73,7 +86,7 @@ export const CourseVideoController = () => {
                 try {
                     courseId = validations.cleanValue(courseId);
                     videoId = validations.cleanValue(videoId);
-                    
+
                     return classCourseVideoModel.findOne({
                         where: {
                             [COURSE_VIDEO.COURSE]: courseId,
@@ -92,7 +105,7 @@ export const CourseVideoController = () => {
             }
             return null;
         },
-        update: async ({ courseId = null, videoId = null, name = null, description = null } = {}, { tokenUser: { adminId = null } = {} } = {}) => {
+        update: async ({ courseId = null, videoId = null, name = null, description = null, thumbnail = null } = {}, { tokenUser: { adminId = null } = {} } = {}) => {
             if (courseId && videoId && adminId) {
                 try {
                     courseId = validations.cleanValue(courseId);
@@ -107,12 +120,23 @@ export const CourseVideoController = () => {
                         }
                     });
                     if (courseVideo) {
+                        let thumbnailId = null;
+
+                        if (thumbnail) {
+                            const thumbnailUploaded = await classUpload.uploadImage(thumbnail);
+
+                            if (thumbnailUploaded && thumbnailUploaded.url) {
+                                thumbnailId = await classImageModel.add({ name: thumbnailUploaded.filename });
+                            }
+                        }
+
                         const courseVideoId = courseVideo[COURSE_VIDEO.ID];
                         const updated = await classCourseVideoModel.update({
                             id: courseVideoId,
                             data: {
                                 name,
-                                description
+                                description,
+                                thumbnailId
                             }
                         });
                         if (updated) {

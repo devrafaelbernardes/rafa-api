@@ -4,11 +4,11 @@ import {
     AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY,
     BUCKET_AWS_S3,
-    ENDPOINT_SPACE
+    ENDPOINT_SPACE,
 } from './server';
 
 // Configure client for use with Spaces
-const spacesEndpoint = new AWS.Endpoint(/* ENDPOINT_SPACE ||  */`nyc3.digitaloceanspaces.com`);
+const spacesEndpoint = new AWS.Endpoint(ENDPOINT_SPACE || `nyc3.digitaloceanspaces.com`);
 export const awsS3 = new AWS.S3({
     endpoint: spacesEndpoint,
     accessKeyId: AWS_ACCESS_KEY_ID,
@@ -22,12 +22,20 @@ export const options = {
     //queueSize: 1
 };
 
-export const getSignedUrl = (location) => {
-    return awsS3.getSignedUrl('getObject', {
-        Bucket,
-        Key: location,
-        Expires: 300 // 5min expires
-    })
+export const getSignedUrl = ({ url, name, isPrivate = false }) => {
+    if(url || name){
+        try {
+            if(!isPrivate){
+                return `${url}${name}`;
+            }
+            return awsS3.getSignedUrl('getObject', {
+                Bucket,
+                Key: name,
+                Expires: 300 // 5min expires
+            });
+        } catch (error) {}
+    }
+    return null;
 }
 
 export default {

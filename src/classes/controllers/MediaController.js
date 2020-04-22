@@ -18,7 +18,7 @@ export const MediaController = () => {
             try {
                 link = validations.cleanValue(link) || null;
 
-                const imageUploaded = await classUpload.upload(image);
+                const imageUploaded = await classUpload.uploadImage(image);
                 if (imageUploaded && imageUploaded.url) {
                     const imageId = await classImageModel.add({ url: imageUploaded.url, name: imageUploaded.filename });
                     if (imageId) {

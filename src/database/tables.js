@@ -58,6 +58,16 @@ export const COURSE = {
     CREATED_AT : 'created_at',
 }
 
+export const COURSE_MATERIAL = {
+    TABLE_NAME : 'course_material',
+    ID : 'id',
+    NAME : 'name',
+    MATERIAL : 'material_id',
+    COURSE : 'course_id',
+    IS_ACTIVE : 'is_active',
+    CREATED_AT : 'created_at',
+}
+
 export const COURSE_STUDENT = {
     TABLE_NAME : 'course_student',
     ID : 'id',
@@ -74,6 +84,7 @@ export const COURSE_VIDEO = {
     DESCRIPTION : 'description',
     VIDEO : 'video_id',
     COURSE : 'course_id',
+    THUMBNAIL : 'thumbnail_id',
     IS_ACTIVE : 'is_active',
     CREATED_AT : 'created_at',
 }
@@ -91,6 +102,14 @@ export const COURSE_ACCESS = {
 
 export const IMAGE = {
     TABLE_NAME : 'image',
+    ID : 'id',
+    NAME : 'name',
+    IS_ACTIVE : 'is_active',
+    CREATED_AT : 'created_at',
+}
+
+export const MATERIAL = {
+    TABLE_NAME : 'material',
     ID : 'id',
     NAME : 'name',
     IS_ACTIVE : 'is_active',

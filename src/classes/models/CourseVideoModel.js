@@ -14,7 +14,7 @@ export const CourseVideoModel = () => {
     });
 
     return {
-        add: async ({ courseId = null, name = null, description = null, videoId = null } = {}) => {
+        add: async ({ courseId = null, name = null, description = null, videoId = null, thumbnailId = null } = {}) => {
             if (courseId && name && videoId) {
                 try {
                     return crud.addOne({
@@ -23,6 +23,7 @@ export const CourseVideoModel = () => {
                             [COURSE_VIDEO.NAME]: name,
                             [COURSE_VIDEO.DESCRIPTION]: description,
                             [COURSE_VIDEO.VIDEO]: videoId,
+                            [COURSE_VIDEO.THUMBNAIL]: thumbnailId,
                         }
                     });
                 } catch (error) { }
@@ -49,11 +50,12 @@ export const CourseVideoModel = () => {
             where,
         }),
         remove: ({ id = null } = {}) => crud.remove({ id }),
-        update: ({ id = null, data: { name = null, description = null } = {} } = {}) => crud.update({
+        update: ({ id = null, data: { name = null, description = null, thumbnailId = null } = {} } = {}) => crud.update({
             id,
             data: {
                 [COURSE_VIDEO.NAME]: name,
                 [COURSE_VIDEO.DESCRIPTION]: description,
+                [COURSE_VIDEO.THUMBNAIL]: thumbnailId,
             }
         }),
     };

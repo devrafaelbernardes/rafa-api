@@ -1,14 +1,9 @@
-import video from './video';
-import image from './image';
-
-const NAME = "CourseVideo";
+const NAME = "Material";
 
 const COLUMNS = {
     ID : 'id',
     NAME : 'name',
-    DESCRIPTION : 'description',
-    VIDEO : 'video',
-    THUMBNAIL : 'thumbnail',
+    URL : 'url',
     IS_ACTIVE : 'is_active',
     CREATED_AT : 'created_at',
 };
@@ -20,11 +15,9 @@ export const TYPE = {
         type ${NAME}{
             ${COLUMNS.ID} : ID
             ${COLUMNS.NAME} : String
-            ${COLUMNS.DESCRIPTION} : String
+            ${COLUMNS.URL} : String
             ${COLUMNS.IS_ACTIVE} : Boolean
             ${COLUMNS.CREATED_AT} : String
-            ${COLUMNS.VIDEO} : ${video.NAME}
-            ${COLUMNS.THUMBNAIL} : ${image.NAME}
         }
     `,
 };
