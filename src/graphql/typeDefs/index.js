@@ -8,6 +8,8 @@ import course from './types/course';
 import courses from './types/courses';
 import courseAccess from './types/courseAccess';
 import courseAccesses from './types/courseAccesses';
+import courseMaterial from './types/courseMaterial';
+import courseMaterials from './types/courseMaterials';
 import coursePreview from './types/coursePreview';
 import coursesPreview from './types/coursesPreview';
 import courseStudent from './types/courseStudent';
@@ -15,6 +17,7 @@ import courseStudents from './types/courseStudents';
 import courseVideo from './types/courseVideo';
 import courseVideos from './types/courseVideos';
 import image from './types/image';
+import material from './types/material';
 import media from './types/media';
 import medias from './types/medias';
 import socialNetwork from './types/socialNetwork';
@@ -45,6 +48,8 @@ export const typeDefs = `
     ${ courses.CONTENT }
     ${ courseAccess.CONTENT }
     ${ courseAccesses.CONTENT }
+    ${ courseMaterial.CONTENT }
+    ${ courseMaterials.CONTENT }
     ${ coursePreview.CONTENT }
     ${ coursesPreview.CONTENT }
     ${ courseStudent.CONTENT }
@@ -52,6 +57,7 @@ export const typeDefs = `
     ${ courseVideo.CONTENT }
     ${ courseVideos.CONTENT }
     ${ image.CONTENT }
+    ${ material.CONTENT }
     ${ media.CONTENT }
     ${ medias.CONTENT }
     ${ socialNetwork.CONTENT }

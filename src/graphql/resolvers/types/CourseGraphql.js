@@ -1,13 +1,15 @@
 import typeCourse from '../../typeDefs/types/course';
 import { COURSE } from '../../../database/tables';
 
-import CourseVideosGraphql from '../../resolvers/types/CourseVideosGraphql';
-import CourseStudentsGraphql from '../../resolvers/types/CourseStudentsGraphql';
+import CourseVideosGraphql from './CourseVideosGraphql';
+import CourseStudentsGraphql from './CourseStudentsGraphql';
+import CourseMaterialsGraphql from './CourseMaterialsGraphql';
 
 import loaderAdmin from '../../../loaders/loaderAdmin';
 import loaderImage from '../../../loaders/loaderImage';
 import loaderCourseStudents from '../../../loaders/loaderCourseStudents';
 import loaderCourseVideos from '../../../loaders/loaderCourseVideos';
+import loaderCourseMaterials from '../../../loaders/loaderCourseMaterials';
 
 import Pagination from '../../../classes/models/Pagination';
 
@@ -69,6 +71,39 @@ const findCourseVideos = async (courseId, params = {}) => {
     });
 }
 
+const countCourseMaterials = async (courseId, params = {}) => {
+    if (courseId) {
+        try {
+            params.pagination = null;
+            params.orderBy = null;
+            let totalCourseMaterials = await loaderCourseMaterials(params).load(courseId) || [];
+            return totalCourseMaterials.length;
+        } catch (error) { }
+    }
+    return 0;
+}
+
+const findCourseMaterials = async (courseId, params = {}) => {
+    let materials = [];
+    let countTotalCourseMaterials = 0;
+    
+    const classPagination = Pagination();
+    const pagination = classPagination.get(params.pagination);
+
+    if (courseId) {
+        try {
+            materials = await loaderCourseMaterials(classPagination.paramsToModel(params)).load(courseId) || [];
+            countTotalCourseMaterials = await countCourseMaterials(courseId, params);
+        } catch (error) { }
+    }
+    return CourseMaterialsGraphql({
+        items : materials,
+        totalItems : countTotalCourseMaterials,
+        pageTotalItems : materials.length || 0,
+        ...pagination
+    });
+}
+
 const countCourseStudents = async (courseId, params = {}) => {
     if (courseId) {
         try {
@@ -114,8 +149,10 @@ export const CourseGraphql = ({
     [typeCourse.COLUMNS.PROFILE_IMAGE]: (course) => findImage(course[COURSE.PROFILE_IMAGE]),
     [typeCourse.COLUMNS.STUDENTS]: (course, params) => findCourseStudents(course[COURSE.ID], params),
     [typeCourse.COLUMNS.VIDEOS]: (course, params) => findCourseVideos(course[COURSE.ID], params),
+    [typeCourse.COLUMNS.MATERIALS]: (course, params) => findCourseMaterials(course[COURSE.ID], params),
     [typeCourse.COLUMNS.COUNT_STUDENTS]: (course, params) => countCourseStudents(course[COURSE.ID], params),
     [typeCourse.COLUMNS.COUNT_VIDEOS]: (course, params) => countCourseVideos(course[COURSE.ID], params),
+    [typeCourse.COLUMNS.COUNT_MATERIALS]: (course, params) => countCourseMaterials(course[COURSE.ID], params),
 });
 
 export default CourseGraphql;

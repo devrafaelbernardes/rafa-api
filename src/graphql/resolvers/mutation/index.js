@@ -8,6 +8,7 @@ import CourseController from '../../../classes/controllers/CourseController';
 import CourseAccessController from '../../../classes/controllers/CourseAccessController';
 import CourseStudentController from '../../../classes/controllers/CourseStudentController';
 import CourseVideoController from '../../../classes/controllers/CourseVideoController';
+import CourseMaterialController from '../../../classes/controllers/CourseMaterialController';
 import MediaController from '../../../classes/controllers/MediaController';
 import SocialNetworkController from '../../../classes/controllers/SocialNetworkController';
 import StudentController from '../../../classes/controllers/StudentController';
@@ -21,6 +22,7 @@ const classCourseController = CourseController();
 const classCourseAccessController = CourseAccessController();
 const classCourseStudentController = CourseStudentController();
 const classCourseVideoController = CourseVideoController();
+const classCourseMaterialController = CourseMaterialController();
 const classMediaController = MediaController();
 const classSocialNetworkController = SocialNetworkController();
 const classStudentController = StudentController();
@@ -45,6 +47,8 @@ export const mutation = {
     // INSTRUCTORS
     addCourseStudentByInstructor : isCourseInstructorResolver((_, { input, ...params } = {}, context) => classCourseStudentController.addByInstructor({ ...input, ...params }, context)),
     removeCourse : isCourseInstructorResolver((_, { input, ...params } = {}, context) => classCourseController.removeCourse({ ...input, ...params }, context)),
+    addCourseMaterial : isCourseInstructorResolver((_, { input, ...params } = {}, context) => classCourseMaterialController.add({ ...input, ...params }, context)),
+    removeCourseMaterial : isCourseInstructorResolver((_, { input, ...params } = {}, context) => classCourseMaterialController.remove({ ...input, ...params }, context)),
     removeCourseStudent : isCourseInstructorResolver((_, { input, ...params } = {}, context) => classCourseStudentController.remove({ ...input, ...params }, context)),
     removeCourseVideo : isCourseInstructorResolver((_, { input, ...params } = {}, context) => classCourseVideoController.remove({ ...input, ...params }, context)),
     addCourseVideo : isCourseInstructorResolver((_, { input, ...params } = {}, context) => classCourseVideoController.add({ ...input, ...params }, context)),
