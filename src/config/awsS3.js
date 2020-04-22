@@ -31,7 +31,7 @@ export const getSignedUrl = ({ url, name, isPrivate = false }) => {
             return awsS3.getSignedUrl('getObject', {
                 Bucket,
                 Key: name,
-                Expires: 3600 // 5min expires
+                Expires: 3600 // 1 day expires
             });
         } catch (error) {}
     }
