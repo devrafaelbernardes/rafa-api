@@ -51,6 +51,7 @@ export const Upload = () => {
             } else if (typeUpload === TYPES_UPLOAD.IMAGE) {
                 url = LINK_IMAGES;
             } else if (typeUpload === TYPES_UPLOAD.MATERIAL) {
+                isPrivate = !isDevelopment;
                 url = LINK_MATERIALS;
             }
             return getSignedUrl({ url, name, isPrivate });
