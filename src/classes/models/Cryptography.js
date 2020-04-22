@@ -29,7 +29,7 @@ export const Cryptography = () => {
         encryptSHA512({ value, random = false, salt }) {
             return this.encrypt({ value, random, type: 'sha512', salt });
         },
-        encryptSHA256({ value, random = false }) {
+        encryptSHA256({ value, random = false, salt }) {
             return this.encrypt({ value, random, type: 'sha256', salt });
         },
         generateSalt(value) {
