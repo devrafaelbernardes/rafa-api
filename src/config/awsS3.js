@@ -8,9 +8,9 @@ import {
 } from './server';
 
 // Configure client for use with Spaces
-const spacesEndpoint = new AWS.Endpoint(/* ENDPOINT_SPACE ||  */`nyc3.digitaloceanspaces.com`);
+//const spacesEndpoint = new AWS.Endpoint(/* ENDPOINT_SPACE ||  */`nyc3.digitaloceanspaces.com`);
 export const awsS3 = new AWS.S3({
-    endpoint: spacesEndpoint,
+    //endpoint: spacesEndpoint,
     accessKeyId: AWS_ACCESS_KEY_ID,
     secretAccessKey: AWS_SECRET_ACCESS_KEY
 });

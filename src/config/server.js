@@ -13,7 +13,7 @@ export const PORT = 4040;
 export const isDevelopment = process.env.NODE_ENV !== "production";
 export const BASE_ROUTE = "/";
 export const LINK_SERVER = isDevelopment ? `http://localhost:${PORT}/` : `https://api.rbernardes.com.br${BASE_ROUTE}`;
-export const LINK_SERVER_ASSETS = isDevelopment ? `http://localhost:${PORT}/` : `https://assets.rbernardes.com.br/`;
+export const LINK_SERVER_ASSETS = isDevelopment ? `http://localhost:${PORT}/` : `https://rafaspaceasws3.s3.amazonaws.com/`;
 export const LINK_IMAGES = LINK_SERVER_ASSETS + (isDevelopment ? 'image/' : '');
 export const LINK_MATERIALS = LINK_SERVER_ASSETS + (isDevelopment ? 'material/' : '');
 export const LINK_VIDEOS = LINK_SERVER_ASSETS + (isDevelopment ? 'video/' : '');
