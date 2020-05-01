@@ -10,10 +10,12 @@ import generateCourseAccess from './generateCourseAccess';
 import loginAdmin from './loginAdmin';
 import loginStudent from './loginStudent';
 import remove from './remove';
+import resetPassword from './resetPassword';
 import removeCourseMaterial from './removeCourseMaterial';
 import removeCourseStudent from './removeCourseStudent';
 import removeCourseVideo from './removeCourseVideo';
 import signUpStudent from './signUpStudent';
+import sendForgotPassword from './sendForgotPassword';
 import updateAdmin from './updateAdmin';
 import updateBag from './updateBag';
 import updateCourse from './updateCourse';
@@ -22,6 +24,7 @@ import updatePassword from './updatePassword';
 import updateCourseVideo from './updateCourseVideo';
 import updateMultiplePosition from './updateMultiplePosition';
 import updatePosition from './updatePosition';
+import validateEmail from './validateEmail';
 
 import pagination from './pagination';
 
@@ -58,6 +61,9 @@ export const inputs = `
 
     # JUST STUDENTS  
     ${addCourseStudent.CONTENT}
+    ${resetPassword.CONTENT}
+    ${sendForgotPassword.CONTENT}
+    ${validateEmail.CONTENT}
 `;
 
 export default inputs;

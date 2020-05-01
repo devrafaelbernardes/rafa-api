@@ -22,7 +22,7 @@ export const Cryptography = () => {
                 value = value + KEY_SECRET_CRYPTO;
                 crypted = Base64.stringify(SHA256(value));
             } else {
-                crypted = Base64.stringify(hmacSHA512(value, salt+KEY_SECRET_CRYPTO));
+                crypted = Base64.stringify(hmacSHA512(value, salt + KEY_SECRET_CRYPTO));
             }
             return crypted;
         },
@@ -54,6 +54,21 @@ export const Cryptography = () => {
         decryptTokenURL(value) {
             var bytes = CryptoJS.AES.decrypt(value, KEY_SECRET_CRYPTO);
             return bytes.toString(CryptoJS.enc.Utf8);
+        },
+        encryptID(value) {
+            //return CryptoJS.AES.encrypt(value, KEY_SECRET_CRYPTO).toString();
+            let b64 = CryptoJS.AES.encrypt(String(value), KEY_SECRET_CRYPTO).toString();
+            let e64 = CryptoJS.enc.Base64.parse(b64);
+            let eHex = e64.toString(CryptoJS.enc.Hex);
+            return eHex;
+        },
+        decryptID(value) {
+            /* var bytes = CryptoJS.AES.decrypt(value, KEY_SECRET_CRYPTO);
+            return bytes.toString(CryptoJS.enc.Utf8); */
+            let reb64 = CryptoJS.enc.Hex.parse(value);
+            let bytes = reb64.toString(CryptoJS.enc.Base64);
+            let decrypt = CryptoJS.AES.decrypt(bytes, KEY_SECRET_CRYPTO);
+            return decrypt.toString(CryptoJS.enc.Utf8);
         },
     }
 }

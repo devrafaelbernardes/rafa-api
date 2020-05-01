@@ -3,6 +3,8 @@ const NAME = "InputGenerateCourseAccess";
 
 const COLUMNS = {
     COURSE_ID: 'courseId',
+    EMAIL: 'email',
+    NAME: 'name',
 };
 
 export const generateCourseAccess = {
@@ -12,6 +14,8 @@ export const generateCourseAccess = {
     CONTENT: `
         input ${NAME}{
             ${COLUMNS.COURSE_ID} : ID!
+            ${COLUMNS.EMAIL} : String
+            ${COLUMNS.NAME} : String
         }
     `,
 };

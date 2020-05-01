@@ -36,7 +36,7 @@ export const TYPE = {
 
             # ADMINS OR STUDENTS
             course(id : ID) : ${course.NAME}
-            course_access(id : ID) : ${courseAccess.NAME}
+            course_access(id : ID, token : String) : ${courseAccess.NAME}
             courses(${pagination.CONTENT_FOR_PARAMS}) : ${courses.NAME}
             course_accesses(courseId : ID, ${pagination.CONTENT_FOR_PARAMS}) : ${courseAccesses.NAME}
             course_video(courseId : ID, videoId : ID) : ${courseVideo.NAME}
@@ -48,6 +48,7 @@ export const TYPE = {
 
             # JUST STUDENTS
             me_student : ${student.NAME}
+            is_valid_token_reset_password(token : String!) : Boolean
         }
     `,
 };

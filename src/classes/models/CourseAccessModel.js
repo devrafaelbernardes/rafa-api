@@ -26,7 +26,7 @@ export const CourseAccessModel = () => {
     return {
         STATE,
         getState,
-        add: async ({ courseId = null, studentId = null, token = null } = {}) => {
+        add: async ({ courseId = null, studentId = null, token = null, email = null } = {}) => {
             if (courseId && token) {
                 try {
                     return crud.addOne({
@@ -34,6 +34,7 @@ export const CourseAccessModel = () => {
                             [COURSE_ACCESS.COURSE]: courseId,
                             [COURSE_ACCESS.STUDENT]: studentId,
                             [COURSE_ACCESS.TOKEN]: token,
+                            [COURSE_ACCESS.EMAIL]: email,
                         }
                     });
                 } catch (error) { }

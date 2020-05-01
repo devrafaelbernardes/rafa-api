@@ -13,15 +13,28 @@ export const PORT = 4040;
 export const isDevelopment = process.env.NODE_ENV !== "production";
 export const BASE_ROUTE = "/";
 export const LINK_SERVER = isDevelopment ? `http://localhost:${PORT}/` : `https://api.rbernardes.com.br${BASE_ROUTE}`;
+
+const LINK_EAD = isDevelopment ? `http://localhost:3020/` : `https://ead.rbernardes.com.br/`;
+export const LINK_VALIDATE_EMAIL = `${LINK_EAD}validate/`;
+export const LINK_FORGET_PASSWORD = `${LINK_EAD}reset/`;
+export const LINK_COURSE_ACCESS = `${LINK_EAD}access/`;
+
 export const LINK_SERVER_ASSETS = isDevelopment ? `http://localhost:${PORT}/` : `https://rafaspaceasws3.s3.amazonaws.com/`;
+
 export const LINK_IMAGES = LINK_SERVER_ASSETS + (isDevelopment ? 'image/' : '');
 export const LINK_MATERIALS = LINK_SERVER_ASSETS + (isDevelopment ? 'material/' : '');
 export const LINK_VIDEOS = LINK_SERVER_ASSETS + (isDevelopment ? 'video/' : '');
+
+export const PORT_EMAIL = process.env.PORT_EMAIL;
+export const HOST_EMAIL = process.env.HOST_EMAIL;
+export const USER_EMAIL = process.env.USER_EMAIL;
+export const PASSWORD_EMAIL = process.env.PASSWORD_EMAIL;
 
 export const ROUTE = {
     HOME: '/',
     GRAPHQL: '/api',
     IMAGE: '/image',
+    TEMPLATES_EMAIL: '/emails',
     MATERIAL: '/material',
     VIDEO: '/video',
 };
