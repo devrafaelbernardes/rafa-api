@@ -103,10 +103,13 @@ export const StudentAuthController = () => {
                                 [VALIDATE_STUDENT_EMAIL.STUDENT] : studentId,
                             }
                         });
-                        
+                        let idValidateStudentEmail = null;
                         if (validateStudentEmail) {
-                            return classEmail.sendValidateEmail({ to: student[STUDENT.EMAIL], name: student[STUDENT.NAME], idValidateStudentEmail : validateStudentEmail[VALIDATE_STUDENT_EMAIL.ID] });
+                            idValidateStudentEmail = validateStudentEmail[VALIDATE_STUDENT_EMAIL.ID];    
+                        }else{
+                            idValidateStudentEmail = await classValidateStudentEmailModel.add({ studentId });
                         }
+                        return classEmail.sendValidateEmail({ to: student[STUDENT.EMAIL], name: student[STUDENT.NAME], idValidateStudentEmail });
                     }
                 } catch (error) { }
             }
