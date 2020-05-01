@@ -92,10 +92,30 @@ export const COURSE_VIDEO = {
 export const COURSE_ACCESS = {
     TABLE_NAME : 'course_access',
     ID : 'id',
+    EMAIL : 'email',
     TOKEN : 'token',
     COURSE : 'course_id',
     STUDENT : 'student_id',
     CURRENTY_STATE : 'currenty_state',
+    IS_ACTIVE : 'is_active',
+    CREATED_AT : 'created_at',
+}
+
+export const FORGOT_PASSWORD_STUDENT = {
+    TABLE_NAME : 'forgot_password_student',
+    ID : 'id',
+    OLD_PASSWORD: 'old_password',
+    STUDENT : 'student_id',
+    IS_OKEY : 'is_okey',
+    IS_ACTIVE : 'is_active',
+    CREATED_AT : 'created_at',
+}
+
+export const VALIDATE_STUDENT_EMAIL = {
+    TABLE_NAME : 'validate_student_email',
+    ID : 'id',
+    STUDENT : 'student_id',
+    IS_OKEY : 'is_okey',
     IS_ACTIVE : 'is_active',
     CREATED_AT : 'created_at',
 }

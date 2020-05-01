@@ -1,3 +1,7 @@
+import Cryptography from "../classes/models/Cryptography"
+
+const classCryptography = Cryptography();
+
 export function htmlspecialchars(string, quoteStyle, charset, doubleEncode) {
     //       discuss at: http://locutus.io/php/htmlspecialchars/
     //      original by: Mirek Slugen
@@ -78,6 +82,22 @@ export function cleanValue(value) {
     return "";
 }
 
+export function cleanId(value) {
+    if (value) {
+        value = htmlspecialchars(value).trim();
+        return classCryptography.decryptID(value);
+    }
+    return "";
+}
+
+export function dirtyId(value) {
+    if (value) {
+        value = htmlspecialchars(value).trim();
+        return classCryptography.encryptID(value);
+    }
+    return "";
+}
+
 export function cleanValueInt(value) {
     if (value) {
         return parseInt(cleanValue(value), 10);
@@ -98,5 +118,7 @@ export default {
     htmlspecialchars,
     cleanValue,
     cleanValueFloat,
-    cleanValueInt
+    cleanValueInt,
+    cleanId,
+    dirtyId
 };

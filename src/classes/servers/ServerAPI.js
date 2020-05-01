@@ -27,6 +27,7 @@ app.use(helmet());
 app.use(minify());
 app.use(express.json());
 if (!isDevelopment) {
+    app.get(`${ROUTE.GRAPHQL}`, (req, res) => res.send('Not found!'));
     app.use(cors({
         origin: [
             'https://dashboard.rbernardes.com.br', 'https://www.dashboard.rbernardes.com.br',

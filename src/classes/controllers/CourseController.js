@@ -187,7 +187,12 @@ export const CourseController = () => {
                 }
                 if (token) {
                     token = validations.cleanValue(token);
-                    const courseAccess = await classCourseAccessModel.findByToken(token);
+                    const courseAccess = await classCourseAccessModel.findOne({
+                        where: {
+                            [COURSE_ACCESS.CURRENTY_STATE]: classCourseAccessModel.STATE.PENDING,
+                            [COURSE_ACCESS.TOKEN]: token,
+                        }
+                    });
 
                     if (courseAccess) {
                         course = await loaderCourse.load(courseAccess[COURSE_ACCESS.COURSE]);

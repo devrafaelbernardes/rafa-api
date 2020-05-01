@@ -10,10 +10,12 @@ import inputGenerateCourseAccess from '../inputs/generateCourseAccess';
 import inputLoginAdmin from '../inputs/loginAdmin';
 import inputLoginStudent from '../inputs/loginStudent';
 import inputRemove from '../inputs/remove';
+import inputResetPassword from '../inputs/resetPassword';
 import inputRemoveCourseMaterial from '../inputs/removeCourseMaterial';
 import inputRemoveCourseStudent from '../inputs/removeCourseStudent';
 import inputRemoveCourseVideo from '../inputs/removeCourseVideo';
 import inputSignUpStudent from '../inputs/signUpStudent';
+import inputSendForgotPassword from '../inputs/sendForgotPassword';
 import inputUpdateAdmin from '../inputs/updateAdmin';
 import inputUpdateBag from '../inputs/updateBag';
 import inputUpdatePassword from '../inputs/updatePassword';
@@ -21,9 +23,9 @@ import inputUpdateStudent from '../inputs/updateStudent';
 import inputUpdateCourse from '../inputs/updateCourse';
 import inputUpdateCourseVideo from '../inputs/updateCourseVideo';
 import inputUpdateMultiplePosition from '../inputs/updateMultiplePosition';
+import inputValidateEmail from '../inputs/validateEmail';
 
 import admin from './admin';
-import adminAccess from './adminAccess';
 import bag from './bag';
 import course from './course';
 import courseAccess from './courseAccess';
@@ -33,7 +35,6 @@ import courseVideo from './courseVideo';
 import media from './media';
 import socialNetwork from './socialNetwork';
 import student from './student';
-import studentAccess from './studentAccess';
 
 const NAME = "Mutation";
 
@@ -75,6 +76,10 @@ export const TYPE = {
             # JUST STUDENTS
             loginStudent(${inputLoginStudent.CONTENT_FOR_PARAMS}) : String
             signUpStudent(${inputSignUpStudent.CONTENT_FOR_PARAMS}) : String
+            resetPasswordStudent(${inputResetPassword.CONTENT_FOR_PARAMS}) : Boolean
+            sendForgotPasswordStudent(${inputSendForgotPassword.CONTENT_FOR_PARAMS}) : Boolean
+            validateEmailStudent(${inputValidateEmail.CONTENT_FOR_PARAMS}) : Boolean
+            resendValidateEmailStudent : Boolean
             addCourseStudent(${inputAddCourseStudent.CONTENT_FOR_PARAMS}) : ${courseStudent.NAME}
             updateStudent(${inputUpdateStudent.CONTENT_FOR_PARAMS}, image : Upload) : ${student.NAME}
             updatePasswordStudent(${inputUpdatePassword.CONTENT_FOR_PARAMS}) : Boolean

@@ -10,6 +10,7 @@ import CourseVideoController from '../../../classes/controllers/CourseVideoContr
 import MediaController from '../../../classes/controllers/MediaController';
 import SocialNetworkController from '../../../classes/controllers/SocialNetworkController';
 import StudentController from '../../../classes/controllers/StudentController';
+import StudentAuthController from '../../../classes/controllers/StudentAuthController';
 
 const classAuthController = AuthController();
 const classAdminController = AdminController();
@@ -21,6 +22,7 @@ const classCourseVideoController = CourseVideoController();
 const classMediaController = MediaController();
 const classSocialNetworkController = SocialNetworkController();
 const classStudentController = StudentController();
+const classStudentAuthController = StudentAuthController();
 
 const isAuthResolver = (callback) => combineResolvers(classAuthController.isAuthenticated, callback);
 const isNotAuthResolver = (callback) => combineResolvers(classAuthController.isNotAuthenticated, callback);
@@ -57,6 +59,7 @@ export const query = {
     
     // JUST STUDENTS
     me_student: isStudentResolver((_, params, context) => classStudentController.meStudent(params, context)),
+    is_valid_token_reset_password: isNotAuthResolver((_, params, context) => classStudentAuthController.isValidTokenResetPassword(params, context)),
 };
 
 export default query;
