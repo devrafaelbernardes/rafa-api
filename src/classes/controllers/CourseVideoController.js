@@ -55,8 +55,8 @@ export const CourseVideoController = () => {
                             thumbnailId = await classImageModel.add({ name: thumbnailUploaded.filename });
                         }
                     }
-
-                    const videoUploaded = await classUpload.uploadVideo(video);
+                    
+                    const videoUploaded = await classUpload.uploadVideo(video, name, description);
 
                     if (videoUploaded && videoUploaded.url) {
                         const videoAddedId = await classVideoModel.add({ name: videoUploaded.filename });

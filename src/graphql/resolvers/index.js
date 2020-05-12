@@ -33,6 +33,9 @@ import CourseMaterialGraphql from './types/CourseMaterialGraphql';
 import courseVideo from '../typeDefs/types/courseVideo';
 import CourseVideoGraphql from './types/CourseVideoGraphql';
 
+import email from '../typeDefs/types/email';
+import EmailGraphql from './types/EmailGraphql';
+
 import image from '../typeDefs/types/image';
 import ImageGraphql from './types/ImageGraphql';
 
@@ -74,6 +77,7 @@ export const resolvers = {
     [coursePreview.NAME] : CoursePreviewGraphql,
     [courseStudent.NAME] : CourseStudentGraphql,
     [courseVideo.NAME] : CourseVideoGraphql,
+    [email.NAME] : EmailGraphql,
     [image.NAME] : ImageGraphql,
     [material.NAME] : MaterialGraphql,
     [media.NAME] : MediaGraphql,

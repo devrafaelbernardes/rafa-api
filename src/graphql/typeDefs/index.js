@@ -16,6 +16,8 @@ import courseStudent from './types/courseStudent';
 import courseStudents from './types/courseStudents';
 import courseVideo from './types/courseVideo';
 import courseVideos from './types/courseVideos';
+import email from './types/email';
+import emails from './types/emails';
 import image from './types/image';
 import material from './types/material';
 import media from './types/media';
@@ -56,6 +58,8 @@ export const typeDefs = `
     ${ courseStudents.CONTENT }
     ${ courseVideo.CONTENT }
     ${ courseVideos.CONTENT }
+    ${ email.CONTENT }
+    ${ emails.CONTENT }
     ${ image.CONTENT }
     ${ material.CONTENT }
     ${ media.CONTENT }

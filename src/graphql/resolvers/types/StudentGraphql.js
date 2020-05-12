@@ -1,13 +1,14 @@
 import typeStudent from '../../typeDefs/types/student';
-import { STUDENT } from '../../../database/tables';
+import { STUDENT, COURSE_STUDENT } from '../../../database/tables';
 import loaderImage from '../../../loaders/loaderImage';
 import loaderStudentValidatedEmail from '../../../loaders/loaderStudentValidatedEmail';
+import CourseStudentModel from '../../../classes/models/CourseStudentModel';
 
 const findImage = async (imageId) => {
     if (imageId) {
         try {
             let image = await loaderImage.load(imageId);
-            if(image){
+            if (image) {
                 return image;
             }
         } catch (error) { }
@@ -19,12 +20,24 @@ const findValidatedEmail = async (studentId) => {
     if (studentId) {
         try {
             let validated = await loaderStudentValidatedEmail.load(studentId);
-            if(validated){
+            if (validated) {
                 return validated;
             }
         } catch (error) { }
     }
     return false;
+}
+
+const countCourses = async (studentId) => {
+    if (studentId) {
+        try {
+            const total = await CourseStudentModel().count({ where: { [COURSE_STUDENT.STUDENT]: studentId } });
+            if (total) {
+                return total;
+            }
+        } catch (error) { }
+    }
+    return 0;
 }
 
 export const StudentGraphql = ({
@@ -38,6 +51,7 @@ export const StudentGraphql = ({
     [typeStudent.COLUMNS.CREATED_AT]: (student) => student[STUDENT.CREATED_AT],
     [typeStudent.COLUMNS.IS_VALIDATED_EMAIL]: (student) => findValidatedEmail(student[STUDENT.ID]),
     [typeStudent.COLUMNS.PROFILE_IMAGE]: (student) => findImage(student[STUDENT.PROFILE_IMAGE]),
+    [typeStudent.COLUMNS.COUNT_COURSES]: (student) => countCourses(student[STUDENT.ID]),
 });
 
 export default StudentGraphql;

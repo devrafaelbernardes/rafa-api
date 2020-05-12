@@ -101,6 +101,18 @@ export const COURSE_ACCESS = {
     CREATED_AT : 'created_at',
 }
 
+export const EMAIL = {
+    TABLE_NAME : 'email',
+    ID : 'id',
+    TO : 'to',
+    ADMIN : 'admin_id',
+    STUDENT : 'student_id',
+    SUBJECT : 'subject',
+    MESSAGE : 'message',
+    IS_ACTIVE : 'is_active',
+    CREATED_AT : 'created_at',
+}
+
 export const FORGOT_PASSWORD_STUDENT = {
     TABLE_NAME : 'forgot_password_student',
     ID : 'id',

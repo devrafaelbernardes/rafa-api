@@ -7,6 +7,7 @@ import CourseController from '../../../classes/controllers/CourseController';
 import CourseAccessController from '../../../classes/controllers/CourseAccessController';
 import CourseStudentController from '../../../classes/controllers/CourseStudentController';
 import CourseVideoController from '../../../classes/controllers/CourseVideoController';
+import EmailController from '../../../classes/controllers/EmailController';
 import MediaController from '../../../classes/controllers/MediaController';
 import SocialNetworkController from '../../../classes/controllers/SocialNetworkController';
 import StudentController from '../../../classes/controllers/StudentController';
@@ -19,6 +20,7 @@ const classCourseController = CourseController();
 const classCourseAccessController = CourseAccessController();
 const classCourseStudentController = CourseStudentController();
 const classCourseVideoController = CourseVideoController();
+const classEmailController = EmailController();
 const classMediaController = MediaController();
 const classSocialNetworkController = SocialNetworkController();
 const classStudentController = StudentController();
@@ -55,6 +57,9 @@ export const query = {
     course_access: isAdminResolver((_, params, context) => classCourseAccessController.courseAccess(params, context)),
     course_accesses: isAdminResolver((_, params, context) => classCourseAccessController.courseAccesses(params, context)),
     course_students: isAdminResolver((_, params, context) => classCourseStudentController.students(params, context)),
+    students_no_course: isAdminResolver((_, params, context) => classCourseStudentController.studentsHaveNoCourse(params, context)),
+    students_have_course: isAdminResolver((_, params, context) => classCourseStudentController.studentsHaveCourse(params, context)),
+    emails: isAdminResolver((_, params, context) => classEmailController.all(params, context)),
     students: isAdminResolver((_, params, context) => classStudentController.students(params, context)),
     
     // JUST STUDENTS

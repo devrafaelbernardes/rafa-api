@@ -55,6 +55,11 @@ export const StudentModel = () => {
             ids,
             column: columnID,
         }),
+        findNotIn: ({ ids = [], ...params } = {}) => crud.findNotIn({
+            ...params,
+            ids,
+            column: columnID,
+        }),
         count: ({ where = {}, ...params } = {}) => crud.count({
             ...params,
             where,

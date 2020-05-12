@@ -4,6 +4,7 @@ import AuthController from '../../../classes/controllers/AuthController';
 import AdminController from '../../../classes/controllers/AdminController';
 import AdminAuthController from '../../../classes/controllers/AdminAuthController';
 import BagController from '../../../classes/controllers/BagController';
+import EmailController from '../../../classes/controllers/EmailController';
 import CourseController from '../../../classes/controllers/CourseController';
 import CourseAccessController from '../../../classes/controllers/CourseAccessController';
 import CourseStudentController from '../../../classes/controllers/CourseStudentController';
@@ -23,6 +24,7 @@ const classCourseAccessController = CourseAccessController();
 const classCourseStudentController = CourseStudentController();
 const classCourseVideoController = CourseVideoController();
 const classCourseMaterialController = CourseMaterialController();
+const classEmailController = EmailController();
 const classMediaController = MediaController();
 const classSocialNetworkController = SocialNetworkController();
 const classStudentController = StudentController();
@@ -56,6 +58,10 @@ export const mutation = {
     updateCourse: isCourseInstructorResolver((_, { input, ...params } = {}, context) => classCourseController.update({ ...input, ...params }, context)),
 
     // JUST ADMINS
+    sendEmailTo : isAdminResolver((_, { input, ...params } = {}, context) => classEmailController.sendTo({ ...input, ...params }, context)),
+    sendEmailToAll : isAdminResolver((_, { input, ...params } = {}, context) => classEmailController.sendToAll({ ...input, ...params }, context)),
+    sendEmailToNoCourse : isAdminResolver((_, { input, ...params } = {}, context) => classEmailController.sendToNoCourse({ ...input, ...params }, context)),
+    sendEmailToCourse : isCourseInstructorResolver((_, { input, ...params } = {}, context) => classEmailController.sendToCourse({ ...input, ...params }, context)),
     generateCourseAccess: isAdminResolver((_, { input, ...params } = {}, context) => classCourseAccessController.add({ ...input, ...params }, context)),
     createBag: isAdminResolver((_, { input, ...params } = {}, context) => classBagController.add({ ...input, ...params }, context)),
     createMedia: isAdminResolver((_, { input, ...params } = {}, context) => classMediaController.add({ ...input, ...params }, context)),

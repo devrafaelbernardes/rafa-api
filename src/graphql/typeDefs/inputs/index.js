@@ -16,6 +16,10 @@ import removeCourseStudent from './removeCourseStudent';
 import removeCourseVideo from './removeCourseVideo';
 import signUpStudent from './signUpStudent';
 import sendForgotPassword from './sendForgotPassword';
+import sendEmailToCourse from './sendEmailToCourse';
+import sendEmailToNoCourse from './sendEmailToNoCourse';
+import sendEmailTo from './sendEmailTo';
+import sendEmailToAll from './sendEmailToAll';
 import updateAdmin from './updateAdmin';
 import updateBag from './updateBag';
 import updateCourse from './updateCourse';
@@ -50,6 +54,10 @@ export const inputs = `
     ${removeCourseMaterial.CONTENT}
     ${removeCourseStudent.CONTENT}
     ${removeCourseVideo.CONTENT}
+    ${sendEmailToCourse.CONTENT}
+    ${sendEmailToNoCourse.CONTENT}
+    ${sendEmailTo.CONTENT}
+    ${sendEmailToAll.CONTENT}
     ${updateAdmin.CONTENT}
     ${updateBag.CONTENT}
     ${updateCourse.CONTENT}

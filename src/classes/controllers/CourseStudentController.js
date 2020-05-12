@@ -143,6 +143,74 @@ export const CourseStudentController = () => {
                 ...infoPagination,
             });
         },
+        studentsHaveNoCourse: async ({ courseId = null, ...params } = {}, { tokenUser: { adminId = null } = {} } = {}) => {
+            let totalItems = 0;
+            let items = [];
+            let { pagination = null } = params || {};
+            const infoPagination = classPagination.get(pagination);
+
+            try {
+                if (adminId) {
+                    const usersCourses = await classCourseStudentModel.findAll({
+                        where: {
+                            [COURSE_STUDENT.COURSE]: courseId
+                        },
+                    });
+                    
+                    const idsHasCourse = await usersCourses.map(item => item[COURSE_STUDENT.STUDENT]);
+
+                    totalItems = await classStudentModel.count({
+                        ids: idsHasCourse,
+                        whereNotIn : true,
+                        column : STUDENT.ID
+                    });
+                    items = await classStudentModel.findNotIn({
+                        ids: idsHasCourse,
+                        ...classPagination.paramsToModel(params)
+                    })
+                }
+            } catch (error) { }
+
+            return CourseStudentsGraphql({
+                totalItems,
+                items,
+                pageTotalItems: items.length || 0,
+                ...infoPagination,
+            });
+        },
+        studentsHaveCourse: async ({ courseId = null, ...params } = {}, { tokenUser: { adminId = null } = {} } = {}) => {
+            let totalItems = 0;
+            let items = [];
+            let { pagination = null } = params || {};
+            const infoPagination = classPagination.get(pagination);
+
+            try {
+                if (adminId) {
+                    const usersCourses = await classCourseStudentModel.findAll({
+                        where: {
+                            [COURSE_STUDENT.COURSE]: courseId
+                        },
+                    });
+                    const idsHasCourse = await usersCourses.map(item => item[COURSE_STUDENT.STUDENT]);
+
+                    totalItems = await classStudentModel.count({
+                        ids: idsHasCourse,
+                        column : STUDENT.ID
+                    });
+                    items = await classStudentModel.findIn({
+                        ids: idsHasCourse,
+                        ...classPagination.paramsToModel(params)
+                    })
+                }
+            } catch (error) { }
+
+            return CourseStudentsGraphql({
+                totalItems,
+                items,
+                pageTotalItems: items.length || 0,
+                ...infoPagination,
+            });
+        },
     };
 };
 

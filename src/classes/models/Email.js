@@ -1,6 +1,6 @@
 import transporter from "../../config/email";
 import { USER_EMAIL, LINK_VALIDATE_EMAIL, LINK_FORGET_PASSWORD, LINK_COURSE_ACCESS } from "../../config/server";
-import validations from "../../utils/validations";
+
 import Token from "./Token";
 
 export const Email = () => {
@@ -36,7 +36,7 @@ export const Email = () => {
         async sendForgotPassword({ to, name = "", idForgetPassword = "" }) {
             if (idForgetPassword) {
                 try {
-                    const token = classToken.create({ idForgetPassword, email : to });
+                    const token = classToken.create({ idForgetPassword, email: to });
                     sendEmail({
                         to,
                         subject: 'Esqueci minha senha',
@@ -55,7 +55,7 @@ export const Email = () => {
                         to,
                         subject: `Acesso ao curso ${courseName}`,
                         template: 'auth/courseAccess',
-                        data: { name : name || "Aluno(a)", courseName, link: `${LINK_COURSE_ACCESS}${token}` },
+                        data: { name: name || "Aluno(a)", courseName, link: `${LINK_COURSE_ACCESS}${token}` },
                     });
                     return true;
                 } catch (error) { }
@@ -65,7 +65,7 @@ export const Email = () => {
         async sendValidateEmail({ to, name = "", idValidateStudentEmail = "" }) {
             if (idValidateStudentEmail) {
                 try {
-                    const code = validations.dirtyId(idValidateStudentEmail);
+                    const code = await classToken.create({ idValidateStudentEmail });
                     sendEmail({
                         to,
                         subject: `E-mail de verificação`,
@@ -74,6 +74,20 @@ export const Email = () => {
                     });
                     return true;
                 } catch (error) { }
+            }
+            return false;
+        },
+        async sendCustom({ to, subject = "", message = "" }) {
+            if (subject && message) {
+                try {
+                    await sendEmail({
+                        to,
+                        subject,
+                        template: 'auth/custom',
+                        data: { body: message },
+                    });
+                    return true;
+                } catch (error) {}
             }
             return false;
         },

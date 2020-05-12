@@ -196,7 +196,7 @@ export const StudentAuthController = () => {
         validateEmail: async ({ token = null } = {}) => {
             if (token) {
                 try {
-                    const idValidateStudentEmail = await validations.cleanId(token);
+                    const { idValidateStudentEmail = null } = classToken.get(token) || {};
                     
                     if (idValidateStudentEmail) {
                         const validatedIdStudentEmail = await classValidateStudentEmailModel.findOne({
