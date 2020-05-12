@@ -130,7 +130,37 @@ export const Model = () => {
                 }
                 return [];
             },
-            findAll: async ({ where = {}, columns = [], leftJoin = {}, isActive = true, orderBy = [], page = null } = {}) => {
+            findNotIn: async ({ ids = [], column = null, isActive = true, filter = null, orderBy = [], page = null } = {}) => {
+                if (tableName && column && columnIsActive) {
+                    try {
+                        const request = connection.from(tableName)
+                            .whereNotIn(column, ids)
+                            .andWhere({
+                                [`${tableName}.${columnIsActive}`]: isActive,
+                            });
+
+                        if (filter) {
+                            request.andWhere(filter);
+                        }
+                        if (orderBy && orderBy.length > 0) {
+                            request.orderBy(orderBy);
+                        }
+
+                        setPagination(request, page);
+
+                        if(ids && ids.length > 0){
+                            return await request
+                                .orderBy(connection.raw(`FIELD(${column}, ${ids.join(', ')})`));
+                        }
+                        return await request;
+                    } catch (error) {
+                        console.log(error);
+                        
+                    }
+                }
+                return [];
+            },
+            findAll: async ({ where = {}, whereNot = {}, columns = [], leftJoin = {}, innerJoin = {}, isActive = true, orderBy = [], groupBy = null, page = null } = {}) => {
                 if (tableName && columnIsActive) {
                     try {
                         const data = {};
@@ -143,12 +173,24 @@ export const Model = () => {
                                 [`${tableName}.${columnIsActive}`]: isActive
                             });
 
+                        if (whereNot) {
+                            request.whereNot(whereNot);
+                        }
+
                         if (columns.length > 0 && leftJoin && leftJoin.table && leftJoin.param1 && leftJoin.param2) {
                             request.leftJoin(leftJoin.table, leftJoin.param1, leftJoin.param2);
                         }
 
+                        if (columns.length > 0 && innerJoin && innerJoin.table && innerJoin.param1 && innerJoin.param2) {
+                            request.join(innerJoin.table, innerJoin.param1, innerJoin.param2);
+                        }
+
                         if (orderBy && orderBy.length > 0) {
                             request.orderBy(orderBy);
+                        }
+
+                        if (groupBy) {
+                            request.groupBy(groupBy);
                         }
 
                         setPagination(request, page);
@@ -160,7 +202,7 @@ export const Model = () => {
                 }
                 return null;
             },
-            count: async ({ where = {}, isActive = true, page = null, groupBy = null } = {}) => {
+            count: async ({ where = {}, isActive = true, ids = [], column = null, whereNotIn = null, page = null, groupBy = null } = {}) => {
                 if (tableName && columnID && columnIsActive) {
                     try {
                         const data = {};
@@ -174,6 +216,13 @@ export const Model = () => {
                         if (!dataObject().isEmpty(data)) {
                             request.andWhere(data)
                         }
+                        if(column && ids && ids.length > 0){
+                            if(whereNotIn){
+                                request.whereNotIn(column, ids);
+                            }else{
+                                request.whereIn(column, ids);
+                            }
+                        }
 
                         setPagination(request, page);
                         let response = null;
@@ -183,7 +232,7 @@ export const Model = () => {
                                 .count({
                                     total: columnID,
                                 });
-                            if(response && response.length > 0){
+                            if (response && response.length > 0) {
                                 return response.length;
                             }
                         } else {

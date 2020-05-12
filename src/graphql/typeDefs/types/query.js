@@ -1,6 +1,7 @@
 import admin from './admin';
 import bag from './bag';
 import bags from './bags';
+import emails from './emails';
 import course from './course';
 import courses from './courses';
 import courseAccess from './courseAccess';
@@ -44,6 +45,9 @@ export const TYPE = {
             # JUST ADMINS
             me_admin : ${admin.NAME}
             students(${pagination.CONTENT_FOR_PARAMS}) : ${students.NAME}
+            emails(${pagination.CONTENT_FOR_PARAMS}) : ${emails.NAME}
+            students_have_course(courseId: ID, ${pagination.CONTENT_FOR_PARAMS}) : ${students.NAME}
+            students_no_course(courseId: ID, ${pagination.CONTENT_FOR_PARAMS}) : ${students.NAME}
             course_students(courseId: ID, ${pagination.CONTENT_FOR_PARAMS}) : ${courseStudents.NAME}
 
             # JUST STUDENTS

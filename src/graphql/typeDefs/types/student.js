@@ -10,6 +10,7 @@ const COLUMNS = {
     EMAIL : 'email',
     PROFILE_IMAGE : 'profile_image',
     IS_VALIDATED_EMAIL : 'is_validated_email',
+    COUNT_COURSES : 'count_courses',
     IS_ACTIVE : 'is_active',
     CREATED_AT : 'created_at',
 };
@@ -25,6 +26,7 @@ export const TYPE = {
             ${COLUMNS.FULL_NAME} : String
             ${COLUMNS.EMAIL} : String
             ${COLUMNS.IS_VALIDATED_EMAIL} : Boolean
+            ${COLUMNS.COUNT_COURSES} : Int
             ${COLUMNS.IS_ACTIVE} : Boolean
             ${COLUMNS.CREATED_AT} : String
             ${COLUMNS.PROFILE_IMAGE} : ${image.NAME}

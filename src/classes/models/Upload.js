@@ -1,8 +1,8 @@
-import { awsS3, options, Bucket, getSignedUrl } from '../../config/awsS3';
 import path from 'path';
 import fs from 'fs';
 import { isDevelopment, LINK_IMAGES, LINK_VIDEOS, LINK_MATERIALS } from '../../config/server';
 import { PATH_IMAGES, PATH_VIDEOS, PATH_MATERIAL } from '../../config/paths';
+import { clientVimeo, getSignedUrl } from '../../config/vimeo';
 
 export const Upload = () => {
     const TYPES_UPLOAD = {
@@ -29,19 +29,7 @@ export const Upload = () => {
 
     const defineFilename = (name) => `file${Date.now()}-${String(name).replace(/[^A-Za-z0-9.]+/g, "")}`;
 
-    const getParams = (file, filename, isPrivate = false) => ({
-        Body: file,
-        Bucket,
-        Key: filename,
-        ACL: isPrivate ? 'private' : 'public-read'
-    });
-
-    const getParamsDelete = (file) => ({
-        Bucket,
-        Key: file,
-    });
-
-    const getUrl = (name, typeUpload) => {
+    const getUrl = async(name, typeUpload) => {
         if (name && Object.values(TYPES_UPLOAD).includes(typeUpload)) {
             let isPrivate = false;
             let url = null;
@@ -51,10 +39,9 @@ export const Upload = () => {
             } else if (typeUpload === TYPES_UPLOAD.IMAGE) {
                 url = LINK_IMAGES;
             } else if (typeUpload === TYPES_UPLOAD.MATERIAL) {
-                isPrivate = !isDevelopment;
                 url = LINK_MATERIALS;
             }
-            return getSignedUrl({ url, name, isPrivate });
+            return getSignedUrl({ url, videoId: name, isPrivate });
         }
         return null;
     }
@@ -94,44 +81,48 @@ export const Upload = () => {
         });
     }
 
-    const storeAwsS3 = async ({ stream, filename, isPrivate = false }) => {
+    const storeVimeo = async ({ absolutePath, name, description }) => {
         try {
-            const name = await defineFilename(filename);
-            const params = getParams(stream, name, isPrivate);
+            const params = {
+                name,
+                description
+            };
 
             return new Promise(async (resolve, reject) => {
-                await awsS3.upload(params, options, (err, data) => {
-                    if (err || !data) {
-                        reject("ERROR UPLOAD");
-                    }
-                    resolve({
-                        url: data.Location,
-                        filename: name,
-                    });
-                });
+                try {
+                    await clientVimeo.upload(
+                        absolutePath,
+                        params,
+                        (data) => {
+                            if (!data) {
+                                reject("ERROR UPLOAD");
+                            }
+                            console.log(data);
+                            // data = /videos/:id
+                            const dataSplit = String(data).split('/');
+                            if (dataSplit.length >= 3) {
+                                const [, , id] = dataSplit;
+                                resolve({
+                                    //url: data.Location,
+                                    filename: id,
+                                });
+                            }
+                            resolve(null);
+                        },
+                        () => { },
+                        (err) => {
+                            console.log(err);
+                        }
+                    );
+                } catch (error) {
+                    reject(null);
+                }
             });
         } catch (error) { }
         return null;
     }
 
-    const removeAwsS3 = async ({ name }) => {
-        try {
-            const params = getParamsDelete(name);
-
-            await awsS3.deleteObject(params, options, (err, data) => {
-                return new Promise(async (resolve, reject) => {
-                    if (err) {
-                        reject(false);
-                    } else {
-                        resolve(true);
-                    }
-                });
-            });
-        } catch (error) { }
-        return false;
-    }
-
-    const upload = async (file, typeUpload = TYPES_UPLOAD.IMAGE) => {
+    const upload = async ({ file, name, description, typeUpload = TYPES_UPLOAD.IMAGE }) => {
         if (file && Object.values(TYPES_UPLOAD).includes(typeUpload)) {
             const elementFile = await file;
             if (elementFile) {
@@ -142,7 +133,13 @@ export const Upload = () => {
                     if (!justVideo(mimetype)) {
                         return null;
                     }
-                    isPrivate = true;
+                    if (!isDevelopment) {
+                        return storeVimeo({
+                            absolutePath: stream && stream.path,
+                            name,
+                            description
+                        });
+                    }
                 } else if (typeUpload === TYPES_UPLOAD.MATERIAL) {
                     if (!justMaterial(mimetype)) {
                         return null;
@@ -155,13 +152,10 @@ export const Upload = () => {
                 }
 
                 const stream = createReadStream();
+
                 const type = defineFiletype(mimetype);
                 if (type) {
-                    const options = { stream, filename, type, isPrivate, typeUpload };
-                    if (!isDevelopment) {
-                        return storeAwsS3(options);
-                    }
-                    return storeLocal(options);
+                    return storeLocal({ stream, filename, type, isPrivate, typeUpload });
                 }
             }
         }
@@ -175,22 +169,9 @@ export const Upload = () => {
         getImageUrl,
         getMaterialUrl,
         upload,
-        uploadImage: (file) => upload(file, TYPES_UPLOAD.IMAGE),
-        uploadVideo: (file) => upload(file, TYPES_UPLOAD.VIDEO),
-        uploadMaterial: (file) => upload(file, TYPES_UPLOAD.MATERIAL),
-        async remove({ path, fileName }) {
-            try {
-                if (path) {
-                    if (isDevelopment) {
-                        fs.unlinkSync(path);
-                        return true;
-                    } else {
-                        return removeAwsS3({ name: fileName });
-                    }
-                }
-            } catch (error) { }
-            return false;
-        },
+        uploadImage: (file) => upload({ file, typeUpload: TYPES_UPLOAD.IMAGE }),
+        uploadVideo: (file, name, description) => upload({ file, name, description, typeUpload: TYPES_UPLOAD.VIDEO }),
+        uploadMaterial: (file) => upload({ file, typeUpload: TYPES_UPLOAD.MATERIAL }),
     }
 };
 

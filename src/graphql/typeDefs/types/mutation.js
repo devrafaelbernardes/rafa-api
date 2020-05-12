@@ -16,6 +16,10 @@ import inputRemoveCourseStudent from '../inputs/removeCourseStudent';
 import inputRemoveCourseVideo from '../inputs/removeCourseVideo';
 import inputSignUpStudent from '../inputs/signUpStudent';
 import inputSendForgotPassword from '../inputs/sendForgotPassword';
+import inputSendEmailTo from '../inputs/sendEmailTo';
+import inputSendEmailToAll from '../inputs/sendEmailToAll';
+import inputSendEmailToCourse from '../inputs/sendEmailToCourse';
+import inputSendEmailToNoCourse from '../inputs/sendEmailToNoCourse';
 import inputUpdateAdmin from '../inputs/updateAdmin';
 import inputUpdateBag from '../inputs/updateBag';
 import inputUpdatePassword from '../inputs/updatePassword';
@@ -62,6 +66,10 @@ export const TYPE = {
             removeCourseVideo(${inputRemoveCourseVideo.CONTENT_FOR_PARAMS}) : ${courseVideo.NAME}
             removeMedia(${inputRemove.CONTENT_FOR_PARAMS}) : ${media.NAME}
             removeSocialNetwork(${inputRemove.CONTENT_FOR_PARAMS}) : ${socialNetwork.NAME}
+            sendEmailTo(${inputSendEmailTo.CONTENT_FOR_PARAMS}): Boolean
+            sendEmailToAll(${inputSendEmailToAll.CONTENT_FOR_PARAMS}): Boolean
+            sendEmailToNoCourse(${inputSendEmailToNoCourse.CONTENT_FOR_PARAMS}): Boolean
+            sendEmailToCourse(${inputSendEmailToCourse.CONTENT_FOR_PARAMS}): Boolean
             updateBag(${inputUpdateBag.CONTENT_FOR_PARAMS}, firstImage : Upload, secondImage : Upload) : ${bag.NAME}
             updateCourse(${inputUpdateCourse.CONTENT_FOR_PARAMS}, image: Upload) : ${course.NAME}
             removeCourseMaterial(${inputRemoveCourseMaterial.CONTENT_FOR_PARAMS}) : ${courseMaterial.NAME}
