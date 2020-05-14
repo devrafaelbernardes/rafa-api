@@ -21,7 +21,7 @@ const findValidatedEmail = async (studentId) => {
         try {
             let validated = await loaderStudentValidatedEmail.load(studentId);
             if (validated) {
-                return validated;
+                return true;
             }
         } catch (error) { }
     }

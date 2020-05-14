@@ -44,8 +44,8 @@ export const CourseVideoController = () => {
                     instructorId = validations.cleanValue(instructorId);
                     courseId = validations.cleanValue(courseId);
                     name = validations.cleanValue(name);
-                    description = validations.cleanValue(description);
-
+                    const descriptionClean = validations.cleanValue(description);
+                    
                     let thumbnailId = null;
 
                     if (thumbnail) {
@@ -64,7 +64,7 @@ export const CourseVideoController = () => {
                             const courseVideoId = await classCourseVideoModel.add({
                                 courseId,
                                 name,
-                                description,
+                                description: descriptionClean,
                                 videoId: videoAddedId,
                                 thumbnailId,
                             });

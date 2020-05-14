@@ -83,9 +83,10 @@ export const Upload = () => {
 
     const storeVimeo = async ({ absolutePath, name, description }) => {
         try {
+            //const fileStats = await fs.statSync(absolutePath);
             const params = {
                 name,
-                description
+                description,
             };
 
             return new Promise(async (resolve, reject) => {
@@ -93,17 +94,17 @@ export const Upload = () => {
                     await clientVimeo.upload(
                         absolutePath,
                         params,
-                        (data) => {
+                        async(data) => {
                             if (!data) {
                                 reject("ERROR UPLOAD");
                             }
-                            console.log(data);
                             // data = /videos/:id
                             const dataSplit = String(data).split('/');
                             if (dataSplit.length >= 3) {
                                 const [, , id] = dataSplit;
+                                const url = await getVideoUrl(id);
                                 resolve({
-                                    //url: data.Location,
+                                    url,
                                     filename: id,
                                 });
                             }
@@ -111,7 +112,7 @@ export const Upload = () => {
                         },
                         () => { },
                         (err) => {
-                            console.log(err);
+                            reject(err);
                         }
                     );
                 } catch (error) {
@@ -129,6 +130,9 @@ export const Upload = () => {
                 let isPrivate = false;
                 const { createReadStream, filename, mimetype, encoding } = elementFile;
 
+                const stream = createReadStream();
+                const type = defineFiletype(mimetype);
+                
                 if (typeUpload === TYPES_UPLOAD.VIDEO) {
                     if (!justVideo(mimetype)) {
                         return null;
@@ -151,9 +155,6 @@ export const Upload = () => {
                     }
                 }
 
-                const stream = createReadStream();
-
-                const type = defineFiletype(mimetype);
                 if (type) {
                     return storeLocal({ stream, filename, type, isPrivate, typeUpload });
                 }

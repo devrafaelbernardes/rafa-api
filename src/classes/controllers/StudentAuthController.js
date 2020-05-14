@@ -202,7 +202,7 @@ export const StudentAuthController = () => {
                         const validatedIdStudentEmail = await classValidateStudentEmailModel.findOne({
                             where: {
                                 [VALIDATE_STUDENT_EMAIL.ID]: idValidateStudentEmail,
-                                [VALIDATE_STUDENT_EMAIL.IS_OKEY]: false,
+                                //[VALIDATE_STUDENT_EMAIL.IS_OKEY]: false,
                             },
                         });
                         if (validatedIdStudentEmail) {
