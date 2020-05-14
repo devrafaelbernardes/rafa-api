@@ -34,7 +34,7 @@ export const Upload = () => {
             let isPrivate = false;
             let url = null;
             if (typeUpload === TYPES_UPLOAD.VIDEO) {
-                isPrivate = !isDevelopment;
+                isPrivate = true/* !isDevelopment */;
                 url = LINK_VIDEOS;
             } else if (typeUpload === TYPES_UPLOAD.IMAGE) {
                 url = LINK_IMAGES;
@@ -156,7 +156,7 @@ export const Upload = () => {
                 }
 
                 if (type) {
-                    //return storeLocal({ stream, filename, type, isPrivate, typeUpload });
+                    return storeLocal({ stream, filename, type, isPrivate, typeUpload });
                 }
             }
         }

@@ -54,7 +54,17 @@ export const VideoModel = () => {
             where,
         }),
         remove: ({ id = null } = {}) => crud.remove({ id }),
-        update: ({ id = null, data = {} } = {}) => crud.update({ id, data })
+        update: ({
+            id = null,
+            data : {
+                name = null
+            } = {}
+        } = {}) => crud.update({
+            id,
+            data : {
+                [VIDEO.NAME] : name,
+            }
+        })
     };
 };
 

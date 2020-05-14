@@ -5,6 +5,7 @@ const COLUMNS = {
     COURSE_ID: 'courseId',
     NAME: 'name',
     DESCRIPTION: 'description',
+    LINK: 'link',
 };
 
 export const addCourseVideo = {
@@ -15,6 +16,7 @@ export const addCourseVideo = {
         input ${NAME}{
             ${COLUMNS.COURSE_ID} : ID!
             ${COLUMNS.NAME} : String
+            ${COLUMNS.LINK} : String
             ${COLUMNS.DESCRIPTION} : String
         }
     `,
