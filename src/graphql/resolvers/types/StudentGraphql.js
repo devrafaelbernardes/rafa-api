@@ -1,8 +1,10 @@
 import typeStudent from '../../typeDefs/types/student';
-import { STUDENT, COURSE_STUDENT } from '../../../database/tables';
+import { STUDENT, COURSE_STUDENT, VALIDATE_STUDENT_EMAIL } from '../../../database/tables';
 import loaderImage from '../../../loaders/loaderImage';
 import loaderStudentValidatedEmail from '../../../loaders/loaderStudentValidatedEmail';
 import CourseStudentModel from '../../../classes/models/CourseStudentModel';
+import ValidateStudentEmailModel from '../../../classes/models/ValidateStudentEmailModel';
+import System from '../../../classes/models/System';
 
 const findImage = async (imageId) => {
     if (imageId) {
@@ -19,8 +21,13 @@ const findImage = async (imageId) => {
 const findValidatedEmail = async (studentId) => {
     if (studentId) {
         try {
-            let validated = await loaderStudentValidatedEmail.load(studentId);
-            if (validated) {
+            const classValidateStudentEmailModel = ValidateStudentEmailModel();
+            let validated = await classValidateStudentEmailModel.findOne({
+                where: {
+                    [VALIDATE_STUDENT_EMAIL.STUDENT]: studentId,
+                }
+            });
+            if (validated && System().getBoolean(validated[VALIDATE_STUDENT_EMAIL.IS_OKEY])) {
                 return true;
             }
         } catch (error) { }
