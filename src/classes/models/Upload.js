@@ -156,7 +156,7 @@ export const Upload = () => {
                 }
 
                 if (type) {
-                    return storeLocal({ stream, filename, type, isPrivate, typeUpload });
+                    //return storeLocal({ stream, filename, type, isPrivate, typeUpload });
                 }
             }
         }

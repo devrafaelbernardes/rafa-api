@@ -31,7 +31,7 @@ export const Cron = () => {
                 const courseTokensAccess = await classCourseAccessModel.findAll({
                     columns: [
                         `${tableCourseAccess}.${COURSE_ACCESS.ID} as courseAccessID`,
-                        `${tableTokenAccess}.${TOKEN_ACCESS.TOKEN} as tokenAccessTOKEN`,
+                        //`${tableTokenAccess}.${TOKEN_ACCESS.TOKEN} as tokenAccessTOKEN`,
                     ],
                     leftJoin: {
                         table: tableTokenAccess,
@@ -46,12 +46,12 @@ export const Cron = () => {
                 if (courseTokensAccess && courseTokensAccess.length > 0) {
                     await courseTokensAccess.forEach(async ({ courseAccessID, tokenAccessTOKEN }) => {
                         try {
-                            if (tokenAccessTOKEN) {
+                            /* if (tokenAccessTOKEN) {
                                 const validated = await classToken.verify(tokenAccessTOKEN);
                                 if (!validated) {
                                     await classCourseAccessModel.cancelAccess({ id: courseAccessID });
                                 }
-                            }
+                            } */
                         } catch (error) { }
                     });
                 }
