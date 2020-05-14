@@ -6,6 +6,8 @@ import { COURSE_VIDEO, VIDEO } from "../../database/tables";
 //import Pagination from "../models/Pagination";
 import loaderCourseVideo from "../../loaders/loaderCourseVideo";
 import validations from "../../utils/validations";
+import loaderVideo from "../../loaders/loaderVideo";
+import { getSignedUrl } from "../../config/vimeo";
 
 export const CourseVideoController = () => {
     const classVideoModel = VideoModel();
@@ -13,6 +15,23 @@ export const CourseVideoController = () => {
     const classCourseVideoModel = CourseVideoModel();
     const classUpload = Upload();
     //const classPagination = Pagination();
+
+    const getIdFromLink = async(link = "") => {
+        if (link) {
+            try {
+                const POSITION_ID = 3;
+                const list = link.split('/');
+                if (list.length > POSITION_ID && list[POSITION_ID]) {
+                    const id = list[POSITION_ID];
+                    const validatedId = await getSignedUrl({ videoId : id, isPrivate : true });
+                    if(validatedId){
+                        return id;
+                    }
+                }
+            } catch (error) { }
+        }
+        return null;
+    }
 
     const removeVideo = async (courseId, videoId) => {
         try {
@@ -38,14 +57,15 @@ export const CourseVideoController = () => {
     }
 
     return {
-        add: async ({ courseId = null, name = null, description = null, video = null, thumbnail = null } = {}, { tokenUser: { adminId: instructorId = null } = {} } = {}) => {
+        add: async ({ courseId = null, name = null, description = null, link = null, video = null, thumbnail = null } = {}, { tokenUser: { adminId: instructorId = null } = {} } = {}) => {
             if (courseId && name && instructorId) {
                 try {
                     instructorId = validations.cleanValue(instructorId);
                     courseId = validations.cleanValue(courseId);
                     name = validations.cleanValue(name);
+                    link = validations.cleanValue(link);
                     const descriptionClean = validations.cleanValue(description);
-                    
+
                     let thumbnailId = null;
 
                     if (thumbnail) {
@@ -55,24 +75,27 @@ export const CourseVideoController = () => {
                             thumbnailId = await classImageModel.add({ name: thumbnailUploaded.filename });
                         }
                     }
-                    
-                    const videoUploaded = await classUpload.uploadVideo(video, name, description);
+                    let filenameVideo = await getIdFromLink(link);
+                    if (!filenameVideo) {
+                        const videoUploaded = await classUpload.uploadVideo(video, name, description);
+                        if (videoUploaded && videoUploaded.url) {
+                            filenameVideo = videoUploaded.filename;
+                        }
+                    }
 
-                    if (videoUploaded && videoUploaded.url) {
-                        const videoAddedId = await classVideoModel.add({ name: videoUploaded.filename });
-                        if (videoAddedId) {
-                            const courseVideoId = await classCourseVideoModel.add({
-                                courseId,
-                                name,
-                                description: descriptionClean,
-                                videoId: videoAddedId,
-                                thumbnailId,
-                            });
-                            if (courseVideoId) {
-                                let courseVideo = await loaderCourseVideo.load(courseVideoId);
-                                if (courseVideo) {
-                                    return courseVideo;
-                                }
+                    const videoAddedId = await classVideoModel.add({ name: filenameVideo });
+                    if (videoAddedId) {
+                        const courseVideoId = await classCourseVideoModel.add({
+                            courseId,
+                            name,
+                            description: descriptionClean,
+                            videoId: videoAddedId,
+                            thumbnailId,
+                        });
+                        if (courseVideoId) {
+                            let courseVideo = await loaderCourseVideo.load(courseVideoId);
+                            if (courseVideo) {
+                                return courseVideo;
                             }
                         }
                     }
@@ -105,7 +128,7 @@ export const CourseVideoController = () => {
             }
             return null;
         },
-        update: async ({ courseId = null, videoId = null, name = null, description = null, thumbnail = null } = {}, { tokenUser: { adminId = null } = {} } = {}) => {
+        update: async ({ courseId = null, videoId = null, link = null, name = null, description = null, thumbnail = null } = {}, { tokenUser: { adminId = null } = {} } = {}) => {
             if (courseId && videoId && adminId) {
                 try {
                     courseId = validations.cleanValue(courseId);
@@ -140,6 +163,11 @@ export const CourseVideoController = () => {
                             }
                         });
                         if (updated) {
+                            const filenameVideo = await getIdFromLink(link);
+                            if (filenameVideo) {
+                                await classVideoModel.update({ id: videoId, data: { name: filenameVideo } });
+                            }
+
                             await loaderCourseVideo.clear(courseVideoId);
                             const response = await loaderCourseVideo.load(courseVideoId);
                             if (response) {

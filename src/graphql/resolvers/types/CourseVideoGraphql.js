@@ -6,7 +6,7 @@ import loaderImage from '../../../loaders/loaderImage';
 const findVideo = async(videoId) => {
     if(videoId){
         try {
-            const video = await loaderVideo.load(videoId);
+            const video = await loaderVideo.clear(videoId).load(videoId);
             if(video){
                 return video;
             }

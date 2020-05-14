@@ -4,6 +4,7 @@ const NAME = "InputUpdateCourseVideo";
 const COLUMNS = {
     COURSE_ID: 'courseId',
     VIDEO_ID: 'videoId',
+    LINK: 'link',
     NAME: 'name',
     DESCRIPTION: 'description',
 };
@@ -16,6 +17,7 @@ export const updateCourseVideo = {
         input ${NAME}{
             ${COLUMNS.COURSE_ID} : ID!
             ${COLUMNS.VIDEO_ID} : ID!
+            ${COLUMNS.LINK} : String
             ${COLUMNS.NAME} : String
             ${COLUMNS.DESCRIPTION} : String
         }
