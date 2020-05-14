@@ -11,6 +11,7 @@ const batchStudentValidatedEmail = async (studentIds, params) => {
         column : VALIDATE_STUDENT_EMAIL.STUDENT,
         ...params,
     });
+    console.log(response);
     
     if (response && response.length > 0) {
         return response.map(async (validatedEmail) => System().getBoolean(validatedEmail[VALIDATE_STUDENT_EMAIL.IS_OKEY]));
