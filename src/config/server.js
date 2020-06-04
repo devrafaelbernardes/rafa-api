@@ -41,4 +41,5 @@ export const ROUTE = {
     TEMPLATES_EMAIL: '/emails',
     MATERIAL: '/material',
     VIDEO: '/video',
+    UPLOAD: '/upload',
 };

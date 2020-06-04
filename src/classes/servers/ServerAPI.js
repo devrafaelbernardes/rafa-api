@@ -5,16 +5,19 @@ import helmet from 'helmet';
 import minify from 'express-minify';
 import { ApolloServer } from 'apollo-server-express';
 
-import { PORT, ROUTE, isDevelopment } from '../../config/server';
+import { PORT, ROUTE, isDevelopment, LINK_IMAGES } from '../../config/server';
 import { PATH_IMAGES, PATH_VIDEOS, PATH_MATERIAL } from '../../config/paths';
 import schema from '../../graphql/schema';
 import Token from '../models/Token';
 import typeDefs from '../../graphql/typeDefs';
 import resolvers from '../../graphql/resolvers';
+import { configMulter, multer } from '../../config/multer';
+
+const classToken = Token();
 
 const getToken = (authorization) => {
     try {
-        return Token().getTokenAccess(authorization);
+        return classToken.getTokenAccess(authorization);
     } catch (error) { }
     return null;
 }
@@ -43,9 +46,30 @@ if (!isDevelopment) {
     app.use(cors());
 }
 
-app.use(`${ROUTE.IMAGE}`, express.static(PATH_IMAGES));
-app.use(`${ROUTE.MATERIAL}`, express.static(PATH_MATERIAL));
-app.use(`${ROUTE.VIDEO}`, express.static(PATH_VIDEOS));
+app.use(ROUTE.IMAGE, express.static(PATH_IMAGES));
+app.use(ROUTE.MATERIAL, express.static(PATH_MATERIAL));
+app.use(ROUTE.VIDEO, express.static(PATH_VIDEOS));
+
+app.post(ROUTE.UPLOAD, multer(configMulter).single('upload'), (request, response) => {
+    try {
+        const token = request.query.token;
+        if (token) {
+            const validated = classToken.verify(token);
+            if (validated && response && response.req && response.req.file) {
+                const file = response.req.file;
+                return response.json({
+                    uploaded: true,
+                    url: LINK_IMAGES + file.key
+                });
+            }
+        }
+    } catch (error) { }
+
+    return response.json({
+        uploaded: false,
+        message: "Error to upload file!"
+    });
+})
 
 const server = new ApolloServer({
     typeDefs,

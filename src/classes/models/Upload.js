@@ -166,6 +166,7 @@ export const Upload = () => {
     return {
         TYPES_UPLOAD,
         defineFiletype,
+        defineFilename,
         getVideoUrl,
         getImageUrl,
         getMaterialUrl,
