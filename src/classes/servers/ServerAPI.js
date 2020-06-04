@@ -31,17 +31,17 @@ app.use(minify());
 app.use(express.json());
 if (!isDevelopment) {
     app.get(`${ROUTE.GRAPHQL}`, (req, res) => res.send('Not found!'));
-    app.use(cors(/* {
+    app.use(cors({
         origin: [
             'https://dashboard.rbernardes.com.br', 'https://www.dashboard.rbernardes.com.br',
             'https://ead.rbernardes.com.br', 'https://www.ead.rbernardes.com.br',
             'https://api.rbernardes.com.br', 'https://www.api.rbernardes.com.br',
             'https://rbernardes.com.br', 'https://www.rbernardes.com.br',
         ],
-        methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
+        /* methods: ["GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"],
         credentials: true,
-        allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"]
-    } */));
+        allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "authorization"] */
+    }));
 } else {
     app.use(cors());
 }
