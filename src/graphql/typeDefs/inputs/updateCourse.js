@@ -5,6 +5,7 @@ const COLUMNS = {
     COURSE_ID: 'courseId',
     NAME: 'name',
     DESCRIPTION: 'description',
+    MONTHS_TO_EXPIRES: 'monthsToExpires',
     PURCHASE_LINK : 'purchaseLink',
 };
 
@@ -17,6 +18,7 @@ export const updateCourse = {
             ${COLUMNS.COURSE_ID} : ID!
             ${COLUMNS.NAME} : String
             ${COLUMNS.DESCRIPTION} : String
+            ${COLUMNS.MONTHS_TO_EXPIRES} : Int
             ${COLUMNS.PURCHASE_LINK} : String
         }
     `,

@@ -7,6 +7,7 @@ const COLUMNS = {
     ID : 'id',
     NAME : 'name',
     DESCRIPTION : 'description',
+    MONTHS_TO_EXPIRES : 'months_to_expires',
     IS_ACTIVE : 'is_active',
     CREATED_AT : 'created_at',
     INSTRUCTOR : 'instructor',
@@ -27,6 +28,7 @@ export const TYPE = {
             ${COLUMNS.PURCHASE_LINK} : String
             ${COLUMNS.IS_ACTIVE} : Boolean
             ${COLUMNS.CREATED_AT} : String
+            ${COLUMNS.MONTHS_TO_EXPIRES} : Int
             ${COLUMNS.COUNT_STUDENTS} : Int
             ${COLUMNS.COUNT_VIDEOS} : Int
             ${COLUMNS.PROFILE_IMAGE} : ${image.NAME}

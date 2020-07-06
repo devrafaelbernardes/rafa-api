@@ -15,6 +15,7 @@ export const PATH_MEDIA_IMAGES = path.resolve(PATH_IMAGES, 'medias');
 export const PATH_SOCIAL_NETWORK_IMAGES = path.resolve(PATH_IMAGES, 'social_networks');
 export const PATH_OTHERS_IMAGES = path.resolve(PATH_IMAGES, 'others');
 
+export const PATH_PUBLIC = path.resolve(__dirname, '..', '..', 'public');
 export const PATH_TEMPLATES = path.resolve(__dirname, '..', 'templates');
 export const PATH_TEMPLATES_EMAILS = path.resolve(PATH_TEMPLATES, 'emails');
 

@@ -6,6 +6,7 @@ import course from './course';
 import courses from './courses';
 import courseAccess from './courseAccess';
 import courseAccesses from './courseAccesses';
+import courseStudent from './courseStudent';
 import courseStudents from './courseStudents';
 import coursePreview from './coursePreview';
 import courseVideo from './courseVideo';
@@ -41,7 +42,7 @@ export const TYPE = {
             courses(${pagination.CONTENT_FOR_PARAMS}) : ${courses.NAME}
             course_accesses(courseId : ID, ${pagination.CONTENT_FOR_PARAMS}) : ${courseAccesses.NAME}
             course_video(courseId : ID, videoId : ID) : ${courseVideo.NAME}
-
+            
             # JUST ADMINS
             me_admin : ${admin.NAME}
             students(${pagination.CONTENT_FOR_PARAMS}) : ${students.NAME}
@@ -52,6 +53,7 @@ export const TYPE = {
 
             # JUST STUDENTS
             me_student : ${student.NAME}
+            me_course_student(courseId : ID) : ${courseStudent.NAME}
             is_valid_token_reset_password(token : String!) : Boolean
         }
     `,

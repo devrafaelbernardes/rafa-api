@@ -14,7 +14,7 @@ export const CourseModel = () => {
     });
 
     return {
-        add: async ({ name = null, description = null, purchaseLink = null, instructorId = null, imageId = null } = {}) => {
+        add: async ({ name = null, description = null, purchaseLink = null, monthsToExpires = null, instructorId = null, imageId = null } = {}) => {
             if (instructorId && name) {
                 try {
                     return crud.addOne({
@@ -24,6 +24,7 @@ export const CourseModel = () => {
                             [COURSE.INSTRUCTOR]: instructorId,
                             [COURSE.PROFILE_IMAGE]: imageId,
                             [COURSE.PURCHASE_LINK] : purchaseLink,
+                            [COURSE.MONTHS_TO_EXPIRES] : monthsToExpires,
                         }
                     });
                 } catch (error) { }
@@ -64,13 +65,20 @@ export const CourseModel = () => {
             where,
         }),
         remove: ({ id = null } = {}) => crud.remove({ id }),
-        update: ({ id = null, data : { name = null, description = null, purchaseLink = null, profileImageId = null } = {} } = {}) => crud.update({
+        update: ({ id = null, data : {
+            name = null,
+            description = null,
+            purchaseLink = null,
+            monthsToExpires = null,
+            profileImageId = null
+        } = {} } = {}) => crud.update({
             id,
             data: {
                 [COURSE.NAME]: name,
                 [COURSE.DESCRIPTION]: description,
                 [COURSE.PURCHASE_LINK]: purchaseLink,
                 [COURSE.PROFILE_IMAGE]: profileImageId,
+                [COURSE.MONTHS_TO_EXPIRES]: monthsToExpires,
             }
         })
     };

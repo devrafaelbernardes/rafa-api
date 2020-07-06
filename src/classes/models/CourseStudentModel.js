@@ -16,34 +16,35 @@ export const CourseStudentModel = () => {
     });
 
     return {
-        add: async ({ courseId = null, studentId = null } = {}) => {
+        add: async ({ courseId = null, expiresAt = null, studentId = null } = {}) => {
             if (courseId && studentId) {
                 try {
                     return crud.addOne({
                         data: {
                             [COURSE_STUDENT.COURSE]: courseId,
                             [COURSE_STUDENT.STUDENT]: studentId,
+                            [COURSE_STUDENT.EXPIRES_AT]: expiresAt,
                         }
                     });
                 } catch (error) { }
             }
             return null;
         },
-        validatedCourseStudent: async(courseId = null, studentId = null) => {
-            if(courseId && studentId){
+        validatedCourseStudent: async (courseId = null, studentId = null) => {
+            if (courseId && studentId) {
                 let validated = await crud.count({
                     where: {
                         [COURSE_STUDENT.COURSE]: courseId,
                         [COURSE_STUDENT.STUDENT]: studentId,
                     }
                 });
-                if(validated > 0){
+                if (validated > 0) {
                     return true;
                 }
             }
             return false;
         },
-        findOne: ({ where = {} } = {}) => crud.findOne({ where }),
+        findOne: ({ where = {}, ...rest } = {}) => crud.findOne({ where, ...rest }),
         findById: (id = null) => crud.findOne({
             where: {
                 [COURSE_STUDENT.ID]: id,

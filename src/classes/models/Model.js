@@ -90,7 +90,7 @@ export const Model = () => {
                                     [`${tableName}.${columnIsActive}`]: isActive
                                 });
 
-                            if (andWhere.length > 0) {
+                            if (andWhere && andWhere.length > 0) {
                                 await andWhere.forEach(item => {
                                     request.andWhere(item[0], item[1], item[2]);
                                 });
@@ -102,7 +102,7 @@ export const Model = () => {
                             return await request
                                 .first();
                         }
-                    } catch (error) { }
+                    } catch (error) {}
                 }
                 return null;
             },
