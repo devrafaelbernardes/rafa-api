@@ -51,9 +51,9 @@ if (!isDevelopment) {
     }));
 } else {
     app.use(cors());
-}
 
-app.use(ROUTE.ADMIN_QUEUES, BullBoard.UI);
+    app.use(ROUTE.ADMIN_QUEUES, BullBoard.UI);
+}
 
 app.use(express.static(PATH_PUBLIC));
 app.use(ROUTE.IMAGE, express.static(PATH_IMAGES));
