@@ -34,7 +34,7 @@ export const Upload = () => {
             let isPrivate = false;
             let url = null;
             if (typeUpload === TYPES_UPLOAD.VIDEO) {
-                isPrivate = true/* !isDevelopment */;
+                isPrivate = !isDevelopment;
                 url = LINK_VIDEOS;
             } else if (typeUpload === TYPES_UPLOAD.IMAGE) {
                 url = LINK_IMAGES;

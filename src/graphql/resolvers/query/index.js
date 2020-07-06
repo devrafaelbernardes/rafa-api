@@ -64,6 +64,7 @@ export const query = {
     
     // JUST STUDENTS
     me_student: isStudentResolver((_, params, context) => classStudentController.meStudent(params, context)),
+    me_course_student: isStudentResolver((_, params, context) => classCourseStudentController.meCourseStudent(params, context)),
     is_valid_token_reset_password: isNotAuthResolver((_, params, context) => classStudentAuthController.isValidTokenResetPassword(params, context)),
 };
 

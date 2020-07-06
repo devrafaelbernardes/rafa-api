@@ -42,4 +42,5 @@ export const ROUTE = {
     MATERIAL: '/material',
     VIDEO: '/video',
     UPLOAD: '/upload',
+    ADMIN_QUEUES: '/admin/queues',
 };

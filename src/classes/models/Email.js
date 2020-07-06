@@ -1,14 +1,19 @@
-import transporter from "../../config/email";
-import { USER_EMAIL, LINK_VALIDATE_EMAIL, LINK_FORGET_PASSWORD, LINK_COURSE_ACCESS } from "../../config/server";
-
+import { LINK_COURSE_ACCESS, LINK_FORGET_PASSWORD, LINK_VALIDATE_EMAIL, USER_EMAIL } from "../../config/server";
+import * as CourseAccessMail from "../jobs/CourseAccessMail";
+import * as CustomMail from "../jobs/CustomMail";
+import * as ForgotPasswordMail from "../jobs/ForgotPasswordMail";
+import * as RegistrationMail from "../jobs/RegistrationMail";
+import * as ValidateEmailMail from "../jobs/ValidateEmailMail";
+import Queue from "./Queue";
 import Token from "./Token";
+
 
 export const Email = () => {
     const classToken = Token();
 
-    const sendEmail = ({ to, template, subject, data = {} } = {}) => {
+    const sendEmail = (key, { to, template, subject, data = {} } = {}) => {
         if (to && template) {
-            return transporter.sendMail({
+            return Queue.add(key, {
                 to,
                 subject: `Rafael Bernardes | ${subject}`,
                 from: `"Rafael Bernardes" <${USER_EMAIL}>`,
@@ -23,7 +28,7 @@ export const Email = () => {
     return {
         async sendWelcome({ to, name = "" }) {
             try {
-                sendEmail({
+                sendEmail(RegistrationMail.KEY, {
                     to,
                     subject: 'Bem-vindo',
                     template: 'auth/welcome',
@@ -37,7 +42,7 @@ export const Email = () => {
             if (idForgetPassword) {
                 try {
                     const token = classToken.create({ idForgetPassword, email: to });
-                    sendEmail({
+                    sendEmail(ForgotPasswordMail.KEY, {
                         to,
                         subject: 'Esqueci minha senha',
                         template: 'auth/forgotPassword',
@@ -51,7 +56,7 @@ export const Email = () => {
         async sendCourseAccess({ to, name = "", courseName = "", token = "" }) {
             if (token) {
                 try {
-                    sendEmail({
+                    sendEmail(CourseAccessMail.KEY, {
                         to,
                         subject: `Acesso ao curso ${courseName}`,
                         template: 'auth/courseAccess',
@@ -66,7 +71,7 @@ export const Email = () => {
             if (idValidateStudentEmail) {
                 try {
                     const code = await classToken.create({ idValidateStudentEmail });
-                    sendEmail({
+                    sendEmail(ValidateEmailMail.KEY, {
                         to,
                         subject: `E-mail de verificação`,
                         template: 'auth/validateEmail',
@@ -80,14 +85,14 @@ export const Email = () => {
         async sendCustom({ to, subject = "", message = "" }) {
             if (subject && message) {
                 try {
-                    await sendEmail({
+                    await sendEmail(CustomMail.KEY, {
                         to,
                         subject,
                         template: 'auth/custom',
                         data: { body: message },
                     });
                     return true;
-                } catch (error) {}
+                } catch (error) { }
             }
             return false;
         },

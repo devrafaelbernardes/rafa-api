@@ -1,21 +1,49 @@
-import Token from "../models/Token";
-import CourseStudentModel from "../models/CourseStudentModel";
-import CourseAccessModel from "../models/CourseAccessModel";
-import StudentModel from "../models/StudentModel";
-import Pagination from "../models/Pagination";
-import { COURSE_STUDENT, COURSE_ACCESS, STUDENT } from "../../database/tables";
+import { COURSE_ACCESS, COURSE_STUDENT, STUDENT, COURSE } from "../../database/tables";
+import CourseStudentsGraphql from "../../graphql/resolvers/types/CourseStudentsGraphql";
 import loaderCourseStudent from "../../loaders/loaderCourseStudent";
 import validations from "../../utils/validations";
-import CourseStudentsGraphql from "../../graphql/resolvers/types/CourseStudentsGraphql";
+import CourseAccessModel from "../models/CourseAccessModel";
+import CourseModel from "../models/CourseModel";
+import CourseStudentModel from "../models/CourseStudentModel";
+import Pagination from "../models/Pagination";
+import StudentModel from "../models/StudentModel";
+import Token from "../models/Token";
 import CourseStudentSubscription from "../subscriptions/CourseStudentSubscription";
 
 export const CourseStudentController = () => {
+    const classCourseModel = CourseModel();
     const classCourseStudentModel = CourseStudentModel();
     const classCourseAccessModel = CourseAccessModel();
     const classStudentModel = StudentModel();
     const classToken = Token();
     const classPagination = Pagination();
     const classCourseStudentSubscription = CourseStudentSubscription();
+
+    const getFututeDateSumByMonth = (month) => {
+        const dateNow = new Date();
+        return new Date(dateNow.getFullYear(), dateNow.getMonth() + month, dateNow.getDate());
+    }
+
+    const isAllowedToAdd = async (expiresAt) => {
+        let allowedToAdd = true;
+        if (!expiresAt) {
+            allowedToAdd = false;
+        } else {
+            let now = (new Date(Date.now())).toLocaleDateString();
+            let expiresAtMS = (new Date(expiresAt)).toLocaleDateString();
+
+            // se o usuário não expirou ainda, não pode adicionar novamente
+            if (now <= expiresAtMS) {
+                allowedToAdd = false;
+            }
+        }
+
+        if (allowedToAdd) {
+            await classCourseStudentModel.remove({ id: existsCourseStudent[COURSE_STUDENT.ID] });
+        }
+
+        return allowedToAdd;
+    }
 
     const addStudent = async (courseId, studentId, token = null) => {
         try {
@@ -39,13 +67,26 @@ export const CourseStudentController = () => {
                     where: {
                         [COURSE_STUDENT.COURSE]: courseId,
                         [COURSE_STUDENT.STUDENT]: studentId,
-                    }
+                    },
                 });
+
+                let allowedToAdd = true;
+                if (existsCourseStudent) {
+                    allowedToAdd = await isAllowedToAdd(existsCourseStudent[COURSE_STUDENT.EXPIRES_AT]);
+                }
+
                 let courseStudentId = null;
-                if (!existsCourseStudent) {
+                if (allowedToAdd) {
+                    let studentExpiresAt = null;
+                    const course = await classCourseModel.findById(courseId);
+                    if (course && course[COURSE.MONTHS_TO_EXPIRES] && course[COURSE.MONTHS_TO_EXPIRES] > 0) {
+                        studentExpiresAt = getFututeDateSumByMonth(course[COURSE.MONTHS_TO_EXPIRES]);
+                    }
+
                     courseStudentId = await classCourseStudentModel.add({
                         courseId,
-                        studentId
+                        studentId,
+                        expiresAt: studentExpiresAt,
                     });
                 }
                 if (courseStudentId) {
@@ -104,6 +145,19 @@ export const CourseStudentController = () => {
             }
             return null;
         },
+        meCourseStudent: async ({ courseId = null } = {}, { tokenUser: { studentId = null } = {} } = {}) => {
+            if (courseId && studentId) {
+                try {
+                    return classCourseStudentModel.findOne({
+                        where: {
+                            [COURSE_STUDENT.COURSE]: courseId,
+                            [COURSE_STUDENT.STUDENT]: studentId,
+                        }
+                    });
+                } catch (error) { }
+            }
+            return null;
+        },
         remove: async ({ courseId = null, studentId = null } = {}, { tokenUser: { adminId = null } = {} } = {}) => {
             if (courseId && studentId && adminId) {
                 try {
@@ -156,13 +210,13 @@ export const CourseStudentController = () => {
                             [COURSE_STUDENT.COURSE]: courseId
                         },
                     });
-                    
+
                     const idsHasCourse = await usersCourses.map(item => item[COURSE_STUDENT.STUDENT]);
 
                     totalItems = await classStudentModel.count({
                         ids: idsHasCourse,
-                        whereNotIn : true,
-                        column : STUDENT.ID
+                        whereNotIn: true,
+                        column: STUDENT.ID
                     });
                     items = await classStudentModel.findNotIn({
                         ids: idsHasCourse,
@@ -195,7 +249,7 @@ export const CourseStudentController = () => {
 
                     totalItems = await classStudentModel.count({
                         ids: idsHasCourse,
-                        column : STUDENT.ID
+                        column: STUDENT.ID
                     });
                     items = await classStudentModel.findIn({
                         ids: idsHasCourse,

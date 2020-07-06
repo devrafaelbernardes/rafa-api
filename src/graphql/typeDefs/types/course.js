@@ -15,6 +15,7 @@ const COLUMNS = {
     INSTRUCTOR : 'instructor',
     PROFILE_IMAGE : 'profile_image',
     IS_ACTIVE : 'is_active',
+    MONTHS_TO_EXPIRES : 'months_to_expires',
     CREATED_AT : 'created_at',
     MATERIALS : 'materials',
     STUDENTS : 'students',
@@ -33,6 +34,7 @@ export const TYPE = {
             ${COLUMNS.NAME} : String
             ${COLUMNS.DESCRIPTION} : String
             ${COLUMNS.PURCHASE_LINK} : String
+            ${COLUMNS.MONTHS_TO_EXPIRES} : Int
             ${COLUMNS.IS_ACTIVE} : Boolean
             ${COLUMNS.CREATED_AT} : String
             ${COLUMNS.COUNT_MATERIALS} : Int

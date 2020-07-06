@@ -3,6 +3,7 @@ import StudentController from "./StudentController";
 import CourseController from "./CourseController";
 import CourseStudentController from "./CourseStudentController";
 
+import Token from '../models/Token';
 import TokenAccessModel from "../models/TokenAccessModel";
 
 export const AuthController = () => {
@@ -11,15 +12,16 @@ export const AuthController = () => {
     const classCourseStudentController = CourseStudentController();
     const classStudentController = StudentController();
 
+    const classToken = Token();
     const classTokenAccessModel = TokenAccessModel();
 
-    const validatedTokenConnected = async(tokenUser) => {
-        if(!tokenUser || !tokenUser.tokenId){
+    const validatedTokenConnected = async (tokenUser) => {
+        if (!tokenUser || !tokenUser.tokenId) {
             throw new Error('Not authenticated!');
         }
         const tokenId = tokenUser.tokenId;
         const tokenConnected = await classTokenAccessModel.findById(tokenId);
-        if(!tokenConnected){
+        if (!tokenConnected) {
             throw new Error('Token desconnected!');
         }
     }
@@ -45,7 +47,7 @@ export const AuthController = () => {
     }
 
     const validatedCourseStudent = async (args, studentId) => {
-        if(args && args.input){
+        if (args && args.input) {
             args = args.input;
         }
         const courseId = args.courseId || args.id;
@@ -62,7 +64,7 @@ export const AuthController = () => {
     }
 
     const validatedCourseInstructor = async (args, instructorId) => {
-        if(args && args.input){
+        if (args && args.input) {
             args = args.input;
         }
         const courseId = args.courseId || args.id;
@@ -88,11 +90,29 @@ export const AuthController = () => {
                 throw new Error('Not authenticated!');
             }
             await validatedTokenConnected(tokenUser);
-            if(tokenUser.adminId){
+            if (tokenUser.adminId) {
                 await validatedAdmin(tokenUser.adminId);
-            }else{
+            } else {
                 await validatedStudent(tokenUser.studentId);
             }
+        },
+        isAdminRequest: async (req, res, next) => {
+            if (req && req.query && req.query['token']) {
+                const token = req.query['token'];
+                const tokenUser = classToken.getTokenAccess(token);
+                if (tokenUser && tokenUser.adminId) {
+                    try {
+                        await validatedTokenConnected(tokenUser);
+                        await validatedAdmin(tokenUser.adminId);
+                        console.log("OKEY");
+                        next();
+                    } catch (error) { }
+                }
+            }
+            res.status(404).json({
+                message: "Not found!"
+            });
+            next();
         },
         isAdmin: async (root, args, { tokenUser = null } = {}, info) => {
             await validatedTokenConnected(tokenUser);

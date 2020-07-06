@@ -4,14 +4,18 @@ import cors from 'cors';
 import helmet from 'helmet';
 import minify from 'express-minify';
 import { ApolloServer } from 'apollo-server-express';
+import BullBoard from 'bull-board';
+import Queue from '../models/Queue';
 
 import { PORT, ROUTE, isDevelopment, LINK_IMAGES } from '../../config/server';
-import { PATH_IMAGES, PATH_VIDEOS, PATH_MATERIAL } from '../../config/paths';
+import { PATH_IMAGES, PATH_VIDEOS, PATH_MATERIAL, PATH_PUBLIC } from '../../config/paths';
 import schema from '../../graphql/schema';
 import Token from '../models/Token';
 import typeDefs from '../../graphql/typeDefs';
 import resolvers from '../../graphql/resolvers';
 import { configMulter, multer } from '../../config/multer';
+import AuthController from '../controllers/AuthController';
+
 
 const classToken = Token();
 
@@ -22,6 +26,8 @@ const getToken = (authorization) => {
     return null;
 }
 
+const classAuthController = AuthController();
+
 const app = express();
 
 const pathServer = '/';
@@ -29,6 +35,7 @@ const pathServer = '/';
 app.use(helmet());
 app.use(minify());
 app.use(express.json());
+
 if (!isDevelopment) {
     app.get(`${ROUTE.GRAPHQL}`, (req, res) => res.send('Not found!'));
     app.use(cors({
@@ -44,11 +51,16 @@ if (!isDevelopment) {
     }));
 } else {
     app.use(cors());
+
+    app.use(ROUTE.ADMIN_QUEUES, BullBoard.UI);
 }
 
+app.use(express.static(PATH_PUBLIC));
 app.use(ROUTE.IMAGE, express.static(PATH_IMAGES));
 app.use(ROUTE.MATERIAL, express.static(PATH_MATERIAL));
 app.use(ROUTE.VIDEO, express.static(PATH_VIDEOS));
+
+BullBoard.setQueues(Queue.queues.map(queue => queue.bull));
 
 app.post(ROUTE.UPLOAD, multer(configMulter).single('upload'), (request, response) => {
     try {

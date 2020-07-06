@@ -32,7 +32,8 @@ export const getSignedUrl = async({ url, videoId, isPrivate = false }) => {
             if (!isPrivate) {
                 return `${url}${videoId}`;
             }
-            return await getVideoUrl({ videoId });
+            const link = await getVideoUrl({ videoId });
+            return link || "";
         } catch (error) { }
     }
     return null;

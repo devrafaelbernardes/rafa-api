@@ -24,13 +24,14 @@ export const CourseController = () => {
 
     return {
         isInstructor: (courseId, instructorId) => classCourseModel.validatedCourseInstructor(courseId, instructorId),
-        createCourse: async ({ name = null, description = null, purchaseLink = null, image = null } = {}, { tokenUser: { adminId: instructorId = null } = {} } = {}) => {
+        createCourse: async ({ name = null, description = null, purchaseLink = null, monthsToExpires = null, image = null } = {}, { tokenUser: { adminId: instructorId = null } = {} } = {}) => {
             if (name && instructorId) {
                 try {
                     name = validations.cleanValue(name);
                     instructorId = validations.cleanValue(instructorId);
                     description = validations.cleanValue(description) || null;
                     purchaseLink = validations.cleanValue(purchaseLink) || null;
+                    monthsToExpires = validations.cleanValueInt(monthsToExpires) || null;
 
                     let imageId = null;
                     if (image) {
@@ -42,13 +43,18 @@ export const CourseController = () => {
                             imageId = await classImageModel.add({ url: imageUploaded.url, name: imageUploaded.filename });
                         }
                     }
+                    
+                    if(monthsToExpires && monthsToExpires < 0){
+                        throw new Error("Expires invalid!");
+                    }
 
                     const courseId = await classCourseModel.add({
                         name,
                         description,
                         instructorId,
                         purchaseLink,
-                        imageId
+                        imageId,
+                        monthsToExpires
                     });
 
                     if (courseId) {
@@ -62,12 +68,13 @@ export const CourseController = () => {
             }
             return null;
         },
-        update: async ({ courseId = null, name = null, description = null, purchaseLink = null, image = null } = {}, { tokenUser: { adminId: instructorId = null } = {} } = {}) => {
+        update: async ({ courseId = null, name = null, description = null, monthsToExpires = null, purchaseLink = null, image = null } = {}, { tokenUser: { adminId: instructorId = null } = {} } = {}) => {
             if (courseId && name && instructorId) {
                 try {
                     name = validations.cleanValue(name);
                     description = validations.cleanValue(description);
                     purchaseLink = validations.cleanValue(purchaseLink);
+                    monthsToExpires = validations.cleanValueInt(monthsToExpires) || null;
 
                     let imageId = null;
                     if (image) {
@@ -80,16 +87,21 @@ export const CourseController = () => {
                         }
                     }
 
+                    if(monthsToExpires && monthsToExpires < 0){
+                        throw new Error("Expires invalid!");
+                    }
+
                     const updated = await classCourseModel.update({
                         id: courseId,
                         data: {
                             name,
                             description,
                             purchaseLink,
-                            profileImageId: imageId
+                            profileImageId: imageId,
+                            monthsToExpires
                         }
                     });
-
+                    
                     if (updated) {
                         await loaderCourse.clear(courseId);
                         let course = await loaderCourse.load(courseId);
