@@ -6,4 +6,4 @@ ServerAPI().start();
 
 // SCRIPTS
 const cron = Cron();
-cron.closeCourseTokensAccess().start();
+cron.start();

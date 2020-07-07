@@ -1,7 +1,6 @@
 import { CronJob } from 'cron';
-import CourseAccessModel from '../models/CourseAccessModel';
-import Token from '../models/Token';
-import { COURSE_ACCESS, TOKEN_ACCESS } from '../../database/tables';
+import { COURSE_ACCESS, TOKEN_ACCESS, COURSE_STUDENT } from '../../database/tables';
+import CourseStudentModel from '../models/CourseStudentModel';
 
 /*
     * * * * * *
@@ -17,10 +16,33 @@ import { COURSE_ACCESS, TOKEN_ACCESS } from '../../database/tables';
 //  */segungos * * * * *
 
 export const Cron = () => {
-    const classCourseAccessModel = CourseAccessModel();
-    const classToken = Token();
+    // FAZER CRON QUE REMOVE TOKEN DE ACESSO
+
+    const removeCourseStudent = () => {
+        return new CronJob("0 56 0 * * *", async () => {
+            const classCourseStudentModel = CourseStudentModel();
+
+            const courseStudents = await classCourseStudentModel.findAll();
+
+            if (courseStudents && courseStudents.length > 0) {
+                await courseStudents.forEach(async (courseStudent) => {
+                    try {
+                        const allowedToRemove = classCourseStudentModel.isExpired(courseStudent[COURSE_STUDENT.EXPIRES_AT]);
+                        if (allowedToRemove) {
+                            await classCourseStudentModel.remove({ id: courseStudent[COURSE_STUDENT.ID] });
+                        }
+                    } catch (error) { }
+                });
+            }
+        });
+    }
 
     return ({
+        start: () => {
+            removeCourseStudent().start();
+            //Queue.add(RemoveCourseStudent.KEY);
+        },
+        /*
         closeCourseTokensAccess: () => {
             // 02:00:00 EVERYDAY
             return new CronJob("0 0 2 * * *", async () => {
@@ -46,12 +68,12 @@ export const Cron = () => {
                 if (courseTokensAccess && courseTokensAccess.length > 0) {
                     await courseTokensAccess.forEach(async ({ courseAccessID, tokenAccessTOKEN }) => {
                         try {
-                            /* if (tokenAccessTOKEN) {
+                            if (tokenAccessTOKEN) {
                                 const validated = await classToken.verify(tokenAccessTOKEN);
                                 if (!validated) {
                                     await classCourseAccessModel.cancelAccess({ id: courseAccessID });
                                 }
-                            } */
+                            }
                         } catch (error) { }
                     });
                 }
@@ -62,6 +84,7 @@ export const Cron = () => {
                 console.log("--------------------------------------------------------");
             });
         },
+        */
     });
 };
 
