@@ -74,7 +74,7 @@ export const CourseController = () => {
                     name = validations.cleanValue(name);
                     description = validations.cleanValue(description);
                     purchaseLink = validations.cleanValue(purchaseLink);
-                    monthsToExpires = validations.cleanValueInt(monthsToExpires) || null;
+                    monthsToExpires = validations.cleanValueInt(monthsToExpires);
 
                     let imageId = null;
                     if (image) {
