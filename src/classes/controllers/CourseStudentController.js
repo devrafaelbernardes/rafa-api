@@ -24,27 +24,6 @@ export const CourseStudentController = () => {
         return new Date(dateNow.getFullYear(), dateNow.getMonth() + month, dateNow.getDate());
     }
 
-    const isAllowedToAdd = async (expiresAt) => {
-        let allowedToAdd = true;
-        if (!expiresAt) {
-            allowedToAdd = false;
-        } else {
-            let now = (new Date(Date.now())).toLocaleDateString();
-            let expiresAtMS = (new Date(expiresAt)).toLocaleDateString();
-
-            // se o usuário não expirou ainda, não pode adicionar novamente
-            if (now <= expiresAtMS) {
-                allowedToAdd = false;
-            }
-        }
-
-        if (allowedToAdd) {
-            await classCourseStudentModel.remove({ id: existsCourseStudent[COURSE_STUDENT.ID] });
-        }
-
-        return allowedToAdd;
-    }
-
     const addStudent = async (courseId, studentId, token = null) => {
         try {
             courseId = validations.cleanValue(courseId);
@@ -72,7 +51,7 @@ export const CourseStudentController = () => {
 
                 let allowedToAdd = true;
                 if (existsCourseStudent) {
-                    allowedToAdd = await isAllowedToAdd(existsCourseStudent[COURSE_STUDENT.EXPIRES_AT]);
+                    allowedToAdd = await classCourseStudentModel.isAllowedToAdd(existsCourseStudent[COURSE_STUDENT.ID], existsCourseStudent[COURSE_STUDENT.EXPIRES_AT]);
                 }
 
                 let courseStudentId = null;
@@ -186,7 +165,18 @@ export const CourseStudentController = () => {
             try {
                 if (adminId) {
                     totalItems = await classCourseStudentModel.count({ where: { [COURSE_STUDENT.COURSE]: courseId }, groupBy: [COURSE_STUDENT.STUDENT] });
-                    items = await classCourseStudentModel.findAll({ where: { [COURSE_STUDENT.COURSE]: courseId }, ...classPagination.paramsToModel(params) });
+                    items = await classCourseStudentModel.findAll({
+                        columns: [`${COURSE_STUDENT.TABLE_NAME}.*`],
+                        where: {
+                            [COURSE_STUDENT.COURSE]: courseId
+                        },
+                        innerJoin: {
+                            table: STUDENT.TABLE_NAME,
+                            param1: `${STUDENT.TABLE_NAME}.${STUDENT.ID}`,
+                            param2: `${COURSE_STUDENT.TABLE_NAME}.${COURSE_STUDENT.STUDENT}`,
+                        },
+                        ...classPagination.paramsToModel(params)
+                    });
                 }
             } catch (error) { }
 

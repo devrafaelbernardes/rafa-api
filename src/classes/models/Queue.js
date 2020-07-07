@@ -23,9 +23,7 @@ export default {
         return this.queues.forEach(queue => {
             queue.bull.process(queue.handle);
 
-            queue.bull.on('failed', (data, err) => {
-
-            });
+            //queue.bull.on('failed', (data, err) => {});
         });
     },
 };

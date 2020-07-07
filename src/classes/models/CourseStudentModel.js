@@ -15,7 +15,32 @@ export const CourseStudentModel = () => {
         columnIsActive,
     });
 
+    const remove = ({ id = null } = {}) => crud.remove({ id });
+
+    const isExpired = (expiresAt) => {
+        if (!expiresAt) {
+            return false;
+        }
+        const now = (new Date(Date.now())).toLocaleDateString();
+        const expiresAtMS = (new Date(expiresAt)).toLocaleDateString();
+        
+        if (now <= expiresAtMS) {
+            return false;
+        }
+        return true;
+    }
+
     return {
+        isExpired,
+        isAllowedToAdd: async (id, expiresAt) => {
+            let allowedToAdd = isExpired(expiresAt);
+
+            if (allowedToAdd) {
+                await remove({ id });
+            }
+
+            return allowedToAdd;
+        },
         add: async ({ courseId = null, expiresAt = null, studentId = null } = {}) => {
             if (courseId && studentId) {
                 try {
@@ -68,7 +93,7 @@ export const CourseStudentModel = () => {
             ...params,
             where,
         }),
-        remove: ({ id = null } = {}) => crud.remove({ id }),
+        remove,
         update: ({ id = null, data = {} } = {}) => crud.update({ id, data })
     };
 };
