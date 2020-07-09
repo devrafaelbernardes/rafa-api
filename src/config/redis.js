@@ -6,6 +6,6 @@ export default {
     connectTimeout: 30000,
     limiter: {
         max: 20,
-        duration: 5000
+        duration: 300000
     },
 };
