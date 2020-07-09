@@ -18,16 +18,13 @@ export const CourseStudentModel = () => {
     const remove = ({ id = null } = {}) => crud.remove({ id });
 
     const isExpired = (expiresAt) => {
-        if (!expiresAt) {
-            return false;
+        if(expiresAt){
+            const now = (new Date(Date.now())).toLocaleDateString();
+            const expiresDate = (new Date(expiresAt)).toLocaleDateString();
+            
+            return now > expiresDate;
         }
-        const now = (new Date(Date.now())).toLocaleDateString();
-        const expiresAtMS = (new Date(expiresAt)).toLocaleDateString();
-        
-        if (now <= expiresAtMS) {
-            return false;
-        }
-        return true;
+        return false;
     }
 
     return {

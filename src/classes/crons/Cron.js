@@ -19,21 +19,39 @@ export const Cron = () => {
     // FAZER CRON QUE REMOVE TOKEN DE ACESSO
 
     const removeCourseStudent = () => {
-        return new CronJob("0 56 0 * * *", async () => {
+        const TIME = "59 23 0 * * *";
+        //const TIME = "*/10 * * * * *"; // TEST
+        return new CronJob(TIME, async () => {
+            console.log("--------------------------------------------------------");
+            console.log("Remoção de alunos vencidos do curso\n");
+            console.log("INICIADO em ", new Date(Date.now()).toLocaleString());
             const classCourseStudentModel = CourseStudentModel();
 
-            const courseStudents = await classCourseStudentModel.findAll();
+            const courseStudents = await classCourseStudentModel.findAll({
+                whereNot: {
+                    [COURSE_STUDENT.EXPIRES_AT]: null,
+                },
+            });
 
+            console.log("Alunos com validade:", courseStudents.length);
+                
             if (courseStudents && courseStudents.length > 0) {
                 await courseStudents.forEach(async (courseStudent) => {
                     try {
-                        const allowedToRemove = classCourseStudentModel.isExpired(courseStudent[COURSE_STUDENT.EXPIRES_AT]);
+                        const allowedToRemove = await classCourseStudentModel.isExpired(courseStudent[COURSE_STUDENT.EXPIRES_AT]);
                         if (allowedToRemove) {
-                            await classCourseStudentModel.remove({ id: courseStudent[COURSE_STUDENT.ID] });
+                            const courseStudentId = courseStudent[COURSE_STUDENT.ID];
+                            
+                            console.log("Aluno removido: #", courseStudentId);
+
+                            await classCourseStudentModel.remove({ id: courseStudentId });
                         }
                     } catch (error) { }
                 });
             }
+
+            console.log("FINALIZADO em ", new Date(Date.now()).toLocaleString());
+            console.log("--------------------------------------------------------");
         });
     }
 
