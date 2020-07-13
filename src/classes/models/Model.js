@@ -102,7 +102,7 @@ export const Model = () => {
                             return await request
                                 .first();
                         }
-                    } catch (error) {}
+                    } catch (error) { }
                 }
                 return null;
             },
@@ -148,19 +148,19 @@ export const Model = () => {
 
                         setPagination(request, page);
 
-                        if(ids && ids.length > 0){
+                        if (ids && ids.length > 0) {
                             return await request
                                 .orderBy(connection.raw(`FIELD(${column}, ${ids.join(', ')})`));
                         }
                         return await request;
                     } catch (error) {
                         console.log(error);
-                        
+
                     }
                 }
                 return [];
             },
-            findAll: async ({ where = {}, whereNot = {}, columns = [], leftJoin = {}, innerJoin = {}, isActive = true, orderBy = [], groupBy = null, page = null } = {}) => {
+            findAll: async ({ where = {}, whereNot = {}, columns = [], andWhere = [], leftJoin = {}, innerJoin = {}, isActive = true, orderBy = [], groupBy = null, page = null } = {}) => {
                 if (tableName && columnIsActive) {
                     try {
                         const data = {};
@@ -175,6 +175,12 @@ export const Model = () => {
 
                         if (whereNot) {
                             request.whereNot(whereNot);
+                        }
+
+                        if (andWhere && andWhere.length > 0) {
+                            await andWhere.forEach(item => {
+                                request.andWhere(item[0], item[1], item[2]);
+                            });
                         }
 
                         if (columns.length > 0 && leftJoin && leftJoin.table && leftJoin.param1 && leftJoin.param2) {
@@ -216,10 +222,10 @@ export const Model = () => {
                         if (!dataObject().isEmpty(data)) {
                             request.andWhere(data)
                         }
-                        if(column && ids && ids.length > 0){
-                            if(whereNotIn){
+                        if (column && ids && ids.length > 0) {
+                            if (whereNotIn) {
                                 request.whereNotIn(column, ids);
-                            }else{
+                            } else {
                                 request.whereIn(column, ids);
                             }
                         }
