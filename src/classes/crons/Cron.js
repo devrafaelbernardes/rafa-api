@@ -31,14 +31,18 @@ export const Cron = () => {
                 whereNot: {
                     [COURSE_STUDENT.EXPIRES_AT]: null,
                 },
+                andWhere: [
+                    [COURSE_STUDENT.EXPIRES_AT, '<', (new Date(Date.now())).toLocaleDateString()]
+                ],
             });
 
             console.log("Alunos com validade:", courseStudents.length);
-                
+            
             if (courseStudents && courseStudents.length > 0) {
                 await courseStudents.forEach(async (courseStudent) => {
                     try {
                         const allowedToRemove = await classCourseStudentModel.isExpired(courseStudent[COURSE_STUDENT.EXPIRES_AT]);
+                        
                         if (allowedToRemove) {
                             const courseStudentId = courseStudent[COURSE_STUDENT.ID];
                             
@@ -49,7 +53,7 @@ export const Cron = () => {
                     } catch (error) { }
                 });
             }
-
+            
             console.log("FINALIZADO em ", new Date(Date.now()).toLocaleString());
             console.log("--------------------------------------------------------");
         });

@@ -19,8 +19,8 @@ export const CourseStudentModel = () => {
 
     const isExpired = (expiresAt) => {
         if(expiresAt){
-            const now = (new Date(Date.now())).toLocaleDateString();
-            const expiresDate = (new Date(expiresAt)).toLocaleDateString();
+            const now = (new Date(Date.now())).getTime();
+            const expiresDate = (new Date(expiresAt)).getTime();
             
             return now > expiresDate;
         }
