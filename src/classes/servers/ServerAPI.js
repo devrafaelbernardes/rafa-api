@@ -8,7 +8,7 @@ import BullBoard from 'bull-board';
 import Queue from '../models/Queue';
 
 import { PORT, ROUTE, isDevelopment, LINK_IMAGES } from '../../config/server';
-import { PATH_IMAGES, PATH_VIDEOS, PATH_MATERIAL, PATH_PUBLIC } from '../../config/paths';
+import { PATH_IMAGES, PATH_VIDEOS, PATH_MATERIAL, PATH_PUBLIC, PATH_MODELING } from '../../config/paths';
 import schema from '../../graphql/schema';
 import Token from '../models/Token';
 import typeDefs from '../../graphql/typeDefs';
@@ -59,6 +59,7 @@ app.use(express.static(PATH_PUBLIC));
 app.use(ROUTE.IMAGE, express.static(PATH_IMAGES));
 app.use(ROUTE.MATERIAL, express.static(PATH_MATERIAL));
 app.use(ROUTE.VIDEO, express.static(PATH_VIDEOS));
+app.use(ROUTE.MODELING, express.static(PATH_MODELING));
 
 BullBoard.setQueues(Queue.queues.map(queue => queue.bull));
 

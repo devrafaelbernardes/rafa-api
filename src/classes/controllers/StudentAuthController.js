@@ -99,14 +99,14 @@ export const StudentAuthController = () => {
                     const student = await loaderStudent.load(studentId);
                     if (student) {
                         const validateStudentEmail = await classValidateStudentEmailModel.findOne({
-                            where : {
-                                [VALIDATE_STUDENT_EMAIL.STUDENT] : studentId,
+                            where: {
+                                [VALIDATE_STUDENT_EMAIL.STUDENT]: studentId,
                             }
                         });
                         let idValidateStudentEmail = null;
                         if (validateStudentEmail) {
-                            idValidateStudentEmail = validateStudentEmail[VALIDATE_STUDENT_EMAIL.ID];    
-                        }else{
+                            idValidateStudentEmail = validateStudentEmail[VALIDATE_STUDENT_EMAIL.ID];
+                        } else {
                             idValidateStudentEmail = await classValidateStudentEmailModel.add({ studentId });
                         }
                         return classEmail.sendValidateEmail({ to: student[STUDENT.EMAIL], name: student[STUDENT.NAME], idValidateStudentEmail });
@@ -177,7 +177,7 @@ export const StudentAuthController = () => {
                 try {
                     token = validations.cleanValue(token);
                     const { idForgetPassword, email } = classToken.get(token) || {};
-                    
+
                     if (idForgetPassword && email) {
                         const validated = await classForgetPasswordStudentModel.findOne({
                             where: {
@@ -197,7 +197,7 @@ export const StudentAuthController = () => {
             if (token) {
                 try {
                     const { idValidateStudentEmail = null } = classToken.get(token) || {};
-                    
+
                     if (idValidateStudentEmail) {
                         const validatedIdStudentEmail = await classValidateStudentEmailModel.findOne({
                             where: {
@@ -212,7 +212,7 @@ export const StudentAuthController = () => {
                                 await loaderStudent.clear(studentId);
                                 await loaderStudentValidatedEmail.clear(studentId);
                                 const student = await loaderStudent.load(studentId);
-                                if(student){
+                                if (student) {
                                     await classStudentSubscription.updated.publish(student);
                                 }
                                 return true;

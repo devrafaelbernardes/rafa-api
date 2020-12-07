@@ -22,6 +22,8 @@ import image from './types/image';
 import material from './types/material';
 import media from './types/media';
 import medias from './types/medias';
+import modeling from './types/modeling';
+import modelings from './types/modelings';
 import socialNetwork from './types/socialNetwork';
 import socialNetworks from './types/socialNetworks';
 import student from './types/student';
@@ -64,6 +66,8 @@ export const typeDefs = `
     ${ material.CONTENT }
     ${ media.CONTENT }
     ${ medias.CONTENT }
+    ${ modeling.CONTENT }
+    ${ modelings.CONTENT }
     ${ socialNetwork.CONTENT }
     ${ socialNetworks.CONTENT }
     ${ student.CONTENT }

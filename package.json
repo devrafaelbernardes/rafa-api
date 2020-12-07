@@ -9,6 +9,7 @@
     "start-dev": "nodemon --exec babel-node ./server.js",
     "start-prod": "npm run build && npm run test-prod",
     "start-queue": "NODE_ENV=production nodemon --exec babel-node ./queue.js",
+    "start-queue-dev": "nodemon --exec babel-node ./queue.js",
     "test-prod": "node build/api_server.js",
     "build": "rm -rf build && webpack",
     "migration:run": "knex migrate:latest",

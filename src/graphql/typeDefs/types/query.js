@@ -13,6 +13,8 @@ import courseVideo from './courseVideo';
 import coursesPreview from './coursesPreview';
 import media from './media';
 import medias from './medias';
+import modeling from './modeling';
+import modelings from './modelings';
 import socialNetwork from './socialNetwork';
 import socialNetworks from './socialNetworks';
 import student from './student';
@@ -47,6 +49,8 @@ export const TYPE = {
             me_admin : ${admin.NAME}
             students(${pagination.CONTENT_FOR_PARAMS}) : ${students.NAME}
             emails(${pagination.CONTENT_FOR_PARAMS}) : ${emails.NAME}
+            modeling(id: ID) : ${modeling.NAME}
+            modelings(${pagination.CONTENT_FOR_PARAMS}) : ${modelings.NAME}
             students_have_course(courseId: ID, ${pagination.CONTENT_FOR_PARAMS}) : ${students.NAME}
             students_no_course(courseId: ID, ${pagination.CONTENT_FOR_PARAMS}) : ${students.NAME}
             course_students(courseId: ID, ${pagination.CONTENT_FOR_PARAMS}) : ${courseStudents.NAME}

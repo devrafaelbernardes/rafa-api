@@ -6,7 +6,7 @@ export const StudentModel = () => {
 
     const classModel = Model();
     const crypt = classModel.getCryptography();
-    
+
     const columnIsActive = STUDENT.IS_ACTIVE;
     const columnID = STUDENT.ID;
     const crud = classModel.dbCrud({
@@ -19,7 +19,7 @@ export const StudentModel = () => {
         add: async ({ name = null, lastname = null, email = null, password = null } = {}) => {
             if (name && lastname && email && password) {
                 try {
-                    const salt = await crypt.generateSalt(email+name);
+                    const salt = await crypt.generateSalt(email + name);
                     password = await crypt.encryptPassword(password, salt);
 
                     return crud.addOne({
@@ -65,7 +65,7 @@ export const StudentModel = () => {
             where,
         }),
         remove: ({ id = null } = {}) => crud.remove({ id }),
-        encryptPassword : (password, salt) => crypt.encryptPassword(password, salt), 
+        encryptPassword: (password, salt) => crypt.encryptPassword(password, salt),
         update: ({ id = null, data: { name = null, lastname = null, email = null, password = null, profileImageId = null } = {} } = {}) => crud.update({
             id,
             data: {

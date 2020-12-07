@@ -3,7 +3,7 @@
 Api em NodeJS
 
 ## CRIAR PASTA *images_api* NO MESMO LOCAL QUE A PASTA DA API
-- dentro da pasta deve conter as pastas **bags**, **medias**, **social_networks** e **others**
+- dentro da pasta deve conter as pastas **bags**, **medias**, **modeling**, **social_networks** e **others**
 
 ## PASSO A PASSO DE SOLICITAÇÃO DE ACESSO AO CURSO
 1) A PESSOA: COMPRA O CURSO

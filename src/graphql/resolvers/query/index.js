@@ -12,6 +12,7 @@ import MediaController from '../../../classes/controllers/MediaController';
 import SocialNetworkController from '../../../classes/controllers/SocialNetworkController';
 import StudentController from '../../../classes/controllers/StudentController';
 import StudentAuthController from '../../../classes/controllers/StudentAuthController';
+import ModelingController from '../../../classes/controllers/ModelingController';
 
 const classAuthController = AuthController();
 const classAdminController = AdminController();
@@ -22,6 +23,7 @@ const classCourseStudentController = CourseStudentController();
 const classCourseVideoController = CourseVideoController();
 const classEmailController = EmailController();
 const classMediaController = MediaController();
+const classModelingController = ModelingController();
 const classSocialNetworkController = SocialNetworkController();
 const classStudentController = StudentController();
 const classStudentAuthController = StudentAuthController();
@@ -61,6 +63,8 @@ export const query = {
     students_have_course: isAdminResolver((_, params, context) => classCourseStudentController.studentsHaveCourse(params, context)),
     emails: isAdminResolver((_, params, context) => classEmailController.all(params, context)),
     students: isAdminResolver((_, params, context) => classStudentController.students(params, context)),
+    modeling: isAdminResolver((_, params, context) => classModelingController.modeling(params, context)),
+    modelings: isAdminResolver((_, params, context) => classModelingController.modelings(params, context)),
     
     // JUST STUDENTS
     me_student: isStudentResolver((_, params, context) => classStudentController.meStudent(params, context)),

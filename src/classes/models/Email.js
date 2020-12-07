@@ -1,4 +1,5 @@
-import { LINK_COURSE_ACCESS, LINK_FORGET_PASSWORD, LINK_VALIDATE_EMAIL, USER_EMAIL } from "../../config/server";
+import { LINK_COURSE_ACCESS, LINK_FORGET_PASSWORD, LINK_MODELING, LINK_VALIDATE_EMAIL, USER_EMAIL } from "../../config/server";
+import * as SendModelingMail from "../jobs/SendModelingMail";
 import * as CourseAccessMail from "../jobs/CourseAccessMail";
 import * as CustomMail from "../jobs/CustomMail";
 import * as ForgotPasswordMail from "../jobs/ForgotPasswordMail";
@@ -64,6 +65,20 @@ export const Email = () => {
                     });
                     return true;
                 } catch (error) { }
+            }
+            return false;
+        },
+        async sendModelingEmail({ to, modelingName, modelingFileName = "" }) {
+            if (to) {
+                try {
+                    await sendEmail(SendModelingMail.KEY, {
+                        to,
+                        subject: `MODELAGENS RAFAEL BERNARDES`,
+                        template: 'auth/sendModeling',
+                        data: { name: modelingName, link: `${LINK_MODELING}${modelingFileName}` },
+                    });
+                    return true;
+                } catch (error) {}
             }
             return false;
         },

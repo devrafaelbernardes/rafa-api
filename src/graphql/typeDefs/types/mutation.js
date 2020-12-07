@@ -5,6 +5,7 @@ import inputAddCourseMaterial from '../inputs/addCourseMaterial';
 import inputCreateCourse from '../inputs/createCourse';
 import inputCreateBag from '../inputs/createBag';
 import inputCreateMedia from '../inputs/createMedia';
+import inputCreateModeling from '../inputs/createModeling';
 import inputCreateSocialNetwork from '../inputs/createSocialNetwork';
 import inputGenerateCourseAccess from '../inputs/generateCourseAccess';
 import inputLoginAdmin from '../inputs/loginAdmin';
@@ -20,6 +21,7 @@ import inputSendEmailTo from '../inputs/sendEmailTo';
 import inputSendEmailToAll from '../inputs/sendEmailToAll';
 import inputSendEmailToCourse from '../inputs/sendEmailToCourse';
 import inputSendEmailToNoCourse from '../inputs/sendEmailToNoCourse';
+import inputSendModelingEmail from '../inputs/sendModelingEmail';
 import inputUpdateAdmin from '../inputs/updateAdmin';
 import inputUpdateBag from '../inputs/updateBag';
 import inputUpdatePassword from '../inputs/updatePassword';
@@ -37,6 +39,7 @@ import courseStudent from './courseStudent';
 import courseMaterial from './courseMaterial';
 import courseVideo from './courseVideo';
 import media from './media';
+import modeling from './modeling';
 import socialNetwork from './socialNetwork';
 import student from './student';
 
@@ -58,6 +61,7 @@ export const TYPE = {
             createCourse(${inputCreateCourse.CONTENT_FOR_PARAMS}, image: Upload) : ${course.NAME}
             createBag(${inputCreateBag.CONTENT_FOR_PARAMS}, firstImage : Upload, secondImage : Upload) : ${bag.NAME}
             createMedia(${inputCreateMedia.CONTENT_FOR_PARAMS}, image : Upload) : ${media.NAME}
+            createModeling(${inputCreateModeling.CONTENT_FOR_PARAMS}, file : Upload, image : Upload) : ${modeling.NAME}
             createSocialNetwork(${inputCreateSocialNetwork.CONTENT_FOR_PARAMS}, image : Upload) : ${socialNetwork.NAME}
             generateCourseAccess(${inputGenerateCourseAccess.CONTENT_FOR_PARAMS}) : ${courseAccess.NAME}
             removeBag(${inputRemove.CONTENT_FOR_PARAMS}) : ${bag.NAME}
@@ -65,11 +69,13 @@ export const TYPE = {
             removeCourseStudent(${inputRemoveCourseStudent.CONTENT_FOR_PARAMS}) : ${courseStudent.NAME}
             removeCourseVideo(${inputRemoveCourseVideo.CONTENT_FOR_PARAMS}) : ${courseVideo.NAME}
             removeMedia(${inputRemove.CONTENT_FOR_PARAMS}) : ${media.NAME}
+            removeModeling(${inputRemove.CONTENT_FOR_PARAMS}) : ${modeling.NAME}
             removeSocialNetwork(${inputRemove.CONTENT_FOR_PARAMS}) : ${socialNetwork.NAME}
             sendEmailTo(${inputSendEmailTo.CONTENT_FOR_PARAMS}): Boolean
             sendEmailToAll(${inputSendEmailToAll.CONTENT_FOR_PARAMS}): Boolean
             sendEmailToNoCourse(${inputSendEmailToNoCourse.CONTENT_FOR_PARAMS}): Boolean
             sendEmailToCourse(${inputSendEmailToCourse.CONTENT_FOR_PARAMS}): Boolean
+            sendModelingEmail(${inputSendModelingEmail.CONTENT_FOR_PARAMS}): Boolean
             updateBag(${inputUpdateBag.CONTENT_FOR_PARAMS}, firstImage : Upload, secondImage : Upload) : ${bag.NAME}
             updateCourse(${inputUpdateCourse.CONTENT_FOR_PARAMS}, image: Upload) : ${course.NAME}
             removeCourseMaterial(${inputRemoveCourseMaterial.CONTENT_FOR_PARAMS}) : ${courseMaterial.NAME}

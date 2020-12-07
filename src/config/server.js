@@ -28,6 +28,7 @@ export const LINK_SERVER_ASSETS = LINK_SERVER;//isDevelopment ? `http://localhos
 export const LINK_IMAGES = LINK_SERVER_ASSETS + 'image/';
 export const LINK_MATERIALS = LINK_SERVER_ASSETS + 'material/';
 export const LINK_VIDEOS = LINK_SERVER_ASSETS + 'video/';
+export const LINK_MODELING = LINK_SERVER_ASSETS + 'modeling/';
 
 export const PORT_EMAIL = process.env.PORT_EMAIL;
 export const HOST_EMAIL = process.env.HOST_EMAIL;
@@ -41,6 +42,7 @@ export const ROUTE = {
     TEMPLATES_EMAIL: '/emails',
     MATERIAL: '/material',
     VIDEO: '/video',
+    MODELING: '/modeling',
     UPLOAD: '/upload',
     ADMIN_QUEUES: '/admin/queues',
 };

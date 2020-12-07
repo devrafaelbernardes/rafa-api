@@ -4,7 +4,10 @@ import redisConfig from "../../config/redis";
 import * as jobs from "../jobs";
 
 const queues = Object.values(jobs).map((job) => ({
-    bull: new QueueBull(job.key, redisConfig),
+    bull: new QueueBull(job.key, {
+        redis: redisConfig,
+        limiter: redisConfig.limiter
+    }),
     name: job.key,
     handle: job.handle,
     options: job.options,
@@ -22,8 +25,9 @@ export default {
     process(){
         return this.queues.forEach(queue => {
             queue.bull.process(queue.handle);
-
-            //queue.bull.on('failed', (data, err) => {});
+            //queue.bull.on('failed', (data, err) => {
+            //    console.log("ERROOOOOOOOOOOOOOOR\n\n\n\n\n");
+            //});
         });
     },
 };

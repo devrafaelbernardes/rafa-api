@@ -160,6 +160,28 @@ export const MEDIA = {
     CREATED_AT : 'created_at',
 }
 
+export const MODELING = {
+    TABLE_NAME : 'modeling',
+    ID : 'id',
+    NAME : 'name',
+    DESCRIPTION : 'description',
+    FILE_NAME: 'file_name',
+    IMAGE : 'image_id',
+    IS_ACTIVE : 'is_active',
+    CREATED_AT : 'created_at',
+}
+
+export const ORDER_ITEM = {
+    TABLE_NAME : 'order_item',
+    ID : 'id',
+    TOTAL_PRICE : 'total_price',
+    DISCOUNT_PRICE : 'discount_price',
+    COURSE : 'course_id',
+    ORDER : 'order_id',
+    IS_ACTIVE : 'is_active',
+    CREATED_AT : 'created_at',
+}
+
 export const SOCIAL_NETWORK = {
     TABLE_NAME : 'social_network',
     ID : 'id',
