@@ -45,6 +45,9 @@ import MaterialGraphql from './types/MaterialGraphql';
 import media from '../typeDefs/types/media';
 import MediaGraphql from './types/MediaGraphql';
 
+import modeling from '../typeDefs/types/modeling';
+import ModelingGraphql from './types/ModelingGraphql';
+
 import socialNetwork from '../typeDefs/types/socialNetwork';
 import SocialNetworkGraphql from './types/SocialNetworkGraphql';
 
@@ -81,6 +84,7 @@ export const resolvers = {
     [image.NAME] : ImageGraphql,
     [material.NAME] : MaterialGraphql,
     [media.NAME] : MediaGraphql,
+    [modeling.NAME] : ModelingGraphql,
     [socialNetwork.NAME] : SocialNetworkGraphql,
     [student.NAME] : StudentGraphql,
     [studentAccess.NAME] : StudentAccessGraphql,

@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
-import { isDevelopment, LINK_IMAGES, LINK_VIDEOS, LINK_MATERIALS } from '../../config/server';
-import { PATH_IMAGES, PATH_VIDEOS, PATH_MATERIAL } from '../../config/paths';
+import { isDevelopment, LINK_IMAGES, LINK_VIDEOS, LINK_MATERIALS, LINK_MODELING } from '../../config/server';
+import { PATH_IMAGES, PATH_VIDEOS, PATH_MATERIAL, PATH_MODELING } from '../../config/paths';
 import { clientVimeo, getSignedUrl } from '../../config/vimeo';
 
 export const Upload = () => {
@@ -9,14 +9,16 @@ export const Upload = () => {
         IMAGE: 1,
         VIDEO: 2,
         MATERIAL: 3,
+        MODELING: 4,
     };
 
     const imageTypes = ["image/gif", "image/png", "image/jpg", "image/jpeg"];
     const videoTypes = ["video/mp4"];
     const materialTypes = ["application/pdf"];
+    const modelingTypes = ["application/pdf"];
 
     const defineFiletype = (type) => {
-        const types = [...imageTypes, ...videoTypes, ...materialTypes];
+        const types = [...imageTypes, ...videoTypes, ...materialTypes, ...modelingTypes];
         if (types.includes(type)) {
             return type.split("/").pop();
         }
@@ -25,11 +27,12 @@ export const Upload = () => {
 
     const justImage = (type) => imageTypes.includes(type);
     const justMaterial = (type) => materialTypes.includes(type);
+    const justModeling = (type) => modelingTypes.includes(type);
     const justVideo = (type) => videoTypes.includes(type);
 
     const defineFilename = (name) => `file${Date.now()}-${String(name).replace(/[^A-Za-z0-9.]+/g, "")}`;
 
-    const getUrl = async(name, typeUpload) => {
+    const getUrl = async (name, typeUpload) => {
         if (name && Object.values(TYPES_UPLOAD).includes(typeUpload)) {
             let isPrivate = false;
             let url = null;
@@ -40,6 +43,8 @@ export const Upload = () => {
                 url = LINK_IMAGES;
             } else if (typeUpload === TYPES_UPLOAD.MATERIAL) {
                 url = LINK_MATERIALS;
+            } else if (typeUpload === TYPES_UPLOAD.MODELING) {
+                url = LINK_MODELING;
             }
             return getSignedUrl({ url, videoId: name, isPrivate });
         }
@@ -49,6 +54,7 @@ export const Upload = () => {
     const getVideoUrl = (name) => getUrl(name, TYPES_UPLOAD.VIDEO);
     const getImageUrl = (name) => getUrl(name, TYPES_UPLOAD.IMAGE);
     const getMaterialUrl = (name) => getUrl(name, TYPES_UPLOAD.MATERIAL);
+    const getModelingUrl = (name) => getUrl(name, TYPES_UPLOAD.MODELING);
 
     const storeLocal = ({ stream, filename, type, typeUpload }) => {
         return new Promise(async (resolve, reject) => {
@@ -65,6 +71,8 @@ export const Upload = () => {
                 resultPath = PATH_IMAGES;
             } else if (typeUpload === TYPES_UPLOAD.MATERIAL) {
                 resultPath = PATH_MATERIAL;
+            } else if (typeUpload === TYPES_UPLOAD.MODELING) {
+                resultPath = PATH_MODELING;
             }
             resultPath = path.resolve(resultPath, name);
 
@@ -94,7 +102,7 @@ export const Upload = () => {
                     await clientVimeo.upload(
                         absolutePath,
                         params,
-                        async(data) => {
+                        async (data) => {
                             if (!data) {
                                 reject("ERROR UPLOAD");
                             }
@@ -132,7 +140,7 @@ export const Upload = () => {
 
                 const stream = createReadStream();
                 const type = defineFiletype(mimetype);
-                
+
                 if (typeUpload === TYPES_UPLOAD.VIDEO) {
                     if (!justVideo(mimetype)) {
                         return null;
@@ -149,6 +157,10 @@ export const Upload = () => {
                         return null;
                     }
                     isPrivate = true;
+                } else if (typeUpload === TYPES_UPLOAD.MODELING) {
+                    if (!justModeling(mimetype)) {
+                        return null;
+                    }
                 } else {
                     if (!justImage(mimetype)) {
                         return null;
@@ -170,10 +182,12 @@ export const Upload = () => {
         getVideoUrl,
         getImageUrl,
         getMaterialUrl,
+        getModelingUrl,
         upload,
         uploadImage: (file) => upload({ file, typeUpload: TYPES_UPLOAD.IMAGE }),
         uploadVideo: (file, name, description) => upload({ file, name, description, typeUpload: TYPES_UPLOAD.VIDEO }),
         uploadMaterial: (file) => upload({ file, typeUpload: TYPES_UPLOAD.MATERIAL }),
+        uploadModeling: (file) => upload({ file, typeUpload: TYPES_UPLOAD.MODELING }),
     }
 };
 

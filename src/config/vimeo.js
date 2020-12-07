@@ -26,7 +26,7 @@ export const getVideoUrl = async ({ videoId }) => {
     return null;
 }
 
-export const getSignedUrl = async({ url, videoId, isPrivate = false }) => {
+export const getSignedUrl = async({ url, videoId = "", isPrivate = false }) => {
     if (url || videoId) {
         try {
             if (!isPrivate) {

@@ -14,6 +14,7 @@ import MediaController from '../../../classes/controllers/MediaController';
 import SocialNetworkController from '../../../classes/controllers/SocialNetworkController';
 import StudentController from '../../../classes/controllers/StudentController';
 import StudentAuthController from '../../../classes/controllers/StudentAuthController';
+import ModelingController from '../../../classes/controllers/ModelingController';
 
 const classAuthController = AuthController();
 const classAdminController = AdminController();
@@ -26,6 +27,7 @@ const classCourseVideoController = CourseVideoController();
 const classCourseMaterialController = CourseMaterialController();
 const classEmailController = EmailController();
 const classMediaController = MediaController();
+const classModelingController = ModelingController();
 const classSocialNetworkController = SocialNetworkController();
 const classStudentController = StudentController();
 const classStudentAuthController = StudentAuthController();
@@ -62,13 +64,16 @@ export const mutation = {
     sendEmailToAll : isAdminResolver((_, { input, ...params } = {}, context) => classEmailController.sendToAll({ ...input, ...params }, context)),
     sendEmailToNoCourse : isAdminResolver((_, { input, ...params } = {}, context) => classEmailController.sendToNoCourse({ ...input, ...params }, context)),
     sendEmailToCourse : isCourseInstructorResolver((_, { input, ...params } = {}, context) => classEmailController.sendToCourse({ ...input, ...params }, context)),
+    sendModelingEmail : isAdminResolver((_, { input, ...params } = {}, context) => classEmailController.sendModelingEmail({ ...input, ...params }, context)),
     generateCourseAccess: isAdminResolver((_, { input, ...params } = {}, context) => classCourseAccessController.add({ ...input, ...params }, context)),
     createBag: isAdminResolver((_, { input, ...params } = {}, context) => classBagController.add({ ...input, ...params }, context)),
     createMedia: isAdminResolver((_, { input, ...params } = {}, context) => classMediaController.add({ ...input, ...params }, context)),
+    createModeling: isAdminResolver((_, { input, ...params } = {}, context) => classModelingController.add({ ...input, ...params }, context)),
     createSocialNetwork: isAdminResolver((_, { input, ...params } = {}, context) => classSocialNetworkController.add({ ...input, ...params }, context)),
     createCourse: isAdminResolver((_, { input, ...params } = {}, context) => classCourseController.createCourse({ ...input, ...params }, context)),
     removeBag: isAdminResolver((_, { input, ...params } = {}, context) => classBagController.remove({ ...input, ...params }, context)),
     removeMedia: isAdminResolver((_, { input, ...params } = {}, context) => classMediaController.remove({ ...input, ...params }, context)),
+    removeModeling: isAdminResolver((_, { input, ...params } = {}, context) => classModelingController.remove({ ...input, ...params }, context)),
     removeSocialNetwork: isAdminResolver((_, { input, ...params } = {}, context) => classSocialNetworkController.remove({ ...input, ...params }, context)),
     updateBag: isAdminResolver((_, { input, ...params } = {}, context) => classBagController.update({ ...input, ...params }, context)),
     updateAdmin: isAdminResolver((_, { input, ...params } = {}, context) => classAdminController.update({ ...input, ...params }, context)),

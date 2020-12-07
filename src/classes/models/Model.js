@@ -73,7 +73,7 @@ export const Model = () => {
                         if (response && response[0]) {
                             return response[0];
                         }
-                    } catch (error) { }
+                    } catch (error) {}
                 }
                 return null;
             },
@@ -153,10 +153,7 @@ export const Model = () => {
                                 .orderBy(connection.raw(`FIELD(${column}, ${ids.join(', ')})`));
                         }
                         return await request;
-                    } catch (error) {
-                        console.log(error);
-
-                    }
+                    } catch (error) {}
                 }
                 return [];
             },
@@ -202,9 +199,7 @@ export const Model = () => {
                         setPagination(request, page);
 
                         return await request;
-                    } catch (error) {
-                        console.log(error);
-                    }
+                    } catch (error) {}
                 }
                 return null;
             },

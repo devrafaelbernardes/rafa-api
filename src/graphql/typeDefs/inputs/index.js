@@ -4,6 +4,7 @@ import addCourseStudentByInstructor from './addCourseStudentByInstructor';
 import addCourseVideo from './addCourseVideo';
 import createBag from './createBag';
 import createMedia from './createMedia';
+import createModeling from './createModeling';
 import createSocialNetwork from './createSocialNetwork';
 import createCourse from './createCourse';
 import generateCourseAccess from './generateCourseAccess';
@@ -31,6 +32,7 @@ import updatePosition from './updatePosition';
 import validateEmail from './validateEmail';
 
 import pagination from './pagination';
+import sendModelingEmail from './sendModelingEmail';
 
 export const inputs = `
     # EVERYONE
@@ -48,6 +50,7 @@ export const inputs = `
     ${createBag.CONTENT}
     ${createCourse.CONTENT}
     ${createMedia.CONTENT}
+    ${createModeling.CONTENT}
     ${createSocialNetwork.CONTENT}
     ${generateCourseAccess.CONTENT}
     ${remove.CONTENT}
@@ -58,6 +61,7 @@ export const inputs = `
     ${sendEmailToNoCourse.CONTENT}
     ${sendEmailTo.CONTENT}
     ${sendEmailToAll.CONTENT}
+    ${sendModelingEmail.CONTENT}
     ${updateAdmin.CONTENT}
     ${updateBag.CONTENT}
     ${updateCourse.CONTENT}

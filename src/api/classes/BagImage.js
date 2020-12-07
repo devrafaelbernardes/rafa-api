@@ -20,10 +20,7 @@ class BagImage extends Controller{
                 if(response && response[0]){
                     return response[0];
                 }
-            } catch (error) {
-                console.log(error);
-                
-            }
+            } catch (error) {}
         }
         return null;
     }

@@ -1,9 +1,10 @@
 import Email from "../models/Email";
 import EmailModel from "../models/EmailModel";
 import StudentModel from "../models/StudentModel";
+import ModelingModel from "../models/ModelingModel";
 import CourseStudentModel from "../models/CourseStudentModel";
 
-import { STUDENT, COURSE_STUDENT, EMAIL } from "../../database/tables";
+import { STUDENT, COURSE_STUDENT, EMAIL, MODELING } from "../../database/tables";
 import validations from "../../utils/validations";
 import Pagination from "../models/Pagination";
 import EmailsGraphql from "../../graphql/resolvers/types/EmailsGraphql";
@@ -12,6 +13,7 @@ export const EmailController = () => {
     const classEmail = Email();
     const classEmailModel = EmailModel();
     const classStudentModel = StudentModel();
+    const classModelingModel = ModelingModel();
     const classPagination = Pagination();
     const classCourseStudentModel = CourseStudentModel();
 
@@ -77,6 +79,27 @@ export const EmailController = () => {
                             }
                         } catch (error) { }
                     }
+                } catch (error) { }
+            }
+            return null;
+        },
+        sendModelingEmail: async ({ to = null, modelingId = null } = {}, { tokenUser: { adminId = null } = {} } = {}) => {
+            if (to && modelingId && adminId) {
+                try {
+                    to = validations.cleanValue(to);
+                    modelingId = validations.cleanValue(modelingId);
+                    adminId = validations.cleanValue(adminId);
+
+                    const modeling = await classModelingModel.findById(modelingId);
+                    if (!modeling) {
+                        throw new Error("Modeling not found!");
+                    }
+
+                    return await classEmail.sendModelingEmail({
+                        to,
+                        modelingName: modeling[MODELING.NAME],
+                        modelingFileName: modeling[MODELING.FILE_NAME]
+                    });
                 } catch (error) { }
             }
             return null;

@@ -6,10 +6,12 @@ dotenv.config();
 const DEFAULT_PATH_IMAGES = isDevelopment ? path.resolve(__dirname, '..', '..', '..', 'images_api') : path.resolve(__dirname, '..', '..', 'images_api');
 const DEFAULT_PATH_MATERIALS = isDevelopment ? path.resolve(__dirname, '..', '..', '..', 'images_api') : path.resolve(__dirname, '..', '..', 'images_api');
 const DEFAULT_PATH_VIDEOS = isDevelopment ? path.resolve(__dirname, '..', '..', '..', 'images_api') : path.resolve(__dirname, '..', '..', 'images_api');
+const DEFAULT_PATH_MODELING = isDevelopment ? path.resolve(__dirname, '..', '..', '..', 'images_api') : path.resolve(__dirname, '..', '..', 'images_api');
 
 export const PATH_IMAGES = process.env.PATH_IMAGES || DEFAULT_PATH_IMAGES;
 export const PATH_MATERIAL = process.env.PATH_MATERIAL || DEFAULT_PATH_MATERIALS;
 export const PATH_VIDEOS = process.env.PATH_VIDEOS || DEFAULT_PATH_VIDEOS;
+export const PATH_MODELING = process.env.PATH_MODELING || DEFAULT_PATH_MODELING;
 export const PATH_BAG_IMAGES = path.resolve(PATH_IMAGES, 'bags');
 export const PATH_MEDIA_IMAGES = path.resolve(PATH_IMAGES, 'medias');
 export const PATH_SOCIAL_NETWORK_IMAGES = path.resolve(PATH_IMAGES, 'social_networks');

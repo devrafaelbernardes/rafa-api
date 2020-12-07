@@ -104,7 +104,6 @@ export const AuthController = () => {
                     try {
                         await validatedTokenConnected(tokenUser);
                         await validatedAdmin(tokenUser.adminId);
-                        console.log("OKEY");
                         next();
                     } catch (error) { }
                 }
