@@ -95,11 +95,28 @@ export const EmailController = () => {
                         throw new Error("Modeling not found!");
                     }
 
-                    return await classEmail.sendModelingEmail({
+                    const response = await classEmail.sendModelingEmail({
                         to,
                         modelingName: modeling[MODELING.NAME],
                         modelingFileName: modeling[MODELING.FILE_NAME]
                     });
+                    if (!response) {
+                        throw new Error("Error");
+                    }
+                    let student = null;
+                    try {
+                        student = await classStudentModel.findByEmail(to);
+                    } catch (error) { }
+
+                    await classEmailModel.add({
+                        to,
+                        adminId,
+                        studentId: student && student[STUDENT.ID],
+                        subject: `Envio de modelagem | ${modeling[MODELING.NAME]}`,
+                        message: `Você enviou a modelagem ${modeling[MODELING.NAME]}`
+                    });
+                    
+                    return response;
                 } catch (error) { }
             }
             return null;
