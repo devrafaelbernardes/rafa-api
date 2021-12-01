@@ -18,7 +18,7 @@ export const isDevelopment = process.env.NODE_ENV !== "production";
 export const BASE_ROUTE = "/";
 export const LINK_SERVER = isDevelopment ? `http://localhost:${PORT}/` : `https://api.rbernardes.com.br${BASE_ROUTE}`;
 
-const LINK_EAD = isDevelopment ? `http://localhost:3020/` : `https://ead.rbernardes.com.br/`;
+const LINK_EAD = isDevelopment ? `http://localhost:3020/` : `https://ead.rafaelbernardes.com/`;
 export const LINK_VALIDATE_EMAIL = `${LINK_EAD}validate/`;
 export const LINK_FORGET_PASSWORD = `${LINK_EAD}reset/`;
 export const LINK_COURSE_ACCESS = `${LINK_EAD}access/`;
