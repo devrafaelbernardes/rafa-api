@@ -84,11 +84,11 @@ export const MediaController = () => {
         medias: async (params, context) => {
             let items = [];
             let totalItems = 0;
-            let { pagination = null } = params || {};
+            let { pagination = null, is_landing_page = null } = params || {};
             const infoPagination = classPagination.get(pagination);
 
             try {
-                items = await classMediaModel.findAll(classPagination.paramsToModel(params));
+                items = await classMediaModel.findAll({ ...classPagination.paramsToModel(params), is_landing_page });
                 totalItems = await classMediaModel.count();
             } catch (error) { }
 
