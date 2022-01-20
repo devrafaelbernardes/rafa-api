@@ -88,7 +88,13 @@ export const MediaController = () => {
             const infoPagination = classPagination.get(pagination);
 
             try {
-                items = await classMediaModel.findAll({ ...classPagination.paramsToModel(params), is_landing_page });
+                items = await classMediaModel.findAll({
+                    ...classPagination.paramsToModel(params),
+                    where: {
+                        ...(classPagination.paramsToModel(params).where || {}), 
+                        is_landing_page,
+                    }
+                });
                 totalItems = await classMediaModel.count();
             } catch (error) { }
 
