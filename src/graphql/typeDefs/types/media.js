@@ -4,6 +4,8 @@ const NAME = "Media";
 
 const COLUMNS = {
     ID : 'id',
+    TITLE : 'title',
+    IS_LANDING_PAGE : 'is_landing_page',
     LINK : 'link',
     POSITION : 'position',
     IMAGE : 'image',
@@ -17,7 +19,9 @@ export const TYPE = {
     CONTENT: `
         type ${NAME}{
             ${COLUMNS.ID} : ID
+            ${COLUMNS.TITLE} : String
             ${COLUMNS.LINK} : String
+            ${COLUMNS.IS_LANDING_PAGE} : Boolean
             ${COLUMNS.POSITION} : Int
             ${COLUMNS.IS_ACTIVE} : Boolean
             ${COLUMNS.CREATED_AT} : String

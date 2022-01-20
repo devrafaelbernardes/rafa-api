@@ -14,8 +14,9 @@ export const MediaController = () => {
     const classUpload = Upload();
 
     return {
-        add: async ({ link = null, image = null } = {}, context) => {
+        add: async ({ title = null, is_landing_page, link = null, image = null } = {}, context) => {
             try {
+                title = validations.cleanValue(title) || null;
                 link = validations.cleanValue(link) || null;
 
                 const imageUploaded = await classUpload.uploadImage(image);
@@ -24,7 +25,9 @@ export const MediaController = () => {
                     if (imageId) {
                         const mediaId = await classMediaModel.add({
                             imageId,
-                            link
+                            link,
+                            title,
+                            is_landing_page
                         });
                         if (mediaId) {
                             const media = await loaderMedia.load(mediaId);
@@ -38,7 +41,7 @@ export const MediaController = () => {
                         await classUpload.remove(image);
                     }
                 }
-            } catch (error) { }
+            } catch (error) {}
             return null;
         },
         updatePositions: async ({ positions = [] } = {}, context) => {

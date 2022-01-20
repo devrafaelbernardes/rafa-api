@@ -13,10 +13,15 @@ export const MediaModel = () => {
         columnIsActive,
     });
 
-    const maxPosition = async () => {
+    const maxPosition = async (is_landing_page) => {
         try {
             var response = await classModel.getDb().from(tableName)
-                .where({ [columnIsActive]: true })
+                .where({
+                    [columnIsActive]: true,
+                    ...((is_landing_page === false || is_landing_page === true) && {
+                        [MEDIA.IS_LANDING_PAGE]: is_landing_page
+                    }),
+                })
                 .max({ max: MEDIA.POSITION })
                 .first();
             if (response && response.max) {
@@ -28,16 +33,18 @@ export const MediaModel = () => {
 
     return {
         maxPosition,
-        add: async ({ link = null, imageId = null } = {}) => {
+        add: async ({ title = null, is_landing_page = null, link = null, imageId = null } = {}) => {
             if (imageId) {
                 try {
-                    let position = await maxPosition();
+                    const position = await maxPosition(is_landing_page);
 
                     return crud.addOne({
                         data: {
                             [MEDIA.POSITION]: position + 1,
                             [MEDIA.IMAGE]: imageId,
                             [MEDIA.LINK]: link,
+                            [MEDIA.TITLE]: title,
+                            [MEDIA.IS_LANDING_PAGE]: !!is_landing_page
                         }
                     });
                 } catch (error) { }

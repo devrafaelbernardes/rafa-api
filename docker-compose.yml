@@ -1,0 +1,30 @@
+# Use root/example as user/password credentials
+version: '3.8'
+
+volumes:
+  rafa-db-data:
+
+services:
+  rafa-db:
+    image: bitnami/mysql:latest
+    container_name: rafa-db
+    ports:
+      - 13306:3306
+    restart: always
+    volumes:
+      - rafa-db-data:/bitnami/mysql/data
+    environment:
+      MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
+      ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: rafa
+      MYSQL_USER: rafa
+      MYSQL_PASSWORD: rafa
+
+  rafa-redis:
+    image: 'bitnami/redis:latest'
+    container_name: rafa-redis
+    ports:
+      - 16379:6379
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes

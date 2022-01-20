@@ -3,7 +3,7 @@ const path = require('path');
 
 dotenv.config();
 
-let { DB_NAME, DB_HOST, DB_USER, DB_PASSWORD } = process.env;
+let { DB_NAME, DB_HOST, DB_USER, DB_PASSWORD, DB_PORT } = process.env;
 
 module.exports = {
 	client: 'mysql',
@@ -12,6 +12,7 @@ module.exports = {
 		host: DB_HOST,
 		user: DB_USER,
 		password: DB_PASSWORD,
+		port: DB_PORT,
 		charset: 'utf8mb4' // PERMITE EMOJIS
 	},
 	migrations: {

@@ -35,7 +35,7 @@ export const TYPE = {
             social_network(id : ID) : ${socialNetwork.NAME}
             bags(${pagination.CONTENT_FOR_PARAMS}) : ${bags.NAME}
             courses_preview(${pagination.CONTENT_FOR_PARAMS}) : ${coursesPreview.NAME}
-            medias(${pagination.CONTENT_FOR_PARAMS}) : ${medias.NAME}
+            medias(is_landing_page: Boolean, ${pagination.CONTENT_FOR_PARAMS}) : ${medias.NAME}
             social_networks(${pagination.CONTENT_FOR_PARAMS}) : ${socialNetworks.NAME}
 
             # ADMINS OR STUDENTS

@@ -154,6 +154,8 @@ export const MEDIA = {
     TABLE_NAME : 'media',
     ID : 'id',
     LINK : 'link',
+    TITLE : 'title',
+    IS_LANDING_PAGE : 'is_landing_page',
     POSITION : 'position',
     IMAGE : 'image_id',
     IS_ACTIVE : 'is_active',
