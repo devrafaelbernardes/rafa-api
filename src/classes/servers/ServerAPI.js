@@ -15,6 +15,8 @@ import typeDefs from '../../graphql/typeDefs';
 import resolvers from '../../graphql/resolvers';
 import { configMulter, multer } from '../../config/multer';
 import AuthController from '../controllers/AuthController';
+import { resolve } from 'path';
+import { existsSync } from 'fs';
 
 
 const classToken = Token();
@@ -47,8 +49,26 @@ app.use(express.static(PATH_PUBLIC));
 app.use(ROUTE.IMAGE, express.static(PATH_IMAGES));
 app.use(ROUTE.MATERIAL, express.static(PATH_MATERIAL));
 app.use(ROUTE.VIDEO, express.static(PATH_VIDEOS));
-app.use(ROUTE.MODELING, express.static(PATH_MODELING));
+app.use(ROUTE.MODELING, (request, response) => {
+    try {
+        const { id: modelingName } = request.params || {};
+        const { token } = request.query || {};
+        if (token) {
+            const validated = classToken.verify(token);
+            if (validated) {
+                const filePath = resolve(PATH_MODELING, modelingName)
+                const existsFileInPath = existsSync(filePath)
+                if(existsFileInPath){
+                    return response.sendFile(filePath)
+                }
+            }
+        }
+    } catch (error) { }
 
+    return response.status(404).json({
+        message: "Not found!"
+    });
+});
 BullBoard.setQueues(Queue.queues.map(queue => queue.bull));
 
 app.post(ROUTE.UPLOAD, multer(configMulter).single('upload'), (request, response) => {

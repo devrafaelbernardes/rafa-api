@@ -42,7 +42,7 @@ export const ROUTE = {
     TEMPLATES_EMAIL: '/emails',
     MATERIAL: '/material',
     VIDEO: '/video',
-    MODELING: '/modeling',
+    MODELING: '/modeling/:id',
     UPLOAD: '/upload',
     ADMIN_QUEUES: '/admin/queues',
 };

@@ -4,7 +4,6 @@
   "description": "Api em NodeJS",
   "main": "server.js",
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
     "start": "NODE_ENV=production nodemon --exec babel-node ./server.js",
     "start-minify": "node ./api_server.js",
     "start-dev": "nodemon --exec babel-node ./server.js",
@@ -60,7 +59,7 @@
     "graphql-redis-subscriptions": "^2.2.1",
     "graphql-resolvers": "^0.4.2",
     "graphql-tools": "^4.0.8",
-    "graphql-upload": "^9.0.0",
+    "graphql-upload": "^15.0.1",
     "handlebars-loader": "^1.7.1",
     "helmet": "^3.23.3",
     "html-loader": "^0.5.5",
