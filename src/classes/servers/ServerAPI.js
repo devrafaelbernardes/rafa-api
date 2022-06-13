@@ -52,16 +52,10 @@ app.use(ROUTE.VIDEO, express.static(PATH_VIDEOS));
 app.use(ROUTE.MODELING, (request, response) => {
     try {
         const { id: modelingName } = request.params || {};
-        const { token } = request.query || {};
-        if (token) {
-            const validated = classToken.verify(token);
-            if (validated) {
-                const filePath = resolve(PATH_MODELING, modelingName)
-                const existsFileInPath = existsSync(filePath)
-                if(existsFileInPath){
-                    return response.sendFile(filePath)
-                }
-            }
+        const filePath = resolve(PATH_MODELING, modelingName)
+        const existsFileInPath = existsSync(filePath)
+        if(existsFileInPath){
+            return response.sendFile(filePath)
         }
     } catch (error) { }
 
