@@ -85,8 +85,7 @@ export const CourseVideoController = () => {
 
           if (thumbnail) {
             const thumbnailUploaded = await classUpload.uploadImage(thumbnail);
-
-            if (thumbnailUploaded && thumbnailUploaded.url) {
+            if (thumbnailUploaded?.url) {
               thumbnailId = await classImageModel.add({
                 name: thumbnailUploaded.filename,
               });
@@ -108,7 +107,7 @@ export const CourseVideoController = () => {
           }
 
           const videoAddedId = await classVideoModel.add({
-            url,
+            url: link,
             name: isVimeo ? filenameVideo : new Date(Date.now()).toISOString(),
           });
           if (videoAddedId) {
@@ -126,9 +125,7 @@ export const CourseVideoController = () => {
               }
             }
           }
-        } catch (error) {
-          console.log("CourseVideoController:", error);
-        }
+        } catch (error) {}
       }
       return null;
     },
