@@ -92,8 +92,8 @@ export const CourseVideoController = () => {
               });
             }
           }
-          let filenameVideo = await getIdFromLink(link);
           const isVimeo = !!link?.match(/https\:\/\/vimeo.com/);
+          let filenameVideo = isVimeo && (await getIdFromLink(link));
           if (isVimeo) {
             if (!filenameVideo) {
               const videoUploaded = await classUpload.uploadVideo(
@@ -108,6 +108,7 @@ export const CourseVideoController = () => {
           }
 
           const videoAddedId = await classVideoModel.add({
+            url,
             name: filenameVideo || new Date(Date.now()).toISOString(),
           });
           if (videoAddedId) {
