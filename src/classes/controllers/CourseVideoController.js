@@ -126,7 +126,9 @@ export const CourseVideoController = () => {
               }
             }
           }
-        } catch (error) {}
+        } catch (error) {
+          console.log("CourseVideoController:", error);
+        }
       }
       return null;
     },

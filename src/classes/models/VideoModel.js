@@ -20,10 +20,12 @@ export const VideoModel = () => {
           return crud.addOne({
             data: {
               [VIDEO.NAME]: name,
-              [VIDEO.URL]: url,
+              ...(url && { [VIDEO.URL]: url }),
             },
           });
-        } catch (error) {}
+        } catch (error) {
+          console.log("VideoModel: ", error);
+        }
       }
       return null;
     },
