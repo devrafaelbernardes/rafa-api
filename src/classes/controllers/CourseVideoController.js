@@ -109,7 +109,7 @@ export const CourseVideoController = () => {
 
           const videoAddedId = await classVideoModel.add({
             url,
-            name: filenameVideo || new Date(Date.now()).toISOString(),
+            name: isVimeo ? filenameVideo : new Date(Date.now()).toISOString(),
           });
           if (videoAddedId) {
             const courseVideoId = await classCourseVideoModel.add({
