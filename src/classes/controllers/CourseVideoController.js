@@ -176,7 +176,9 @@ export const CourseVideoController = () => {
           videoId = validations.cleanValue(videoId);
           name = validations.cleanValue(name);
           description = validations.cleanValue(description);
+          link = validations.cleanValue(link);
 
+          const isVimeo = !!link?.match(/https\:\/\/vimeo.com/);
           const courseVideo = await classCourseVideoModel.findOne({
             where: {
               [COURSE_VIDEO.COURSE]: courseId,
@@ -208,14 +210,15 @@ export const CourseVideoController = () => {
               },
             });
             if (updated) {
-              const filenameVideo = await getIdFromLink(link);
-              if (filenameVideo) {
-                await classVideoModel.update({
-                  id: videoId,
-                  data: { name: filenameVideo },
-                });
-              }
-
+              const filenameVideo = isVimeo && (await getIdFromLink(link));
+              await classVideoModel.update({
+                id: videoId,
+                data: {
+                  ...(link && {url: link}),
+                  name: isVimeo ? filenameVideo : new Date(Date.now()).toISOString(),
+                },
+              });
+              
               await loaderCourseVideo.clear(courseVideoId);
               const response = await loaderCourseVideo.load(courseVideoId);
               if (response) {

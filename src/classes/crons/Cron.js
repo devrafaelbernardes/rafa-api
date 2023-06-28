@@ -36,7 +36,7 @@ export const Cron = () => {
                 ],
             });
 
-            console.log("Alunos com validade:", courseStudents.length);
+            console.log("Alunos com validade:", courseStudents?.length);
             
             if (courseStudents && courseStudents.length > 0) {
                 await courseStudents.forEach(async (courseStudent) => {
