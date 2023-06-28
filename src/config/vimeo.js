@@ -7,6 +7,9 @@ const request = async(options) => {
     try {
         return new Promise(async(resolve, reject) => {
             await clientVimeo.request(options, (error, body, status_code, headers) => {
+                if(!!error){
+                    return resolve("");
+                }
                 resolve(body && body.link);
             });
         });

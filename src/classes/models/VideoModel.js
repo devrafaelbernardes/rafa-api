@@ -23,9 +23,7 @@ export const VideoModel = () => {
               ...(url && { [VIDEO.URL]: url }),
             },
           });
-        } catch (error) {
-          console.log("VideoModel: ", error);
-        }
+        } catch (error) {}
       }
       return null;
     },
@@ -61,11 +59,12 @@ export const VideoModel = () => {
         where,
       }),
     remove: ({ id = null } = {}) => crud.remove({ id }),
-    update: ({ id = null, data: { name = null } = {} } = {}) =>
+    update: ({ id = null, data: { name = null, url = null } = {} } = {}) =>
       crud.update({
         id,
         data: {
           [VIDEO.NAME]: name,
+          ...(url && { [VIDEO.URL]: url }),
         },
       }),
   };
